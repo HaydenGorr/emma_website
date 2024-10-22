@@ -1,59 +1,70 @@
-'use client'
+'use client';
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { get_portfolio_images } from "../utils/api";
+import Masonry from 'react-masonry-css';
 
 export default function Galleries() {
+  const [images, set_images] = useState([]);
+  const [showdesc, set_showdesc] = useState(null);
 
-  const [page, set_page] = useState("/galleries")
-  const [images, set_images] = useState([])
+  useEffect(() => {
+    get_portfolio_images((data) => {
+      const formattedImages = data.map((image_obj) => ({
+        title: image_obj?.title || 'No title available',
+        date: image_obj?.updatedAt || 'No date available',
+        description: image_obj?.description || 'No description available',
+        medium: image_obj?.medium_theme?.medium || 'No medium available',
+        theme: image_obj?.medium_theme?.theme || 'No theme available',
+        image_urls: {
+          size_display: `${process.env.NEXT_PUBLIC_BASE_URL}${image_obj?.Image?.formats?.medium?.url || ''}`,
+          size_full: `${process.env.NEXT_PUBLIC_BASE_URL}${image_obj?.Image?.formats?.large?.url || ''}`
+        }
+      }));
+      set_images(formattedImages);
+    });
+  }, []);
+  
 
-    useEffect(() => {
-        get_portfolio_images((data) => {
-            set_images(data.map((image_obj, index) => {
-                return {
-                    title: image_obj.title,
-                    date: image_obj.updatedAt,
-                    description: image_obj.description,
-                    image_urls: {
-                        size_display: `${process.env.NEXT_PUBLIC_BASE_URL}${image_obj.Image.formats.medium.url}`,
-                        size_full: `${process.env.NEXT_PUBLIC_BASE_URL}${image_obj.Image.formats.large.url}`
-                    }
-                }
-            }))
-        })
-    }, []);
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 1
+  };
 
-
-    const initialNode = {
-        direction: 'row', // Can be 'row' or 'column'
-        first: 'window1',
-        second: {
-          direction: 'column',
-          first: 'window2',
-          second: 'window3',
-        },
-        splitPercentage: 50, // The initial split percentage
-      };
-
-    return (
-        <div className="h-full flex flex-col overflow-hidden w-full items-center">
-
-
-            <div className="max-w-prose overflow-y-scroll">
-                {images.map((val, index) => {
-                return (<div key={index}>
-                    <Image
-                    className="w-144"
-                    layout="intrinsic"
-                    width={0}
-                    height={0}
-                    src={val.image_urls.size_display}
-                    alt={``}
-                    />
-                </div>)
-                })}
-            </div>
-        </div>
-    );
+  return (
+    <div className="h-full flex flex-col overflow-hidden w-full items-center">
+      <div className="overflow-y-scroll pb-36 hide-scroll pt-20 w-full">
+        {images.length > 0 ? (
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column">
+            {images.map((val, index) => (
+              <div key={index} className="px-12 md:max-w-80">
+                <Image
+                  className="w-full rounded-lg"
+                  width={1000}
+                  height={1000}
+                  src={val.image_urls.size_display}
+                  alt={val.description}
+                  layout="responsive"
+                  onClick={()=>{set_showdesc(!showdesc ? index : null)}}
+                />
+                <div className="flex mt-2 space-x-2">
+                    <div className="bg-blue-smoke-100 px-3 py-1 rounded-full text-sm">{val.theme}</div>
+                    <div className="bg-blue-smoke-100 px-3 py-1 rounded-full text-sm">{val.medium}</div>
+                </div>
+                {showdesc == index && <p className=" bg-blue-smoke-300 text-blue-smoke-950 rounded-lg mt-2 p-4">
+                  {val.description}
+                </p>}
+              </div>
+            ))}
+          </Masonry>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
+    </div>
+  );
 }

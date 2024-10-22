@@ -20,8 +20,8 @@ export default function RootLayout({ children }) {
             
         <body className={`font-main w-screen h-screen flex flex-col bg-black text-blue-smoke-950`} >
 
-            <div className="flex-grow h-32 m-2 bg-blue-smoke-50 rounded-2xl">
-            {children}
+            <div className="flex-grow h-32 m-2 bg-blue-smoke-50 rounded-2xl overflow-hidden">
+                {children}
             </div>
     
             <div className="fixed bottom-0 flex w-full">

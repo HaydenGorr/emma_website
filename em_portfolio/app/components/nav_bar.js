@@ -91,7 +91,7 @@ export default function NavBar() {
         <div className='w-full flex justify-center mb-8'>
             {/* Navigation Buttons Container */}
             <div 
-                className='flex space-x-8 px-4 py-2 rounded-full bg-sweet-corn-100 relative'
+                className='flex md:space-x-8 space-x-4 px-1 md:px-4 py-2 rounded-full bg-sweet-corn-100 relative'
                 ref={containerRef}
             >
                 {/* Chip Background */}
