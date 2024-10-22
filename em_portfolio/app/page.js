@@ -8,9 +8,11 @@ import Markdown from 'react-markdown';
 import { animated, useSpring} from '@react-spring/web'
 import AnimatedBar from './components/animated_bar';
 import OpenLink from './components/modals/open_link';
+import { register_visit, has_visited_before } from "./utils/register_a_visit";
 
 
 export default function Home() {
+    const [visited_before, set_visited_before] = useState(false);
 
     const [greeting, set_greeting] = useState("")
     const [your_name, set_your_name] = useState("")
@@ -48,6 +50,11 @@ export default function Home() {
   
       // Clean up the event listener when the component unmounts
       return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+      set_visited_before(has_visited_before())
+      register_visit()
     }, []);
   
     useEffect(() => {
@@ -153,7 +160,7 @@ return (
             {your_name && <div className='left-side flex flex-col justify-start items-start order-3 lg:order-1 pb-32 lg:pb-0 z-50'>
 
             <animated.div className={`font-header text-blue-smoke-800 my-8`} style={{ ...NameSprings }}>
-                <h1 className='lg:text-left text-center'><span className='text-lg text-blue-smoke-700'>{greeting}</span> <span className='md:text-6xl sm:text-5xl text-4xl font-extrabold'>{your_name}</span></h1>
+                <h1 className='lg:text-left text-center'><span className='text-lg text-blue-smoke-700'>{visited_before ? 'hi again, I\'m still' : greeting}</span> <span className='md:text-6xl sm:text-5xl text-4xl font-extrabold'>{your_name}</span></h1>
             </animated.div>
 
             <animated.div className={`text-lg lg:text-left text-center lg:mx-0 mx-auto mb-12 max-w-96`} style={{ ...DescSprings }}>

@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { get_portfolio_images } from "../utils/api";
 import Masonry from 'react-masonry-css';
+import GalleryImageContainer from "../components/gallery_image_container";
 
 export default function Galleries() {
   const [images, set_images] = useState([]);
   const [showdesc, set_showdesc] = useState(null);
 
   useEffect(() => {
+
     get_portfolio_images((data) => {
       const formattedImages = data.map((image_obj) => ({
         title: image_obj?.title || 'No title available',
@@ -32,32 +34,20 @@ export default function Galleries() {
     700: 1
   };
 
+  const set_clicked_image = (index) =>{
+    show_description_callback(!showdesc ? index : null)
+  }
+
   return (
     <div className="h-full flex flex-col overflow-hidden w-full items-center">
-      <div className="overflow-y-scroll pb-36 hide-scroll pt-20 w-full">
+      <div className="overflow-y-scroll pb-36 hide-scroll pt-20 w-full" style={{maxWidth: '100rem'}}>
         {images.length > 0 ? (
           <Masonry
             breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column">
+            className="my-masonry-grid flex">
             {images.map((val, index) => (
-              <div key={index} className="px-12 md:max-w-80">
-                <Image
-                  className="w-full rounded-lg"
-                  width={1000}
-                  height={1000}
-                  src={val.image_urls.size_display}
-                  alt={val.description}
-                  layout="responsive"
-                  onClick={()=>{set_showdesc(!showdesc ? index : null)}}
-                />
-                <div className="flex mt-2 space-x-2">
-                    <div className="bg-blue-smoke-100 px-3 py-1 rounded-full text-sm">{val.theme}</div>
-                    <div className="bg-blue-smoke-100 px-3 py-1 rounded-full text-sm">{val.medium}</div>
-                </div>
-                {showdesc == index && <p className=" bg-blue-smoke-300 text-blue-smoke-950 rounded-lg mt-2 p-4">
-                  {val.description}
-                </p>}
+              <div key={index} className="w-full flex items-center px-8 pb-8">
+                <GalleryImageContainer {...val} show_description_callback={set_showdesc} showdesc={showdesc == index} />
               </div>
             ))}
           </Masonry>
