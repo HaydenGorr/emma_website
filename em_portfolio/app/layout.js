@@ -24,6 +24,9 @@ export default function RootLayout({ children }) {
             {children}
             </div>
     
+            <div className="fixed bottom-0 flex w-full">
+                <NavBar/>
+            </div>
         </body>
 
         </html>

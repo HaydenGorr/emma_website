@@ -1,3 +1,4 @@
+'use client'
 import strings from '../string_consts.json'
 import { useEffect, useState } from "react";
 import { get_page_data } from '../utils/api'
@@ -7,8 +8,9 @@ import Markdown from 'react-markdown';
 import { animated, useSpring} from '@react-spring/web'
 import AnimatedBar from './animated_bar';
 import OpenLink from './modals/open_link';
+import { useRouter } from 'next/navigation';
 
-export default function Main_page_header( { page } ) {
+export default function Main_page_header() {
 
   const [greeting, set_greeting] = useState("")
   const [your_name, set_your_name] = useState("")
@@ -27,17 +29,12 @@ export default function Main_page_header( { page } ) {
   const [desc_animate, set_desc_animate] = useState(false)
   const [buttons_animate, set_buttons_animate] = useState(false)
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const router = useRouter()
   
   useEffect(() => {
+
+    // router.events.on('routeChangeStart', () => {fade_out()});
+
     get_page_data("landingpage", (data) => {
       console.log("crumpet")
       set_your_name(data.your_name)
@@ -87,7 +84,7 @@ export default function Main_page_header( { page } ) {
   }, []);
 
   {/** Animate out */}
-  useEffect(() => {
+  const fade_out = () => {
     set_animate1(false)
     set_animate2(false)
     set_animate3(false)
@@ -95,7 +92,9 @@ export default function Main_page_header( { page } ) {
     set_name_animate(false)
     set_desc_animate(false)
     set_buttons_animate(false)
-  }, [page]);
+  };
+
+
 
   // Bar animate
   const NameSprings = useSpring({
@@ -149,7 +148,7 @@ export default function Main_page_header( { page } ) {
         {/** Social links */}
         <animated.div className={`flex flex-col space-y-4`} style={{ ...ButtonsSprings }}>
 
-          <button className='bg-blue-smoke-200 py-1 px-4 rounded-full flex w-fit items-center' onClick={openModal}>
+          <button className='bg-blue-smoke-200 py-1 px-4 rounded-full flex w-fit items-center'>
             <Image
                 src={"/icons/insta.png"}
                 width={15}

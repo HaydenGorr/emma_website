@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import NavBar from "../components/nav_bar";
 import { get_portfolio_images } from "../utils/api";
 
 export default function Galleries() {
@@ -54,12 +53,6 @@ export default function Galleries() {
                     />
                 </div>)
                 })}
-            </div>
-            
-
-
-            <div className="fixed bottom-0 flex w-full">
-                <NavBar page={page} set_page={set_page}/>
             </div>
         </div>
     );
