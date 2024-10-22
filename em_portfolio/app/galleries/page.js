@@ -13,7 +13,7 @@ export default function Galleries() {
 
     get_portfolio_images((data) => {
       const formattedImages = data.map((image_obj) => ({
-        title: image_obj?.title || 'No title available',
+        title: image_obj?.Title || 'No title available',
         date: image_obj?.updatedAt || 'No date available',
         description: image_obj?.description || 'No description available',
         medium: image_obj?.medium_theme?.medium || 'No medium available',

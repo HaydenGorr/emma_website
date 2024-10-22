@@ -11,8 +11,8 @@ export default function About() {
 
 
     return (
-        <div className="h-full flex flex-col overflow-hidden w-full items-center">
-            contact page
+        <div className="h-full flex w-full items-center justify-center">
+            <h1 className="text-red-600 font-black text-6xl -rotate-12 text-center">Page still under constrcution</h1>
         </div>
     );
 }
