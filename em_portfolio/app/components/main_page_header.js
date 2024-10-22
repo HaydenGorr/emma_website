@@ -8,7 +8,6 @@ import Markdown from 'react-markdown';
 import { animated, useSpring} from '@react-spring/web'
 import AnimatedBar from './animated_bar';
 import OpenLink from './modals/open_link';
-import { useRouter } from 'next/navigation';
 
 export default function Main_page_header() {
 
@@ -29,11 +28,8 @@ export default function Main_page_header() {
   const [desc_animate, set_desc_animate] = useState(false)
   const [buttons_animate, set_buttons_animate] = useState(false)
 
-  const router = useRouter()
   
   useEffect(() => {
-
-    // router.events.on('routeChangeStart', () => {fade_out()});
 
     get_page_data("landingpage", (data) => {
       console.log("crumpet")

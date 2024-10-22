@@ -8,7 +8,6 @@ export default function NavBar() {
     const router = useRouter();
 
     const [page, setPage] = useState(pathname);
-    const [hoveredPage, setHoveredPage] = useState(null);
 
     const buttonRefs = useRef([]);
     const containerRef = useRef(null);
@@ -19,9 +18,6 @@ export default function NavBar() {
         height: 0,
     });
     
-    // Determine which page to target: hovered or selected
-    const targetPage = hoveredPage || page;
-
     // React Spring animation
     const props = useSpring({
         left: chipStyle.left,
@@ -40,7 +36,7 @@ export default function NavBar() {
 
     // Function to update chip position
     const updateChipPosition = () => {
-        const currentIndex = pages.indexOf(targetPage);
+        const currentIndex = pages.indexOf(page);
         if (currentIndex === -1) return;
 
         const currentButton = buttonRefs.current[currentIndex];
@@ -60,12 +56,12 @@ export default function NavBar() {
         }
     };
 
-    // Update `page` state when pathname changes
+    // Update chip position when the page changes
     useEffect(() => {
         setPage(pathname);
     }, [pathname]);
 
-    // Update chip position when targetPage changes and on window resize
+    // Update chip position on page change and window resize
     useEffect(() => {
         updateChipPosition();
 
@@ -79,7 +75,7 @@ export default function NavBar() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [targetPage]);
+    }, [page]);
 
     // Initialize chip position on mount
     useEffect(() => {
@@ -103,6 +99,7 @@ export default function NavBar() {
                     className='absolute bg-sweet-corn-300 rounded-full z-10'
                     style={{
                         ...props,
+                        // Position the chip vertically centered if needed
                         top: '50%',
                         transform: 'translateY(-50%)',
                     }}
@@ -121,8 +118,6 @@ export default function NavBar() {
                                 isActive ? 'text-black font-bold' : 'text-gray-700'
                             }`}
                             onClick={() => handlePageChange(val)}
-                            onMouseEnter={() => setHoveredPage(val)}
-                            onMouseLeave={() => setHoveredPage(null)}
                         >
                             {label}
                         </button>
