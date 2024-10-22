@@ -18,9 +18,9 @@ export default function RootLayout({ children }) {
             <link href="https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet"/>
         </head>
             
-        <body className={`font-main w-screen h-screen flex flex-col bg-blue-smoke-50 text-blue-smoke-950`} >
+        <body className={`font-main w-screen h-screen flex flex-col bg-black text-blue-smoke-950`} >
 
-            <div className="flex-grow h-32">
+            <div className="flex-grow h-32 m-2 bg-blue-smoke-50 rounded-2xl">
             {children}
             </div>
     

@@ -142,7 +142,7 @@ export default function Main_page_header( { page } ) {
           <h1><span className='text-lg text-blue-smoke-700'>{greeting}</span> <span className='text-6xl font-extrabold'>{your_name}</span></h1>
         </animated.div>
 
-        <animated.div className={`text-lg text-left mb-12 `} style={{ ...DescSprings }}>
+        <animated.div className={`text-lg text-left mb-12 max-w-96`} style={{ ...DescSprings }}>
           <Markdown>{desc}</Markdown>
         </animated.div>
 

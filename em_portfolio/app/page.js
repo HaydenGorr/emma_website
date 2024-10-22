@@ -10,8 +10,6 @@ const [images, set_images] = useState([])
 const [page, set_page] = useState("/")
 const [connected, set_connected] = useState(false)
 
-
-
 return (
     <div className="h-full flex flex-col overflow-hidden">
 

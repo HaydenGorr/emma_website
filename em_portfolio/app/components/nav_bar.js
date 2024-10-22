@@ -12,10 +12,10 @@ export default function NavBar({ page, set_page }) {
     const pages = ['/', '/galleries', '/about', '/contact']
 
     const animate = useSpring({
-        from: { y: 100, opacity: 0 },
+        from: { y: 30, opacity: 0 },
         to: show
           ? [{ y: 0, opacity: 1 }]
-          : { y: 100, opacity: 0 }
+          : { y: 30, opacity: 0 }
       });
 
     const handlePageChange = (url) => {
@@ -30,7 +30,7 @@ export default function NavBar({ page, set_page }) {
     }, [])
 
     return (
-        <animated.div className='bg-sweet-corn-100 w-fit flex space-x-32 mx-auto mb-4 px-8 py-1 rounded-full' style={{ ...animate }}>
+        <animated.div className='bg-sweet-corn-100 w-fit flex space-x-32 mx-auto mb-8 px-8 py-1 rounded-full' style={{ ...animate }}>
             {pages.map((val, index) => {
                 return <button 
                     key={index}
