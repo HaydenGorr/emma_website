@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
                 {children}
             </div>
     
-            <div className="fixed bottom-0 flex w-full">
+            <div className="fixed bottom-0 flex w-full z-50 overflow-hidden">
                 <NavBar/>
             </div>
         </body>
