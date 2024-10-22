@@ -78,10 +78,29 @@ module.exports = {
         },
       },
       fontFamily: {
-        'carrois': ['"Carrois Gothic SC"', 'sans-serif'],
-        'baskerville': ['"Libre Baskerville"', 'serif'],
-      }
+        'main': ['Carrois Gothic SC', 'sans-serif'],
+        'header': ['Libre Baskerville', 'serif'],
+        'main': ['Rethink Sans', 'sans-serif'],
+      },
+      maxWidth: {
+        '128': '32rem',
+        '144': '38rem',
+      },
+      maxHeight: {
+        '128': '32rem',  
+        '144': '38rem',
+      },
+      width: {
+        '128': '32rem',
+        '144': '38rem',
+      },
+      height: {
+        '128': '32rem',  
+        '144': '38rem',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };

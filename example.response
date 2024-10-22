@@ -1,0 +1,98 @@
+{
+    "data": {
+        "id": 1,
+        "documentId": "pxv7zl6cri8ti6d6zpfxsamq",
+        "title": "About the strapi blog",
+        "createdAt": "2024-10-20T22:22:39.126Z",
+        "updatedAt": "2024-10-21T10:30:27.091Z",
+        "publishedAt": "2024-10-21T10:30:27.035Z",
+        "blocks": [
+            {
+                "__component": "shared.quote",
+                "id": 6,
+                "title": "Emma Dann",
+                "body": "You've got to dig it to dig it, you dig?"
+            },
+            {
+                "__component": "shared.rich-text",
+                "id": 11,
+                "body": "Emma Dann, an artist based in London, studying Illustration at Westminster Universitry"
+            },
+            {
+                "__component": "shared.media",
+                "id": 6,
+                "file": {
+                    "id": 117,
+                    "documentId": "r5o71te0hk4z9reywh20ie4y",
+                    "name": "WhatsApp Image 2024-10-20 at 12.48.01 (2).jpeg",
+                    "alternativeText": null,
+                    "caption": null,
+                    "width": 1266,
+                    "height": 2048,
+                    "formats": {
+                        "large": {
+                            "ext": ".jpeg",
+                            "url": "/uploads/large_Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31.jpeg",
+                            "hash": "large_Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31",
+                            "mime": "image/jpeg",
+                            "name": "large_WhatsApp Image 2024-10-20 at 12.48.01 (2).jpeg",
+                            "path": null,
+                            "size": 47.99,
+                            "width": 618,
+                            "height": 1000,
+                            "sizeInBytes": 47993
+                        },
+                        "small": {
+                            "ext": ".jpeg",
+                            "url": "/uploads/small_Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31.jpeg",
+                            "hash": "small_Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31",
+                            "mime": "image/jpeg",
+                            "name": "small_WhatsApp Image 2024-10-20 at 12.48.01 (2).jpeg",
+                            "path": null,
+                            "size": 14.71,
+                            "width": 309,
+                            "height": 500,
+                            "sizeInBytes": 14711
+                        },
+                        "medium": {
+                            "ext": ".jpeg",
+                            "url": "/uploads/medium_Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31.jpeg",
+                            "hash": "medium_Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31",
+                            "mime": "image/jpeg",
+                            "name": "medium_WhatsApp Image 2024-10-20 at 12.48.01 (2).jpeg",
+                            "path": null,
+                            "size": 28.66,
+                            "width": 464,
+                            "height": 750,
+                            "sizeInBytes": 28659
+                        },
+                        "thumbnail": {
+                            "ext": ".jpeg",
+                            "url": "/uploads/thumbnail_Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31.jpeg",
+                            "hash": "thumbnail_Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31",
+                            "mime": "image/jpeg",
+                            "name": "thumbnail_WhatsApp Image 2024-10-20 at 12.48.01 (2).jpeg",
+                            "path": null,
+                            "size": 2.62,
+                            "width": 96,
+                            "height": 156,
+                            "sizeInBytes": 2617
+                        }
+                    },
+                    "hash": "Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31",
+                    "ext": ".jpeg",
+                    "mime": "image/jpeg",
+                    "size": 162.97,
+                    "url": "/uploads/Whats_App_Image_2024_10_20_at_12_48_01_2_c1e6039a31.jpeg",
+                    "previewUrl": null,
+                    "provider": "local",
+                    "provider_metadata": null,
+                    "createdAt": "2024-10-21T10:30:17.035Z",
+                    "updatedAt": "2024-10-21T10:30:17.035Z",
+                    "publishedAt": "2024-10-21T10:30:17.040Z"
+                }
+            }
+        ]
+    },
+    "meta": {}
+}
