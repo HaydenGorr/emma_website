@@ -19,7 +19,8 @@ export default function Home() {
     const [insta_link, set_insta_link] = useState("")
     const [contact_email, set_contact_email] = useState("")
     const [image_src, set_image_src] = useState("")
-  
+    const [visit_again_message, set_visit_again_message] = useState("")
+
     // Animate the stripes
     const [animate1, set_animate1] = useState(false)
     const [animate2, set_animate2] = useState(false)
@@ -64,6 +65,7 @@ export default function Home() {
         set_contact_email(data.contact_email)
         set_desc(parse_api_richtext(data.description[0].children))
         set_image_src(data.profile_pic.url)
+        set_visit_again_message(data.visit_again_message || data.greeting || "Hey. I'm")
         console.log(data)
       })
     }, []);
@@ -159,7 +161,7 @@ return (
             {your_name && <div className='left-side flex flex-col justify-start items-start order-3 lg:order-1 pb-32 lg:pb-0 z-50'>
 
             <animated.div className={`font-header text-blue-smoke-800 my-8`} style={{ ...NameSprings }}>
-                <h1 className='lg:text-left text-center'><span className='text-lg text-blue-smoke-700'>{visited_before > 1 ? 'Hi again, I\'m still' : greeting}</span> <span className='md:text-6xl sm:text-5xl text-4xl font-extrabold'>{your_name}</span></h1>
+                <h1 className='lg:text-left text-center'><span className='text-lg text-blue-smoke-700'>{visited_before > 1 ? visit_again_message : greeting}</span> <span className='md:text-6xl sm:text-5xl text-4xl font-extrabold'>{your_name}</span></h1>
             </animated.div>
 
             <animated.div className={`text-lg lg:text-left text-center lg:mx-0 mx-auto mb-12 max-w-96`} style={{ ...DescSprings }}>
@@ -179,7 +181,7 @@ return (
                 instagram
                 </button>
                 <button className='bg-blue-smoke-200 pt-1 px-4 rounded-full flex w-fit items-center'
-                onClick={() => window.location.href = 'mailto:emm.personal4@gmail.com'}>
+                onClick={() => window.location.href = `mailto:${contact_email}`}>
                 <Image
                     src={"/icons/email.png"}
                     width={15}
