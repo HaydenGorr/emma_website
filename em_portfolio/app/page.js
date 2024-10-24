@@ -179,7 +179,7 @@ return (
                 instagram
                 </button>
                 <button className='bg-blue-smoke-200 pt-1 px-4 rounded-full flex w-fit items-center'
-                onClick={() => window.location.href = 'emm.personal4@gmail.com'}>
+                onClick={() => window.location.href = 'mailto:emm.personal4@gmail.com'}>
                 <Image
                     src={"/icons/email.png"}
                     width={15}
