@@ -156,7 +156,7 @@ export default function Galleries() {
   }, []);
 
   return (
-    <div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden">
+    <div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll">
 
       <div className="absolute flex space-x-16 -translate-x-40">
           <AnimatedBar colour="bg-sweet-corn-400" delay={0} angle={"-rotate-45"} direction={"right"}/>
