@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, use } from "react";
 import Image from "next/image";
 import { get_portfolio_images } from "../utils/api";
 import Masonry from 'react-masonry-css';
@@ -137,14 +137,32 @@ export default function Galleries() {
     show_description_callback(!showdesc ? index : null)
   }
 
+  const [newBars, setnewBars] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY >= 300) {  // Change 300 to the scroll distance you want
+        setnewBars(true)
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden">
 
-      <animated.div className="absolute inset-0 pointer-events-none z-0" style={{...springs2}}>
-        <AnimatedBar colour="bg-sweet-corn-400" positionOffset={0} />
-        <AnimatedBar colour="bg-pancho-400" positionOffset={8} />
-        <AnimatedBar colour="bg-perfume-400" positionOffset={16} />
-      </animated.div>
+      <div className="absolute flex space-x-16 -translate-x-40">
+          <AnimatedBar colour="bg-sweet-corn-400" delay={0} angle={"-rotate-45"} direction={"right"}/>
+          <AnimatedBar colour="bg-pancho-400" delay={200} angle={"-rotate-45"} direction={"right"}/>
+          <AnimatedBar colour="bg-perfume-400" delay={400} angle={"-rotate-45"} direction={"right"}/>
+      </div>
 
       <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky'>Gallery</p>
 
