@@ -155,7 +155,7 @@ export default function Home() {
 
 return (
     <div className="h-full flex flex-col overflow-hidden relative">
-        <div className={`h-full flex items-center text-center w-full justify-center px-4 lg:px-32 lg:pr-64 flex-col lg:flex-row`}>
+        {greeting&&<div className={`h-full flex items-center text-center w-full justify-center px-4 lg:px-32 lg:pr-64 flex-col lg:flex-row`}>
 
             {/** LEFT SIDE */}
             {your_name && <div className='left-side flex flex-col justify-start items-start order-3 lg:order-1 pb-32 lg:pb-0 z-50'>
@@ -219,7 +219,7 @@ return (
         </div>
 
 
-</div>
+      </div>}
     </div>
     );
 }
