@@ -1,7 +1,7 @@
 
 
 export const get_portfolio_images = async (callback) => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/portfolio-images?populate=*&pagination[pageSize]=1000`, 
+    fetch(`https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=1000`, 
         {
         headers: {
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
@@ -16,7 +16,7 @@ export const get_portfolio_images = async (callback) => {
 
 
 export const get_page_data = async (page, callback) => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/${page}?populate=profile_pic`, 
+    fetch(`https://www.emmadannpersonal.com/api/${page}?populate=profile_pic`, 
         {
         headers: {
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
