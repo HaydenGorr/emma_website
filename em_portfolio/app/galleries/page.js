@@ -10,6 +10,7 @@ import AnimatedBar from './components/animated_bar';
 import MediumFilter from "./components/medium_filter";
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import ImageSkeleton from "./components/image_skeleton";
+import { getFullImageUrl, getDisplayImageUrl } from "../utils/getimageurl";
 
 export default function Galleries() {
 
@@ -67,7 +68,10 @@ export default function Galleries() {
       var unique_themes = []
       var unique_mediums = []
 
+
       for (let image_obj of data) {
+        if (!(image_obj?.Image?.formats?.medium?.url)) console.log(image_obj)
+
         formattedImages.push({
           title: image_obj?.Title || 'No title available',
           date: image_obj?.updatedAt || 'No date available',
@@ -75,15 +79,17 @@ export default function Galleries() {
           medium: image_obj?.medium_theme?.medium || 'uncategorised',
           theme: image_obj?.medium_theme?.theme || 'uncategorised',
           image_urls: {
-            size_display: `${process.env.NEXT_PUBLIC_BASE_URL}${image_obj?.Image?.formats?.medium?.url || ''}`,
-            size_full: `${process.env.NEXT_PUBLIC_BASE_URL}${image_obj?.Image?.formats?.large?.url || ''}`
+            size_display: `${process.env.NEXT_PUBLIC_BASE_URL}/${getDisplayImageUrl(image_obj)}`,
+            size_full: `${process.env.NEXT_PUBLIC_BASE_URL}/${getFullImageUrl(image_obj)}`
           }
         })
-
-        if ( !unique_themes.includes(image_obj?.medium_theme?.theme) ) unique_themes.push(image_obj?.medium_theme?.theme)
-        if ( !unique_mediums.includes(image_obj?.medium_theme?.medium) ) unique_mediums.push(image_obj?.medium_theme?.medium)
+        
+        if ( !unique_themes.includes(image_obj?.medium_theme?.theme) && image_obj?.medium_theme?.theme) unique_themes.push(image_obj?.medium_theme?.theme)
+        if ( !unique_mediums.includes(image_obj?.medium_theme?.medium) && image_obj?.medium_theme?.medium) unique_mediums.push(image_obj?.medium_theme?.medium)
 
       }
+
+      console.log(unique_themes, unique_mediums)
 
       set_Themes_chips(unique_themes)
       set_Medium_chips(unique_mediums)

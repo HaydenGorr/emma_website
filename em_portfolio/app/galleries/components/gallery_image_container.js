@@ -3,11 +3,11 @@ import Image from 'next/image';
 
 export default function GalleryImageContainer({title, date, description, medium, theme, image_urls, showdesc, show_description_callback}) {
   return (
-    <div className='w-full shadow-strong'>
+    <div className='w-full shadow-strong rounded-lg overflow-hidden'>
         {/* <p className='py-1 text-lg font-medium'>{title}</p> */}
 
         <Image
-            className="w-full rounded-lg "
+            className="w-full"
             width={1000}
             height={1000}
             src={image_urls?.size_display || ''}

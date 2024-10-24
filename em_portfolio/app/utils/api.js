@@ -1,7 +1,7 @@
 
 
 export const get_portfolio_images = async (callback) => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/portfolio-images?populate=*`, 
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/portfolio-images?populate=*&pagination[pageSize]=1000`, 
         {
         headers: {
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,

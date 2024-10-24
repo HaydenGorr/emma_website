@@ -26,7 +26,8 @@ export default function NavBar() {
         config: { tension: 300, friction: 20 },
     });
 
-    const pages = ['/', '/galleries', '/about', '/contact']
+    // const pages = ['/', '/galleries', '/about', '/contact']
+    const pages = ['/', '/galleries']
 
     const handlePageChange = (url) => {
         if (url !== page) {
