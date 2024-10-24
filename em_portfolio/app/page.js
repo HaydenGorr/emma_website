@@ -66,7 +66,6 @@ export default function Home() {
         set_desc(parse_api_richtext(data.description[0].children))
         set_image_src(data.profile_pic.url)
         set_visit_again_message(data.visit_again_message || data.greeting || "Hey. I'm")
-        console.log(data)
       })
     }, []);
   

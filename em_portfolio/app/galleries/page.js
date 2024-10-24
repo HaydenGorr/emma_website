@@ -68,9 +68,10 @@ export default function Galleries() {
       var unique_themes = []
       var unique_mediums = []
 
-
       for (let image_obj of data) {
-        if (!(image_obj?.Image?.formats?.medium?.url)) console.log(image_obj)
+        // if (!(image_obj?.Image?.formats?.medium?.url)) console.log(image_obj)
+
+        console.log(image_obj.Title)
 
         formattedImages.push({
           title: image_obj?.Title || 'No title available',
@@ -88,8 +89,6 @@ export default function Galleries() {
         if ( !unique_mediums.includes(image_obj?.medium_theme?.medium) && image_obj?.medium_theme?.medium) unique_mediums.push(image_obj?.medium_theme?.medium)
 
       }
-
-      console.log(unique_themes, unique_mediums)
 
       set_Themes_chips(unique_themes)
       set_Medium_chips(unique_mediums)
@@ -109,10 +108,7 @@ export default function Galleries() {
 
       let res_theme = true
       if (selected_themes.length != 0){
-        console.log("bfghbndfj")
         res_theme = selected_themes.includes(image.theme.toUpperCase())
-        console.log(res_theme)
-
       }
       
       let res_medium = true
