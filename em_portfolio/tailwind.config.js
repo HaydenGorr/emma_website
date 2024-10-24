@@ -98,6 +98,9 @@ module.exports = {
         '128': '32rem',  
         '144': '38rem',
       },
+      boxShadow: {
+        'strong': '0 10px 30px rgba(0, 0, 0, 0.3)', // Example of a strong shadow
+      },
     },
   },
   plugins: [

@@ -4,6 +4,8 @@ import SearchChip from './search_chip';
 
 export default function MediumFilter({ chips, set_selected, selected_items, selected, unselected, bg_clour }) {
 
+    const [animate, set_animate] = useState(false)
+
     const add_to_list = (sel_str) => {
         if (selected_items.includes(sel_str)) {
             set_selected(selected_items.filter(val => val !== sel_str));
@@ -12,11 +14,24 @@ export default function MediumFilter({ chips, set_selected, selected_items, sele
         }
     }
 
+    const springs = useSpring({
+        from: { width: "100%", opacity: 0},
+        to: animate ? { width: "100%", opacity: 1 } : { width: "100%", opacity: 0 }
+    });
+    
+
+    useEffect(() => {
+        if (chips.length > 0){
+            set_animate(true)
+        }
+        else set_animate(false)
+    }, [chips])
+
     return (
-        <div className={`flex w-full ${bg_clour} rounded-lg overflow-x-scroll hide-scroll`}>
+        <animated.div className={`flex ${bg_clour} rounded-lg overflow-x-scroll hide-scroll h-16`} style={{...springs}}>
             <div className={`cursor-pointer flex justify-center items-center z-40`}>
 
-                {<div className={'flex justify-start w-full space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
+                {<div className={'flex justify-start space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
                 {chips.map((val, index) => {
                 return (
                     <SearchChip key={index} isSelected={selected_items.includes(val.toUpperCase())} onClick={()=>{add_to_list(val.toUpperCase())}} text={val} colour={selected_items.includes(val.toUpperCase()) ? selected: unselected}></SearchChip>
@@ -25,7 +40,7 @@ export default function MediumFilter({ chips, set_selected, selected_items, sele
                 </div>}
                 
             </div>
-        </div>
+        </animated.div>
     )
 
 }

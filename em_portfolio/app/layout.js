@@ -2,7 +2,6 @@ import "./globals.css";
 import Em_footer from "./components/footer";
 import NavBar from "./components/nav_bar";
 
-
 export const metadata = {
   title: "Emma Dann Portfolio",
   description: "Emma Dann's portfolio website",

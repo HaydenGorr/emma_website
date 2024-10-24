@@ -8,6 +8,8 @@ import { animated, useSpring} from '@react-spring/web'
 import SearchChip from "./components/search_chip";
 import AnimatedBar from './components/animated_bar';
 import MediumFilter from "./components/medium_filter";
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import ImageSkeleton from "./components/image_skeleton";
 
 export default function Galleries() {
 
@@ -16,20 +18,45 @@ export default function Galleries() {
   const [showdesc, set_showdesc] = useState(null);
   const [selected_themes, set_selected_theme] = useState([]);
   const [selected_mediums, set_selected_medium] = useState([]);
-  const [loading, set_loading] = useState(false);
-
+  const [loading, set_loading] = useState(true);
 
   const [Themes_chips, set_Themes_chips] = useState([]);
   const [Medium_chips, set_Medium_chips] = useState([]);
 
-  // const Themes_chips = ["Christianity", "Gender Neutralism", "Femininity", "Experimentalism", "Experimentalismsadasd"]
-  // const Medium_chips = ["Drawings", "Paintings", "Sculpture", "Digital"]
+  /** Used to show images once they've loaded
+   * The loaded state var won't do because it toggled on load
+   * But we want to animate the transition, so using loaded
+   * will make the gui snap from loading to loaded states
+   */
+  const [show_images, set_show_images] = useState(false); 
 
-  const ThemeRefs = useRef([]);
-  const MediumRefs = useRef([]);
+  const springs = useSpring({
+    from: { opacity: 0 },
+    to: show_images ? { opacity: 1 } : { opacity: 0 },
+    config: { duration: 500 }
+  });
 
-  // const [medium_open, set_medium_open] = useState(false);
-  // const [theme_open, set_theme_open] = useState(false);
+  const springs2 = useSpring({
+    from: { opacity: 0.5 },
+    to: !loading ? { opacity: 1 } : { opacity: 0.5 },
+  });
+
+  const loadingSpring = useSpring({
+    from: { opacity: 1 },
+    to: !loading ? { opacity: 0 } : { opacity: 1 },
+    config: { duration: 500 }
+});
+
+  useEffect(() => {
+
+    if (loading) return
+
+    setTimeout(() => {
+      set_show_images(true)
+    }, 500)
+
+  }, [loading]);
+
 
   useEffect(() => {
     set_loading(true)
@@ -61,19 +88,6 @@ export default function Galleries() {
       set_Themes_chips(unique_themes)
       set_Medium_chips(unique_mediums)
 
-      // const formattedImages = data.map((image_obj) => ({
-      //   title: image_obj?.Title || 'No title available',
-      //   date: image_obj?.updatedAt || 'No date available',
-      //   description: image_obj?.description || 'No description available',
-      //   medium: image_obj?.medium_theme?.medium || 'No medium available',
-      //   theme: image_obj?.medium_theme?.theme || 'No theme available',
-      //   image_urls: {
-      //     size_display: `${process.env.NEXT_PUBLIC_BASE_URL}${image_obj?.Image?.formats?.medium?.url || ''}`,
-      //     size_full: `${process.env.NEXT_PUBLIC_BASE_URL}${image_obj?.Image?.formats?.large?.url || ''}`
-      //   }
-      // }
-
-        // ));
       set_images(formattedImages);
       set_display_images(formattedImages)
       set_loading(false)
@@ -122,37 +136,48 @@ export default function Galleries() {
   }
 
   return (
-    <div className="h-full flex flex-col overflow-hidden w-full items-center overflow-y-scroll">
+    <div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden">
 
-      <div className="">
-        <div className=" flex absolute rotate-90 space-x-4">
-          {/* <AnimatedBar colour={'bg-sweet-corn-400'}></AnimatedBar>
-          <AnimatedBar colour={'bg-pancho-400'}></AnimatedBar>
-          <AnimatedBar colour={'bg-perfume-400'}></AnimatedBar> */}
-        </div>
-        <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky'>Gallery</p>
+      <animated.div className="absolute inset-0 pointer-events-none z-0" style={{...springs2}}>
+        <AnimatedBar colour="bg-sweet-corn-400" positionOffset={0} />
+        <AnimatedBar colour="bg-pancho-400" positionOffset={8} />
+        <AnimatedBar colour="bg-perfume-400" positionOffset={16} />
+      </animated.div>
+
+      <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky'>Gallery</p>
+
+      <div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50">
+        {!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">
+          <ImageSkeleton h={"h-16"}></ImageSkeleton>
+          <ImageSkeleton h={"h-16"}></ImageSkeleton>
+        </animated.div>}
+
+          {show_images && <div style={{...springs}} className="space-y-8">
+            <MediumFilter chips={Medium_chips} set_selected={set_selected_medium} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
+            <MediumFilter chips={Themes_chips} set_selected={set_selected_theme} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
+          </div>}
+
       </div>
 
-      <div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4">
-
-        <MediumFilter chips={Medium_chips} set_selected={set_selected_medium} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
-        <MediumFilter chips={Themes_chips} set_selected={set_selected_theme} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
-      </div>
-
-      <div className="pb-36 hide-scroll pt-20 w-full" style={{maxWidth: '80rem'}}>
-        {!loading ? (
+      <div className="pb-36 hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
           <Masonry
             breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid flex">
-            {display_images.map((val, index) => (
-              <div key={index} className="w-full flex items-center px-8 pb-16">
+            className="my-masonry-grid flex justify-center w-full pl-3">
+            {show_images ? display_images.map((val, index) => (
+              <animated.div key={index} className="w-full flex items-center px-8 pb-16" style={{...springs}}>
                 <GalleryImageContainer {...val} show_description_callback={set_showdesc} showdesc={showdesc == index} />
-              </div>
-            ))}
+              </animated.div>
+            )) :
+              
+            [1,2,3,4,5,6].map((val, index) => (
+              <animated.div key={index} className="w-full flex items-center justify-center px-8 pb-16"
+              style={{...loadingSpring}}>
+                <ImageSkeleton  h={"h-80"} />
+              </animated.div>
+            ))
+
+            }
           </Masonry>
-        ) : (
-          <p>Loading...</p>
-        )}
       </div>
     </div>
   );
