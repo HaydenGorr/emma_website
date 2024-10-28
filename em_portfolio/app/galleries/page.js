@@ -143,7 +143,7 @@ export default function Galleries() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY >= 300) {  // Change 300 to the scroll distance you want
+      if (currentScrollY >= 300) {
         setnewBars(true)
       }
     };

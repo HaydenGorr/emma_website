@@ -170,7 +170,7 @@ return (
             {/** Social links */}
             <animated.div className={`flex lg:flex-col lg:space-y-4 lg:space-x-0 space-x-4 w-full justify-center`} style={{ ...ButtonsSprings }}>
 
-                <button className='bg-blue-smoke-200 py-1 px-4 rounded-full flex w-fit items-center'>
+                {/* <button className='bg-blue-smoke-200 py-1 px-4 rounded-full flex w-fit items-center'>
                 <Image
                     src={"/icons/insta.png"}
                     width={15}
@@ -178,7 +178,7 @@ return (
                     className="z-40 mr-1">
                 </Image>
                 instagram
-                </button>
+                </button> */}
                 <button className='bg-blue-smoke-200 pt-1 px-4 rounded-full flex w-fit items-center'
                 onClick={() => window.location.href = `mailto:${contact_email}`}>
                 <Image
