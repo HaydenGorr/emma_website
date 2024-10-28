@@ -9,12 +9,12 @@ export default async function WorkWithMe() {
 
     const data = await get_page_data_promise("work-with-me-page");
     const {
-      image_src,
       emma_header,
       emma_section,
       hayden_header,
       hayden_section,
     } = data;
+    const image_src = data.image.url
 
     return (
         <div className="h-full flex w-full items-center flex-col">
@@ -25,7 +25,7 @@ export default async function WorkWithMe() {
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/${image_src}`}
                 alt={'Square Image'}
                 fill
-                className="object-cover object-[-15%_10%]"
+                className="object-cover"
                 />
             </div>
 
