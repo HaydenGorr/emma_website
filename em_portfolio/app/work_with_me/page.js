@@ -29,7 +29,7 @@ export default async function WorkWithMe() {
                 />
             </div>
 
-            <div className="max-w-prose w-full self-center space-y-4">
+            <div className="max-w-prose w-full self-center space-y-4 prose">
 
                 <div className="bg-perfume-300 p-4 rounded-lg text-perfume-800 font-bold">
                     {emma_header}
