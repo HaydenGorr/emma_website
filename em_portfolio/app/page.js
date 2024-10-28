@@ -55,6 +55,10 @@ export default function Home() {
     useEffect(() => {
       set_visited_before(has_visited_before() + 1)
       register_visit()
+
+      return () => {
+        set_animate1(true)
+      }
     }, []);
   
     useEffect(() => {

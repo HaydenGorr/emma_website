@@ -9,7 +9,7 @@ import SearchChip from "./components/search_chip";
 import AnimatedBar from './components/animated_bar';
 import MediumFilter from "./components/medium_filter";
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import ImageSkeleton from "./components/image_skeleton";
+import ImageSkeleton from "../components/image_skeleton";
 import { getFullImageUrl, getDisplayImageUrl } from "../utils/getimageurl";
 
 export default function Galleries() {

@@ -27,7 +27,7 @@ export default function NavBar() {
     });
 
     // const pages = ['/', '/galleries', '/about', '/contact']
-    const pages = ['/', '/galleries']
+    const pages = [{path: '/', name: 'Home'}, {path: '/galleries', name: 'Galleries'}, {path: '/work_with_me', name: 'Work With Me'}]
 
     const handlePageChange = (url) => {
         if (url !== page) {
@@ -37,7 +37,11 @@ export default function NavBar() {
 
     // Function to update chip position
     const updateChipPosition = () => {
-        const currentIndex = pages.indexOf(page);
+
+        const currentIndex = pages.findIndex((val) =>{
+            return val.path == page
+        })
+
         if (currentIndex === -1) return;
 
         const currentButton = buttonRefs.current[currentIndex];
@@ -108,9 +112,7 @@ export default function NavBar() {
 
                 {/* Navigation Buttons */}
                 {pages.map((val, index) => {
-                    const label = val === '/' ? 'Home' : val.slice(1).charAt(0).toUpperCase() + val.slice(2);
-                    const isActive = page === val;
-
+                    const isActive = page === val.path;
                     return (
                         <button
                             key={index}
@@ -118,9 +120,9 @@ export default function NavBar() {
                             className={`relative px-4 py-2 rounded-full transition-colors duration-300 z-20 text-sm lg:text-base ${
                                 isActive ? 'text-black font-bold' : 'text-gray-700'
                             }`}
-                            onClick={() => handlePageChange(val)}
+                            onClick={() => handlePageChange(val.path)}
                         >
-                            {label}
+                            {val.name}
                         </button>
                     );
                 })}
