@@ -183,7 +183,7 @@ export default function Galleries() {
           <Masonry
             breakpointCols={breakpointColumnsObj}
             className="my-masonry-grid flex justify-center w-full pl-3">
-            {show_images ? display_images.map((val, index) => (
+            {show_images ? display_images.reverse().map((val, index) => (
               <animated.div key={index} className="w-full flex items-center px-8 pb-16" style={{...springs}}>
                 <GalleryImageContainer {...val} show_description_callback={set_showdesc} showdesc={showdesc == index} />
               </animated.div>
