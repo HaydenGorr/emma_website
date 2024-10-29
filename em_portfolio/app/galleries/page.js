@@ -14,15 +14,20 @@ import { getFullImageUrl, getDisplayImageUrl } from "../utils/getimageurl";
 
 export default function Galleries() {
 
+  const Themes_chips = ["Christianity", "Femininity", "Gender Neutralism", "Experimentalism", "Realism"]
+  const Medium_chips = ["painting", "drawing", "sculpture", "digital", "print", "mixed"]
+  const [selected_themes, set_selected_theme] = useState([]);
+  const [selected_mediums, set_selected_medium] = useState([]);
+
+
   const [images, set_images] = useState([]);
   const [display_images, set_display_images] = useState([]);
   const [showdesc, set_showdesc] = useState(null);
-  const [selected_themes, set_selected_theme] = useState([]);
-  const [selected_mediums, set_selected_medium] = useState([]);
   const [loading, set_loading] = useState(true);
 
-  const [Themes_chips, set_Themes_chips] = useState([]);
-  const [Medium_chips, set_Medium_chips] = useState([]);
+  const [loadingLevel, set_loadingLevel] = useState(1);
+  const [scrollLimit, set_scrollLimit] = useState(0);
+  const [stopAttemptingToLoadImages, set_stopAttemptingToLoadImages] = useState(false);
 
   /** Used to show images once they've loaded
    * The loaded state var won't do because it toggled on load
@@ -58,21 +63,31 @@ export default function Galleries() {
 
   }, [loading]);
 
+  const handlescroll = () => { 
+    const scrollheight = (window.scrollY + window.innerHeight)
+    if (scrollheight > scrollLimit && (scrollheight / document.documentElement.scrollHeight) >= 0.75){
+      set_loadingLevel(loadingLevel+1)
+      set_scrollLimit(document.documentElement.scrollHeight)
+    }
+  }
 
   useEffect(() => {
-    set_loading(true)
-    get_portfolio_images((data) => {
+    window.addEventListener('scroll', handlescroll, { passive: true });
+
+    return () => {
+        window.removeEventListener('scroll', handlescroll);
+    };
+  })
+
+
+  useEffect(() => {
+
+    if (loadingLevel < 2) set_loading(true)
+    get_portfolio_images(loadingLevel, selected_themes, selected_mediums, (data) => {
 
       var formattedImages = []
 
-      var unique_themes = []
-      var unique_mediums = []
-
       for (let image_obj of data) {
-        // if (!(image_obj?.Image?.formats?.medium?.url)) console.log(image_obj)
-
-        console.log(image_obj.Title)
-
         formattedImages.push({
           title: image_obj?.Title || 'No title available',
           date: image_obj?.updatedAt || 'No date available',
@@ -84,47 +99,66 @@ export default function Galleries() {
             size_full: `${process.env.NEXT_PUBLIC_BASE_URL}/${getFullImageUrl(image_obj)}`
           }
         })
-        
-        if ( !unique_themes.includes(image_obj?.medium_theme?.theme) && image_obj?.medium_theme?.theme) unique_themes.push(image_obj?.medium_theme?.theme)
-        if ( !unique_mediums.includes(image_obj?.medium_theme?.medium) && image_obj?.medium_theme?.medium) unique_mediums.push(image_obj?.medium_theme?.medium)
-
       }
 
-      set_Themes_chips(unique_themes)
-      set_Medium_chips(unique_mediums)
-
-      set_images(formattedImages);
-      set_display_images(formattedImages.reverse())
+      set_images([...images, ...formattedImages]);
       set_loading(false)
     });
-  }, []);
+  }, [loadingLevel]);
 
 
   useEffect(() => {
-    if (selected_mediums.length == 0 && selected_themes.length == 0) {set_display_images(images); return}
 
-    // const filteredImages = 
-    set_display_images(images.filter((image, index) => {
+    set_loadingLevel(1)
+    get_portfolio_images(loadingLevel, selected_themes, selected_mediums, (data) => {
 
-      let res_theme = true
-      if (selected_themes.length != 0){
-        res_theme = selected_themes.includes(image.theme.toUpperCase())
+      var formattedImages = []
+      for (let image_obj of data) {
+        formattedImages.push({
+          title: image_obj?.Title || 'No title available',
+          date: image_obj?.updatedAt || 'No date available',
+          description: image_obj?.description || 'No description available',
+          medium: image_obj?.medium_theme?.medium || 'uncategorised',
+          theme: image_obj?.medium_theme?.theme || 'uncategorised',
+          image_urls: {
+            size_display: `${process.env.NEXT_PUBLIC_BASE_URL}/${getDisplayImageUrl(image_obj)}`,
+            size_full: `${process.env.NEXT_PUBLIC_BASE_URL}/${getFullImageUrl(image_obj)}`
+          }
+        })
       }
+
+      set_images([...formattedImages]);
+      set_loading(false)
+    });
+  }, [selected_mediums, selected_themes]);
+
+
+
+
+
+  // useEffect(() => {
+  //   if (selected_mediums.length == 0 && selected_themes.length == 0) {set_display_images(images); return}
+
+  //   // const filteredImages = 
+  //   set_display_images(images.filter((image, index) => {
+
+  //     let res_theme = true
+  //     if (selected_themes.length != 0){
+  //       res_theme = selected_themes.includes(image.theme.toUpperCase())
+  //     }
       
-      let res_medium = true
-      if (selected_mediums.length != 0){
-        console.log("asdqwdgf")
-        res_medium = selected_mediums.includes(image.medium.toUpperCase())
-      }
-      console.log(res_theme && res_medium)
-      return (res_theme && res_medium)
+  //     let res_medium = true
+  //     if (selected_mediums.length != 0){
+  //       res_medium = selected_mediums.includes(image.medium.toUpperCase())
+  //     }
+  //     return (res_theme && res_medium)
 
 
 
-    }
-    ));
+  //   }
+  //   ));
 
-  }, [selected_themes, selected_mediums]);
+  // }, [selected_themes, selected_mediums]);
   
 
   const breakpointColumnsObj = {
@@ -164,9 +198,9 @@ export default function Galleries() {
           <AnimatedBar colour="bg-perfume-400" delay={400} angle={"-rotate-45"} direction={"right"}/>
       </div>
 
-      <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky'>Gallery</p>
+      <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky '>Gallery</p>
 
-      <div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50">
+      <div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
         {!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">
           <ImageSkeleton h={"h-16"}></ImageSkeleton>
           <ImageSkeleton h={"h-16"}></ImageSkeleton>
@@ -183,7 +217,7 @@ export default function Galleries() {
           <Masonry
             breakpointCols={breakpointColumnsObj}
             className="my-masonry-grid flex justify-center w-full pl-3">
-            {show_images ? display_images.map((val, index) => (
+            {show_images ? images.map((val, index) => (
               <animated.div key={index} className="w-full flex items-center px-8 pb-16" style={{...springs}}>
                 <GalleryImageContainer {...val} show_description_callback={set_showdesc} showdesc={showdesc == index} />
               </animated.div>

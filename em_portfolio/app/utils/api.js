@@ -1,7 +1,22 @@
 
 
-export const get_portfolio_images = async (callback) => {
-    fetch(`https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=1000`, 
+export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], callback) => {
+
+    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=25&pagination[page]=${level}&sort=createdAt:desc`
+    
+    const theme_addition = selected_themes.map((val, index) => {
+        return `filters[$and][0][$or][${index}][medium_theme][theme][$eq]=${val}`;
+    }).join('&');
+    
+    const medium_addition = selected_mediums.map((val, index) => {
+        return `filters[$and][1][$or][${index}][medium_theme][medium][$eq]=${val}`;
+    }).join('&');
+
+    const final_url = step1_url + (theme_addition ? `&${theme_addition}` : '') + (medium_addition ? `&${medium_addition}` : '')
+
+    console.log("new url", final_url)
+
+    fetch(final_url, 
         {
         headers: {
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
