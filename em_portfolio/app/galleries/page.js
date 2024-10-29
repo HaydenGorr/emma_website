@@ -109,7 +109,11 @@ export default function Galleries() {
 
   useEffect(() => {
 
+    console.log("optimise", selected_themes, selected_mediums)
+
+
     set_loadingLevel(1)
+    set_scrollLimit(0)
     get_portfolio_images(loadingLevel, selected_themes, selected_mediums, (data) => {
 
       var formattedImages = []

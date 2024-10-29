@@ -19,10 +19,7 @@ export default function RootLayout({ children }) {
             
         <body className={`font-main w-screen h-screen flex flex-col  text-blue-smoke-950`} >
 
-            <div className="flex-grow bg-blue-smoke-50 "style={{
-    scrollbarWidth: "none", // Hides scrollbar in Firefox
-    msOverflowStyle: "none", // Hides scrollbar in IE and Edge
-  }}>
+            <div className="flex-grow bg-blue-smoke-50 ">
                 {children}
             </div>
     
