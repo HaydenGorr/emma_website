@@ -14,8 +14,6 @@ export const get_portfolio_images = async (level, selected_themes=[], selected_m
 
     const final_url = step1_url + (theme_addition ? `&${theme_addition}` : '') + (medium_addition ? `&${medium_addition}` : '')
 
-    console.log("new url", final_url)
-
     fetch(final_url, 
         {
         headers: {

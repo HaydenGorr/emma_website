@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
             
         <body className={`font-main w-screen h-screen flex flex-col  text-blue-smoke-950`} >
 
-            <div className="flex-grow bg-blue-smoke-50 ">
+            <div className="flex-grow bg-blue-smoke-50">
                 {children}
             </div>
     

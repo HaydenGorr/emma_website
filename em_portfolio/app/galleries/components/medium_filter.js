@@ -2,15 +2,15 @@ import { useSpring, animated } from '@react-spring/web'
 import { useState, useEffect } from 'react'
 import SearchChip from './search_chip';
 
-export default function MediumFilter({ chips, set_selected, selected_items, selected, unselected, bg_clour }) {
+export default function MediumFilter({ chips, selected_items, selected, unselected, bg_clour, adjust_filter }) {
 
     const [animate, set_animate] = useState(false)
 
-    const add_to_list = (sel_str) => {
+    const return_updated_filter_list = (sel_str) => {
         if (selected_items.includes(sel_str)) {
-            set_selected(selected_items.filter(val => val !== sel_str));
+            return selected_items.filter(val => val !== sel_str);
         } else {
-            set_selected([...selected_items, sel_str]);
+            return [...selected_items, sel_str];
         }
     }
 
@@ -34,7 +34,12 @@ export default function MediumFilter({ chips, set_selected, selected_items, sele
                 {<div className={'flex justify-start space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
                 {chips.map((val, index) => {
                 return (
-                    <SearchChip key={index} isSelected={selected_items.includes(val.toUpperCase())} onClick={()=>{add_to_list(val.toUpperCase())}} text={val} colour={selected_items.includes(val.toUpperCase()) ? selected: unselected}></SearchChip>
+                    <SearchChip
+                    key={index}
+                    isSelected={selected_items.includes(val.toUpperCase())}
+                    onClick={()=>{adjust_filter(return_updated_filter_list(val.toUpperCase()))}}
+                    text={val}
+                    colour={selected_items.includes(val.toUpperCase()) ? selected: unselected}/>
                 )
                 })}
                 </div>}
