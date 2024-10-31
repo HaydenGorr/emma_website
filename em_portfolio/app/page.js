@@ -210,7 +210,7 @@ return (
                 <AnimatedBar animate={animate3} colour={'bg-perfume-400'} large_bars={isSmallScreen}/>
             </div>
 
-            {image_src && <animated.div className={`lg:w-56 lg:h-56 w-40 h-40 relative aspect-square rounded-full overflow-hidden z-40`} style={{ ...profil_picSprings }}>
+            {image_src && <animated.div className={`lg:w-56 lg:h-56 w-40 h-40 relative aspect-square rounded-full overflow-hidden z-40 shadow-strong`} style={{ ...profil_picSprings }}>
                 <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/${image_src}`}
                 alt={'Square Image'}

@@ -1,21 +1,40 @@
 import { useSpring, animated } from '@react-spring/web'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 export default function Chips({ name, type, link, bg_colour, text_colour }) {
 
-    const getOnClick = (type, link) => {
-        if (type == "link") return () => {window.open(link, '_blank', 'noopener,noreferrer')}
-        else if (type == "email") return () => window.location.href = `mailto:${link}`
-    }
+  const getOnClick = (type, link) => {
+      if (type == "link") return () => {window.open(link, '_blank', 'noopener,noreferrer')}
+      else if (type == "email") return () => window.location.href = `mailto:${link}`
+  }
+
+  const [hovered, setHovered] = useState(false)
+
+  const NameSprings = useSpring({
+    from: { transform: 'rotate(0deg)' },
+    to: hovered ? [
+      { transform: 'rotate(-4deg)' },
+      { transform: 'rotate(4deg)' },
+      { transform: 'rotate(-4deg)' },
+      { transform: 'rotate(3deg)' },
+      { transform: 'rotate(0deg)' },
+    ] : { transform: 'rotate(0deg)' },
+    config: { duration: 70 },
+  });
+
+  useEffect( () => {
+
+  }, [hovered])
 
   return (
-    <div className={`${bg_colour} ${text_colour} px-2 py-0.5 text-sm rounded-lg flex cursor-pointer mx-4`} onClick={getOnClick(type, link)}>
+    <animated.div className={`${bg_colour} ${text_colour} px-2 py-0.5 text-sm rounded-lg flex cursor-pointer mx-4`} onClick={getOnClick(type, link)} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}
+    style={{...NameSprings}}>
         <p className="m-0 whitespace-nowrap hover:">{name}</p>
         <div className="h-5 w-5 relative m-0 opacity-60 ml-2">
             <Image src={"/icons/cursor.png"} fill className="object-cover m-0"/>
         </div>
-    </div>
+    </animated.div>
   )
 
 }

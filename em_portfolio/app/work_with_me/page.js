@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Chips from "./components/chips";
 import { parse_api_richtext } from "../utils/richtext";
 import Markdown from "react-markdown";
-import AnimatedBar from "../components/animated_bar";
+import AnimatedBar from "../galleries/components/animated_bar";
 
 // export const revalidate = Number(process.env.REVALIDATE);
 
@@ -68,10 +68,14 @@ export default function WorkWithMe() {
     const h_section2 = useSpring(get_animation_with_delay(500))
     const h_section3 = useSpring(get_animation_with_delay(600))
 
-
-
     return (
         <div className={`h-full flex w-full items-center flex-col ${image_src ? "" : "hidden"}`}>
+
+            {/* <div className="absolute flex space-x-8">
+                <AnimatedBar colour={'bg-sweet-corn-400'} delay={0} angle={"-rotate-0"} direction="right"/>
+                <AnimatedBar colour={'bg-pancho-400'} delay={100} angle={"-rotate-0"} direction="right"/>
+                <AnimatedBar colour={'bg-perfume-400'} delay={200} angle={"-rotate-0"} direction="right"/>
+            </div> */}
 
             <animated.div className={`w-40 h-40 my-20 shadow-strong relative aspect-square rounded-lg overflow-hidden z-40 bg-green-500`}
             style={{...imageSpring}}>
@@ -99,9 +103,9 @@ export default function WorkWithMe() {
                     })}
                 </animated.div>
 
-                <animated.div className="h-fit w-full relative pb-20 px-4"
+                <animated.div className="h-fit w-full relative pb-20 px-4 "
                 style={e_section3}>
-                    <Markdown>{emma_section}</Markdown>
+                    <Markdown className="z-50">{emma_section}</Markdown>
                 </animated.div>
 
 
