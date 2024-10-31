@@ -9,6 +9,7 @@ import { animated, useSpring} from '@react-spring/web'
 import AnimatedBar from './components/animated_bar';
 import OpenLink from './components/modals/open_link';
 import { register_visit, has_visited_before } from "./utils/register_a_visit";
+import Chips from './work_with_me/components/chips';
 
 export default function Home() {
     const [visited_before, set_visited_before] = useState(0);
@@ -20,6 +21,8 @@ export default function Home() {
     const [contact_email, set_contact_email] = useState("")
     const [image_src, set_image_src] = useState("")
     const [visit_again_message, set_visit_again_message] = useState("")
+
+    const [emma_cv_link, set_emma_cv_link] = useState("")
 
     // Animate the stripes
     const [animate1, set_animate1] = useState(false)
@@ -70,6 +73,10 @@ export default function Home() {
         set_desc(parse_api_richtext(data.description[0].children))
         set_image_src(data.profile_pic.url)
         set_visit_again_message(data.visit_again_message || data.greeting || "Hey. I'm")
+      })
+      get_page_data("emma-cv", (data) => {
+        set_emma_cv_link(`${process.env.NEXT_PUBLIC_BASE_URL}/${data.cv_file.url}`)
+        console.log("`${NEXT_PUBLIC_BASE_URL}/${data.cv_file.url}`", `${process.env.NEXT_PUBLIC_BASE_URL}/${data.cv_file.url}`)
       })
     }, []);
   
@@ -172,28 +179,10 @@ return (
             </animated.div>
 
             {/** Social links */}
-            <animated.div className={`flex lg:flex-col lg:space-y-4 lg:space-x-0 space-x-4 w-full justify-center`} style={{ ...ButtonsSprings }}>
-
-                {/* <button className='bg-blue-smoke-200 py-1 px-4 rounded-full flex w-fit items-center'>
-                <Image
-                    src={"/icons/insta.png"}
-                    width={15}
-                    height={15}
-                    className="z-40 mr-1">
-                </Image>
-                instagram
-                </button> */}
-                <button className='bg-blue-smoke-200 pt-1 px-4 rounded-full flex w-fit items-center'
-                onClick={() => window.location.href = `mailto:${contact_email}`}>
-                <Image
-                    src={"/icons/email.png"}
-                    width={15}
-                    height={15}
-                    className="z-40 mr-1">
-                </Image>
-                email
-                </button>
-
+            <animated.div className={`flex  w-fit justify-center space-x-4`} style={{ ...ButtonsSprings }}>
+                <Chips name="email" type="email" link={contact_email} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
+                <Chips name="instagram" type="link" link={insta_link} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
+                <Chips name="view CV" type="link" link={emma_cv_link} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
             </animated.div>
 
             </div>}

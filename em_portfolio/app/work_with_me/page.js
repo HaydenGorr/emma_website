@@ -98,7 +98,9 @@ export default function WorkWithMe() {
                 <animated.div className="flex max-w-full overflow-scroll" style={e_section2}>
                     {emma_links.map((chip, index) => {
                         return (
-                            <Chips {...chip} bg_colour={"bg-perfume-100"} text_colour={"text-perfume-500"}/>
+                            <div className="mx-4">
+                                <Chips {...chip} bg_colour={"bg-perfume-100"} text_colour={"text-perfume-500"}/>
+                            </div>
                         )
                     })}
                 </animated.div>
@@ -119,7 +121,9 @@ export default function WorkWithMe() {
                 <animated.div className="flex max-w-full overflow-scroll" style={h_section2}>
                 {hayden_links.map((chip, index) => {
                     return (
-                        <Chips {...chip} bg_colour={"bg-pancho-100"} text_colour={"text-pancho-500"}/>
+                        <div className="mx-4">
+                            <Chips {...chip} bg_colour={"bg-pancho-100"} text_colour={"text-pancho-500"}/>
+                        </div>
                     )
                 })}
                 </animated.div>
