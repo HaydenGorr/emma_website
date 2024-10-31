@@ -70,11 +70,11 @@ export default function WorkWithMe() {
     return (
         <div className={`h-full flex w-full items-center flex-col ${image_src ? "" : "hidden"}`}>
 
-            {/* <div className="absolute flex space-x-8">
-                <AnimatedBar colour={'bg-sweet-corn-400'} delay={0} angle={"-rotate-0"} direction="right"/>
-                <AnimatedBar colour={'bg-pancho-400'} delay={100} angle={"-rotate-0"} direction="right"/>
-                <AnimatedBar colour={'bg-perfume-400'} delay={200} angle={"-rotate-0"} direction="right"/>
-            </div> */}
+            <div className="absolute flex space-x-16 -translate-x-12 -translate-y-12">
+                <AnimatedBar colour={'bg-sweet-corn-400'} delay={0} angle={"rotate-45"} direction="right"/>
+                <AnimatedBar colour={'bg-pancho-400'} delay={100} angle={"rotate-45"} direction="right"/>
+                <AnimatedBar colour={'bg-perfume-400'} delay={200} angle={"rotate-45"} direction="right"/>
+            </div>
 
             <animated.div className={`w-40 h-40 my-20 shadow-strong relative aspect-square rounded-lg overflow-hidden z-40 bg-green-500`}
             style={{...imageSpring}}>
@@ -106,7 +106,7 @@ export default function WorkWithMe() {
 
                 <animated.div className="h-fit w-full relative pb-20 px-4 "
                 style={e_section3}>
-                    <Markdown className="z-50">{emma_section}</Markdown>
+                    <Markdown>{emma_section}</Markdown>
                 </animated.div>
 
 
@@ -127,7 +127,7 @@ export default function WorkWithMe() {
                 })}
                 </animated.div>
 
-                <animated.div className="h-fit w-full relative px-4"
+                <animated.div className="h-fit w-full relative px-4 "
                 style={h_section3}>
                     <Markdown>{hayden_section}</Markdown>
                 </animated.div>

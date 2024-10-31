@@ -43,11 +43,6 @@ const springs = useSpring({
 	config: { duration: 500 }
 });
 
-const springs2 = useSpring({
-	from: { opacity: 0.5 },
-	to: !loading ? { opacity: 1 } : { opacity: 0.5 },
-});
-
 const loadingSpring = useSpring({
 	from: { opacity: 1 },
 	to: !loading ? { opacity: 0 } : { opacity: 1 },
@@ -95,10 +90,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-
-	console.log("calling this one")
 	FetchImages()
-
 }, [selected_themes, selected_mediums]);
 
 const adjust_filter = (themes=null, mediums=null) => {
@@ -117,9 +109,6 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=s
 	const isFirstLoad = inloadingLevel === 1;
 
 	get_portfolio_images(inloadingLevel, inselected_themes, inselected_mediums, (res) => {
-		console.log("maxloading ref", res.meta.pagination.pageCount)
-		console.log("loading ref", loadingLevelRef)
-
 		if (isFirstLoad) maxloadingLevelRef.current = res.meta.pagination.pageCount
 
 		var formattedImages = []
@@ -138,14 +127,11 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=s
 		})
 		}
 
-		console.log("isFirstLoad", isFirstLoad)
-
 		set_images((prevImages) => {
-			console.log("before set images", prevImages)
 			const finalArray = isFirstLoad ? [] : [...prevImages];
-			console.log("after set images", [...finalArray, ...formattedImages])
 			return [...finalArray, ...formattedImages];
 		});
+
 		set_loading(false)
 	});
 	fetchingRef.current = false
