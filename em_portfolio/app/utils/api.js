@@ -22,7 +22,7 @@ export const get_portfolio_images = async (level, selected_themes=[], selected_m
         }
     })
     .then(response => response.json())
-    .then(data => callback(data.data))
+    .then(data => callback(data))
     .catch(error => console.error('Error:', error));
 
 }
