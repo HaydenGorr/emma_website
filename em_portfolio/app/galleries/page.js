@@ -145,7 +145,7 @@ const breakpointColumnsObj = {
 };
 
 return (
-	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll">
+	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll -translate-y-">
 
 	<div className="absolute flex space-x-16 -translate-x-40">
 		<AnimatedBar colour="bg-sweet-corn-400" delay={0} angle={"-rotate-45"} direction={"right"}/>
@@ -153,7 +153,7 @@ return (
 		<AnimatedBar colour="bg-perfume-400" delay={400} angle={"-rotate-45"} direction={"right"}/>
 	</div>
 
-	{/* <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky '>Gallery</p> */}
+	<p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky '>Gallery</p>
 
 	<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
 		{!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">
