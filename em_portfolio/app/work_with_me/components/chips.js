@@ -11,7 +11,7 @@ export default function Chips({ name, type, link, bg_colour, text_colour }) {
 
   const [hovered, setHovered] = useState(false)
 
-  const NameSprings = useSpring({
+  const wiggleSpring = useSpring({
     from: { transform: 'rotate(0deg)' },
     to: hovered ? [
       { transform: 'rotate(-4deg)' },
@@ -23,13 +23,19 @@ export default function Chips({ name, type, link, bg_colour, text_colour }) {
     config: { duration: 70 },
   });
 
+  const growSpring = useSpring({
+    from: { scale: 1 },
+    to: hovered ? { scale: 1.1 } : { scale: 1 },
+    config: { duration: 80 },
+  });
+
   useEffect( () => {
 
   }, [hovered])
 
   return (
     <animated.div className={`${bg_colour} ${text_colour} px-2 py-0.5 text-sm rounded-lg flex cursor-pointer mx-4`} onClick={getOnClick(type, link)} onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}
-    style={{...NameSprings}}>
+    style={{...growSpring}}>
         <p className="m-0 whitespace-nowrap hover:">{name}</p>
         <div className="h-5 w-5 relative m-0 opacity-60 ml-2">
             <Image src={"/icons/cursor.png"} fill className="object-cover m-0"/>
