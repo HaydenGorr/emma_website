@@ -153,7 +153,7 @@ return (
 		<AnimatedBar colour="bg-perfume-400" delay={400} angle={"-rotate-45"} direction={"right"}/>
 	</div>
 
-	<p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky '>Gallery</p>
+	{/* <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky '>Gallery</p> */}
 
 	<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
 		{!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">
