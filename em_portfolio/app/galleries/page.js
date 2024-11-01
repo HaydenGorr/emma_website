@@ -173,7 +173,7 @@ return (
 			breakpointCols={breakpointColumnsObj}
 			className="my-masonry-grid flex justify-center w-full pl-3">
 			{show_images ? images.map((val, index) => (
-			<animated.div key={index} className="w-full flex items-center px-8 pb-16" style={{...springs}}>
+			<animated.div key={index} className="w-full flex items-center px-8 pb-4" style={{...springs}}>
 				<GalleryImageContainer {...val} show_description_callback={set_showdesc} showdesc={showdesc == index} />
 			</animated.div>
 			)) :

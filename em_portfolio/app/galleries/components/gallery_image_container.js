@@ -1,36 +1,74 @@
 import strings from '../../string_consts.json'
 import Image from 'next/image';
+import { animated, useSpring } from '@react-spring/web';
+import { useEffect, useState, useRef } from 'react';
 
 export default function GalleryImageContainer({title, date, description, medium, theme, image_urls, showdesc, show_description_callback}) {
+
+  const infoBoxRef = useRef(null)
+
+  const [infoBoxHeight, setInfoBoxHeight] = useState("0px");
+
+  const [focus, set_focus] = useState("")
+  const [mouseover, set_mouseover] = useState(false)
+
+  const springs = useSpring({
+    from: { scale: 0.9, y: -100, opacity: 0, height: "0px", marginBottom: "0px" },
+    to: {
+      scale: focus ? 1 : 0.9,
+      y: focus ? 0 : -100,
+      opacity: focus ? 1 : 0,
+      height: focus ? infoBoxHeight : "0px",
+      marginBottom: focus ? "16px" : "0px",
+    },
+    config: { tension: 100, friction: 12, mass: 1 },
+  });
+
+  const containerHover = useSpring({
+    from: { scale: 1 },
+    to: { scale: mouseover ? 1.03 : 1 }
+  });
+  
+  useEffect(() => {
+    // Update the height when focus changes
+    if (focus && infoBoxRef.current) {
+      setInfoBoxHeight(`${infoBoxRef.current.scrollHeight + 16}px`);
+    } else {
+      setInfoBoxHeight("0px");
+    }
+  }, [focus])
+
   return (
 
+<animated.div className={`w-full rounded-lg overflow-visible cursor-pointer z-50`}
+    onClick={() => set_focus(!focus)}
+    onMouseOver={() => set_mouseover(true)} onMouseOut={() => set_mouseover(false)}
+    style={{...containerHover}}>
 
-
-    <div className='w-full shadow-strong rounded-lg overflow-visible relative'>
-        {/* <p className='py-1 text-lg font-medium'>{title}</p> */}
-
-        <Image
-            className="w-full rounded-lg"
-            width={1000}
-            height={1000}
-            src={image_urls?.size_display || ''}
-            alt={description}
-            layout="responsive"
-            onClick={()=>{show_description_callback()}}
-        />
+    <Image
+        className="w-full rounded-lg shadow-strong "
+        width={1000}
+        height={1000}
+        src={image_urls?.size_display || ''}
+        alt={description}
+        layout="responsive"
+        style={{ zIndex: 50 }}
+        onClick={() => { show_description_callback() }}
+    />
     
-        {/* <div className='flex justify-between items-center pt-2 pb-1'>
-            <p className='text-lg font-medium'>{title}</p>
-            <div className="flex space-x-2 h-full">
-                <div className="bg-blue-smoke-200 px-3 rounded-full text-sm">{theme}</div>
-                <div className="bg-blue-smoke-200 px-3 rounded-full text-sm">{medium}</div>
-            </div>
+    <animated.div
+        className="mt-2 bg-pancho-300 text-pancho-900 p-4 rounded-lg relative flex flex-col justify-between"
+        style={{ ...springs, zIndex: 30, transformOrigin: "top" }}
+        ref={infoBoxRef}
+        >
+        <div className='font-semibold pb-2'>
+            {title}
         </div>
+        <div>
+            {description}
+        </div>
+    </animated.div>
+</animated.div>
 
-        {showdesc && <p className=" bg-blue-smoke-300 text-blue-smoke-950 rounded-lg mt-2 p-4">
-        {description}
-        </p>} */}
-
-    </div>
   );
 }
