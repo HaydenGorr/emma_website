@@ -182,7 +182,7 @@ return (
             <animated.div className={`flex w-fit justify-center space-x-4 self-center lg:self-start`} style={{ ...ButtonsSprings }}>
                 <Chips name="email" type="email" link={contact_email} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
                 <Chips name="instagram" type="link" link={insta_link} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
-                <Chips name="view CV" type="link" link={emma_cv_link} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
+                <Chips name="download CV" type="link" link={emma_cv_link} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
             </animated.div>
 
             </div>}
