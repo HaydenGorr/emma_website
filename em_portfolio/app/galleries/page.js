@@ -22,6 +22,7 @@ const [selected_mediums, set_selected_medium] = useState([]); // For filtering
 const [images, set_images] = useState([]);
 const [showdesc, set_showdesc] = useState(null);
 const [loading, set_loading] = useState(true);
+const [expanded_image_index, set_expanded_image_index] = useState(null);
 
 // const [loadingLevel, set_loadingLevel] = useState(1);
 
@@ -145,49 +146,57 @@ const breakpointColumnsObj = {
 };
 
 return (
-	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll -translate-y-">
+	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll">
 
-	<div className="absolute flex space-x-16 -translate-x-40">
-		<AnimatedBar colour="bg-sweet-corn-400" delay={0} angle={"-rotate-45"} direction={"right"}/>
-		<AnimatedBar colour="bg-pancho-400" delay={200} angle={"-rotate-45"} direction={"right"}/>
-		<AnimatedBar colour="bg-perfume-400" delay={400} angle={"-rotate-45"} direction={"right"}/>
-	</div>
+		<div className="absolute flex space-x-16 -translate-x-40">
+			<AnimatedBar colour="bg-sweet-corn-400" delay={0} angle={"-rotate-45"} direction={"right"}/>
+			<AnimatedBar colour="bg-pancho-400" delay={200} angle={"-rotate-45"} direction={"right"}/>
+			<AnimatedBar colour="bg-perfume-400" delay={400} angle={"-rotate-45"} direction={"right"}/>
+		</div>
 
-	<p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky '>Gallery</p>
+		<p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky '>Gallery</p>
 
-	<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
-		{!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">
-		<ImageSkeleton h={"h-16"}></ImageSkeleton>
-		<ImageSkeleton h={"h-16"}></ImageSkeleton>
-		</animated.div>}
+		<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-30 ">
+			{!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">
+			<ImageSkeleton h={"h-16"}></ImageSkeleton>
+			<ImageSkeleton h={"h-16"}></ImageSkeleton>
+			</animated.div>}
 
-		{show_images && <div style={{...springs}} className="space-y-8">
-			<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
-			<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
-		</div>}
+			{show_images && <div style={{...springs}} className="space-y-8">
+				<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
+				<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
+			</div>}
 
-	</div>
+		</div>
 
-	<div className="pb-36 hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
-		<Masonry
-			breakpointCols={breakpointColumnsObj}
-			className="my-masonry-grid flex justify-center w-full pl-3">
-			{show_images ? images.map((val, index) => (
-			<animated.div key={index} className="w-full flex items-center px-8 pb-4" style={{...springs}}>
-				<GalleryImageContainer {...val} show_description_callback={set_showdesc} showdesc={showdesc == index} />
-			</animated.div>
-			)) :
-			
-			[1,2,3,4,5,6].map((val, index) => (
-			<animated.div key={index} className="w-full flex items-center justify-center px-8 pb-16"
-			style={{...loadingSpring}}>
-				<ImageSkeleton  h={"h-80"} />
-			</animated.div>
-			))
+		<div className="pb-36 hide-scroll pt-20 w-full" style={{maxWidth: '80rem'}}>
+			<Masonry
+				breakpointCols={breakpointColumnsObj}
+				className="my-masonry-grid flex justify-center w-full pl-3">
+				{show_images ? images.map((val, index) => (
+				<animated.div key={index} className="w-full items-center px-8 pb-4" style={{...springs}}>
 
-			}
-		</Masonry>
-	</div>
+					<div className={`${expanded_image_index==index ? "fixed inset-0 flex justify-center z-50" : "z-40"}`}>
+						<GalleryImageContainer {...val}
+						show_description_callback={set_showdesc}
+						showdesc={showdesc == index}
+						expanded={expanded_image_index==index}
+						index={index}
+						set_expanded_image_index={set_expanded_image_index}/>
+					</div>
+				</animated.div>
+				)) :
+				
+				[1,2,3,4,5,6].map((val, index) => (
+				<animated.div key={index} className="w-full flex items-center justify-center px-8 pb-16"
+				style={{...loadingSpring}}>
+					<ImageSkeleton  h={"h-80"} />
+				</animated.div>
+				))
+
+				}
+			</Masonry>
+		</div>
 	</div>
 );
 }
