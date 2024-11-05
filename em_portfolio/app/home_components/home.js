@@ -1,28 +1,15 @@
 'use client'
-import strings from './string_consts.json'
 import { useEffect, useState } from "react";
-import { get_page_data } from './utils/api'
+import { get_page_data } from '../utils/api'
 import Image from 'next/image';
-import { parse_api_richtext } from './utils/richtext';
+import { parse_api_richtext } from '../utils/richtext';
 import Markdown from 'react-markdown';
 import { animated, useSpring} from '@react-spring/web'
-import AnimatedBar from './components/animated_bar';
-import OpenLink from './components/modals/open_link';
-import { register_visit, has_visited_before } from "./utils/register_a_visit";
-import Chips from './work_with_me/components/chips';
+import AnimatedBar from '../components/animated_bar';
+import { register_visit, has_visited_before } from "../utils/register_a_visit";
+import Chips from '../work_with_me/components/chips';
 
-export default function Home() {
-    const [visited_before, set_visited_before] = useState(0);
-
-    const [greeting, set_greeting] = useState("")
-    const [your_name, set_your_name] = useState("")
-    const [desc, set_desc] = useState("")
-    const [insta_link, set_insta_link] = useState("")
-    const [contact_email, set_contact_email] = useState("")
-    const [image_src, set_image_src] = useState("")
-    const [visit_again_message, set_visit_again_message] = useState("")
-
-    const [emma_cv_link, set_emma_cv_link] = useState("")
+export default function HomePageDynamic({ visited_before, greeting, your_name, desc, insta_link, contact_email, image_src, visit_again_message, emma_cv_link}) {
 
     // Animate the stripes
     const [animate1, set_animate1] = useState(false)
@@ -56,29 +43,11 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-      set_visited_before(has_visited_before() + 1)
-      register_visit()
-
       return () => {
         set_animate1(true)
       }
     }, []);
-  
-    useEffect(() => {
-      get_page_data("landingpage", (data) => {
-        set_your_name(data.your_name)
-        set_greeting(data.greeting)
-        set_insta_link(data.instagram_link)
-        set_contact_email(data.contact_email)
-        set_desc(parse_api_richtext(data.description[0].children))
-        set_image_src(data.profile_pic.url)
-        set_visit_again_message(data.visit_again_message || data.greeting || "Hey. I'm")
-      })
-      get_page_data("emma-cv", (data) => {
-        set_emma_cv_link(`${process.env.NEXT_PUBLIC_BASE_URL}/${data.cv_file.url}`)
-        console.log("`${NEXT_PUBLIC_BASE_URL}/${data.cv_file.url}`", `${process.env.NEXT_PUBLIC_BASE_URL}/${data.cv_file.url}`)
-      })
-    }, []);
+
   
     useEffect(() => {
   
