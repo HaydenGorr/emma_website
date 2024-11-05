@@ -176,9 +176,8 @@ return (
 			<animated.div key={index} className="w-full flex items-center px-8 pb-4" style={{...springs}}>
 				<GalleryImageContainer {...val} show_description_callback={set_showdesc} showdesc={showdesc == index} />
 			</animated.div>
-			)) :
-			
-			[1,2,3,4,5,6].map((val, index) => (
+			)) 
+			: [1,2,3,4,5,6].map((val, index) => (
 			<animated.div key={index} className="w-full flex items-center justify-center px-8 pb-16"
 			style={{...loadingSpring}}>
 				<ImageSkeleton  h={"h-80"} />
