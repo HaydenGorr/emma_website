@@ -1,6 +1,7 @@
 import "./globals.css";
 import Em_footer from "./components/footer";
 import NavBar from "./components/nav_bar";
+import { useContext } from "react";
 
 export const metadata = {
   title: "Emma Dann Portfolio",
@@ -8,7 +9,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  
+
     return (
         <html lang="en">
         <head>
