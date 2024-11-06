@@ -138,7 +138,7 @@ return (
 
             {/** LEFT SIDE */}
             {your_name && <div className='left-side flex flex-col justify-start items-start order-3 lg:order-1 pb-32 lg:pb-0 z-50'>
-
+              
             <animated.div className={`font-header text-blue-smoke-800 my-8`} style={{ ...NameSprings }}>
                 <h1 className='lg:text-left text-center'><span className='text-lg text-blue-smoke-700'>{visited_before > 1 ? visit_again_message : greeting}</span> <span className='md:text-6xl sm:text-5xl text-4xl font-extrabold'>{your_name}</span></h1>
             </animated.div>
@@ -168,7 +168,7 @@ return (
                 <AnimatedBar animate={animate3} colour={'bg-perfume-400'} large_bars={isSmallScreen}/>
             </div>
 
-            {image_src && <animated.div className={`lg:w-56 lg:h-56 w-40 h-40 relative aspect-square rounded-full overflow-hidden z-40 shadow-strong`} style={{ ...profil_picSprings }}>
+            {image_src && <animated.div className={`lg:w-56 lg:h-56 w-40 h-40 relative aspect-square rounded-full overflow-hidden z-40 shadow-strong mt-8 lg:pt-0`} style={{ ...profil_picSprings }}>
                 <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/${image_src}`}
                 alt={'Square Image'}

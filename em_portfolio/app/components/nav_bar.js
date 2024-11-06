@@ -27,9 +27,18 @@ export default function NavBar() {
     });
 
     // const pages = ['/', '/galleries', '/about', '/contact']
-    const pages = [{path: '/', name: 'Home'}, {path: '/galleries', name: 'Galleries'}, {path: '/work_with_me', name: 'Work With Me'}]
+    const pages = [{path: '/', name: 'Home'},
+        {path: '/about_me', name: 'About Me'},
+        {path: '/galleries', name: 'Galleries'},
+        {path: '/work_with_me', name: 'Work With Me'}]
 
-    const handlePageChange = (url) => {
+    const handlePageChange = (url, button_ref) => {
+
+        button_ref.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        })
+
         if (url !== page) {
             router.push(url); // Navigate to the next page
         }
@@ -93,10 +102,10 @@ export default function NavBar() {
     }, []);
 
     return (
-        <div className='w-full flex justify-center mb-8'>
+        <div className='w-full flex justify-center mb-8 px-4'>
             {/* Navigation Buttons Container */}
             <div 
-                className='flex mlg:space-x-8 space-x-2 px-1 md:px-4 lg:py-2 py-1 rounded-full bg-sweet-corn-100 relative'
+                className='flex mlg:space-x-8 space-x-2 px-1 md:px-4 lg:py-2 py-1 rounded-full bg-sweet-corn-100 relative overflow-scroll'
                 ref={containerRef}
             >
                 {/* Chip Background */}
@@ -104,7 +113,6 @@ export default function NavBar() {
                     className='absolute bg-sweet-corn-300 rounded-full z-10'
                     style={{
                         ...props,
-                        // Position the chip vertically centered if needed
                         top: '50%',
                         transform: 'translateY(-50%)',
                     }}
@@ -117,10 +125,10 @@ export default function NavBar() {
                         <button
                             key={index}
                             ref={(el) => (buttonRefs.current[index] = el)}
-                            className={`relative px-4 py-2 rounded-full transition-colors duration-300 z-20 text-sm lg:text-base ${
+                            className={`relative px-4 py-2 rounded-full transition-colors duration-300 z-20 text-sm lg:text-base whitespace-nowrap ${
                                 isActive ? 'text-black font-bold' : 'text-gray-700'
                             }`}
-                            onClick={() => handlePageChange(val.path)}
+                            onClick={() => handlePageChange(val.path, buttonRefs.current[index])}
                         >
                             {val.name}
                         </button>

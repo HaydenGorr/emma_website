@@ -2,7 +2,7 @@ import { parse_api_richtext } from './utils/richtext';
 import { get_page_data_promise } from './utils/api'
 import HomePageDynamic from './home_components/home';
 
-export const revalidate = 3600
+export const revalidate = 600
 
 export default async function Home() {
 	const set_vars = async () => {
