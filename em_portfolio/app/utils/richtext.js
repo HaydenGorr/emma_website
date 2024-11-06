@@ -29,3 +29,25 @@ export const parse_api_richtext = (array_of_text) => {
 
     return str
 }
+
+export const stringify_strapi_richtext = (rich_text_block) => {
+    return rich_text_block.map(block => {
+        switch (block.type) {
+            case 'paragraph':
+                return parse_api_richtext(block.children)
+            case 'list':
+                // Unordered lists
+                if (block.format === 'unordered') {
+                    return block.children.map(item => 
+                        '- ' + item.children.map(child => child.text).join('')
+                    ).join('\n') + '\n\n'
+                }
+                // Ordered lists
+                return block.children.map((item, index) => 
+                    `${index + 1}. ` + item.children.map(child => child.text).join('')
+                ).join('\n') + '\n\n'
+            default:
+                return ''
+        }
+    }).join('\n\n')
+}

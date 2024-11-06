@@ -22,16 +22,9 @@ export default function WorkWithMe() {
     const [image_src, set_image_src] = useState("")
 
 
-    // const [em_email, set_em_email] = useState("")
-    // const [hg_email, set_hg_email] = useState("")
-    // const [hg_insta, set_hg_insta] = useState("")
-    // const [em_insta, set_em_insta] = useState("")
-
-
     useEffect(() => {
   
         get_page_data("work-with-me-page", (data) => {
-            console.log(data)
             set_emma_header(data.emma_header)
             set_emma_section(parse_api_richtext(data.emma_section[0].children))
             set_hayden_header(data.hayden_header)
@@ -40,11 +33,6 @@ export default function WorkWithMe() {
 
             set_emma_links(data.emma_links)
             set_hayden_links(data.hayden_links)
-
-            // set_em_email(data.em_email)
-            // set_hg_email(data.hg_email)
-            // set_hg_insta(data.hg_insta)
-            // set_em_insta(data.em_insta)
         })
     
       }, []);
@@ -68,12 +56,12 @@ export default function WorkWithMe() {
     const h_section3 = useSpring(get_animation_with_delay(600))
 
     return (
-        <div className={`h-full flex w-full items-center flex-col ${image_src ? "" : "hidden"}`}>
+        <div className={`h-full w-full items-center flex flex-col ${image_src ? "" : "hidden"}`}>
 
             <div className="absolute flex space-x-16 -translate-x-12 -translate-y-12">
                 <AnimatedBar colour={'bg-sweet-corn-400'} delay={0} angle={"rotate-45"} direction="right"/>
-                <AnimatedBar colour={'bg-pancho-400'} delay={100} angle={"rotate-45"} direction="right"/>
-                <AnimatedBar colour={'bg-perfume-400'} delay={200} angle={"rotate-45"} direction="right"/>
+                <AnimatedBar colour={'bg-pancho-400'} delay={200} angle={"rotate-45"} direction="right"/>
+                <AnimatedBar colour={'bg-perfume-400'} delay={400} angle={"rotate-45"} direction="right"/>
             </div>
 
             <animated.div className={`w-40 h-40 my-20 shadow-strong relative aspect-square rounded-lg overflow-hidden z-40 bg-green-500`}

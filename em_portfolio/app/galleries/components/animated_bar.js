@@ -1,3 +1,4 @@
+'use client'
 import { useSpring, animated } from '@react-spring/web';
 
 export default function AnimatedBar({ colour, delay, angle, direction }) {
