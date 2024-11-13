@@ -56,3 +56,16 @@ export const get_page_data_promise = async (page) => {
         throw error; // Optionally re-throw the error if you want to handle it elsewhere
     }
 };
+
+export const get_youtube_data_promise = async (page) => {
+    try {
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${process.env.YOUTUBE_UPLOADS_PLAYLIST_ID}&key=${process.env.YOUTUBE_API_KEY}`, {
+            next: { revalidate: 300 }, 
+        });
+        const data = await response.json();
+        return data.items; // Return the data directly
+    } catch (error) {
+        console.error('Error:', error);
+        throw error; // Optionally re-throw the error if you want to handle it elsewhere
+    }
+};
