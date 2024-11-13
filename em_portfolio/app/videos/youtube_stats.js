@@ -40,7 +40,7 @@ export default function YoutubeStats({ videos }) {
                   
                     {/* Text Content */}
                     <div
-                      className={`w-full lg:w-1/2 text-pancho-950 flex px-4 flex-col z-50 mt-4 mb-2 lg:mt-0 ${
+                      className={`w-full lg:w-1/2 text-${colours[index % colours.length]}-950 flex px-4 flex-col z-50 mt-4 mb-2 lg:mt-0 ${
                         index % 2 === 0 ? 'order-2' : 'order-1'
                       }`}
                     >
@@ -48,7 +48,7 @@ export default function YoutubeStats({ videos }) {
                         <h1 className="md:order-1 order-2 lg:order-2 font-bold text-xl overflow-ellipsis whitespace-nowrap truncate">
                           {val.title}
                         </h1>
-                        <p className="md:order-2 lg:order-1 order-1 text-xs mb-2 self-start lg:self-start md:self-center py-1 whitespace-nowrap px-4 md:ml-4 lg:ml-0 w-fit h-fit text-center bg-pancho-400 rounded-full">
+                        <p className={`md:order-2 lg:order-1 order-1 text-xs mb-2 self-start lg:self-start md:self-center py-1 whitespace-nowrap px-4 md:ml-4 lg:ml-0 w-fit h-fit text-center bg-${colours[index % colours.length]}-400 rounded-full`}>
                         {timeAgo(val.date)}
                         </p>
                       </div>
