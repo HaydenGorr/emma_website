@@ -8,13 +8,13 @@ const colours = ["pancho", "perfume", "sweet-corn", "blue-smoke" ]
 export default function YoutubeStats({ videos }) {
 
     return (
-        <div className="flex flex-col mb-32 relative">
-
+        <div className="flex flex-col mb-32 relative overflow-hidden">
+{/* 
             <div className="absolute flex space-x-16 translate-x-96 -translate-y-72 z-40">
                 <AnimatedBar colour={'bg-sweet-corn-400'} delay={0} angle={"rotate-45"} direction="right"/>
                 <AnimatedBar colour={'bg-pancho-400'} delay={200} angle={"rotate-45"} direction="right"/>
                 <AnimatedBar colour={'bg-perfume-400'} delay={400} angle={"rotate-45"} direction="right"/>
-            </div>
+            </div> */}
            
             <div className="self-center w-full lg:max-w-[55rem] space-y-16 px-4 z-50">
 
