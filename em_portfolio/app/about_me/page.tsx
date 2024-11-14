@@ -25,7 +25,7 @@ export default async function About() {
 
             <div className="ml-14"><DecorativeLines height={["11vh", "14vh", "11vh"]} direction={Direction.centre}/></div>
             
-	        <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header pb-12 lg:pb-20 z-50'>About me</p>
+	        <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold pb-12 lg:pb-20 z-50'>About me</p>
 
             <div className="max-w-prose px-4 z-50 space-y-4">
 
