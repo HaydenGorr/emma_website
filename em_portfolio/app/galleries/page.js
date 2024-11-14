@@ -124,8 +124,6 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=s
 		})
 		}
 
-		console.log(res.data)
-
 		set_images((prevImages) => {
 			const finalArray = isFirstLoad ? [] : [...prevImages];
 			return [...finalArray, ...formattedImages];

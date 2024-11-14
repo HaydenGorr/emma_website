@@ -7,9 +7,6 @@ export const revalidate = 300
 export default async function About() {
     const getPageData = async () => {
         const res = await get_page_data_promise("about-me-page")
-        const iwmfodf = stringify_strapi_richtext(res.data.main_text)
-        console.log("cabcab", iwmfodf)
-        console.log("rubrub", iwmfodf.split("\n\n"))
         return stringify_strapi_richtext(res.data.main_text)
     }
     
