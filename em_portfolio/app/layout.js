@@ -1,7 +1,5 @@
 import "./globals.css";
-import Em_footer from "./components/footer";
 import NavBar from "./components/nav_bar";
-import { Suspense } from "react";
 
 export const metadata = {
   title: "Emma Dann Portfolio",
@@ -22,6 +20,7 @@ export default function RootLayout({ children }) {
         
             <div className="flex-grow bg-blue-smoke-50">
                 {children}
+            
             </div>
     
             <div className="fixed bottom-0 flex w-full z-50 overflow-hidden">
