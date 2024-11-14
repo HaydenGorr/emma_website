@@ -148,24 +148,23 @@ return (
             </animated.div>
 
             {/** Social links */}
-            <animated.div className={`flex w-fit justify-center space-x-4 self-center lg:self-start font-black`} style={{ ...ButtonsSprings }}>
-                <Chips name="email" type="email" link={contact_email} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
-                <Chips name="instagram" type="link" link={insta_link} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
-                <Chips name="download CV" type="link" link={emma_cv_link} bg_colour="bg-blue-smoke-200" text_colour="text-blue-smoke-800"/>
+            <animated.div className={`flex w-fit justify-center space-x-4 self-center lg:self-start font-bold`} style={{ ...ButtonsSprings }}>
+                <Chips name="email" type="email" link={contact_email} bg_colour="bg-matisse-600" text_colour="text-matisse-100"/>
+                <Chips name="instagram" type="link" link={insta_link} bg_colour="bg-hibiscus-700" text_colour="text-hibiscus-100"/>
+                <Chips name="download CV" type="link" link={emma_cv_link} bg_colour="bg-magic-mint-200" text_colour="text-magic-mint-50"/>
             </animated.div>
 
             </div>}
 
-        <div className='lg:max-w-96 lg:flex-grow order-2'></div>
-
+        <div className='lg:max-w-96 lg:flex-grow order-2'/>
 
         {/** RIGHT SIDE */}
         <div className='right-side flex items-center justify-center order-1 lg:order-3'>
 
             <div className='z-40 absolute flex rotate-45 space-x-10'>
-                <AnimatedBar animate={animate1} colour={'bg-sweet-corn-400'} large_bars={isSmallScreen}/>
-                <AnimatedBar animate={animate2} colour={'bg-pancho-400'} large_bars={isSmallScreen}/>
-                <AnimatedBar animate={animate3} colour={'bg-perfume-400'} large_bars={isSmallScreen}/>
+                <AnimatedBar animate={animate1} colour={'bg-matisse-600'} large_bars={isSmallScreen}/>
+                <AnimatedBar animate={animate2} colour={'bg-hibiscus-700'} large_bars={isSmallScreen}/>
+                <AnimatedBar animate={animate3} colour={'bg-magic-mint-200'} large_bars={isSmallScreen}/>
             </div>
 
             {image_src && <animated.div className={`lg:w-56 lg:h-56 w-40 h-40 relative aspect-square rounded-full overflow-hidden z-40 shadow-strong mt-8 lg:pt-0`} style={{ ...profil_picSprings }}>

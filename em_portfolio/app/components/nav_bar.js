@@ -29,8 +29,8 @@ export default function NavBar() {
     // const pages = ['/', '/galleries', '/about', '/contact']
     const pages = [{path: '/', name: 'Home'},
         {path: '/about_me', name: 'About Me'},
-        {path: '/galleries', name: 'Galleries'},
-        {path: '/videos', name: 'Videos'},
+        {path: '/galleries', name: 'Gallery'},
+        {path: '/videos', name: 'My Videos'},
         {path: '/work_with_me', name: 'Work With Me'}]
 
     const handlePageChange = (url, button_ref) => {
@@ -106,12 +106,12 @@ export default function NavBar() {
         <div className='w-full flex justify-center mb-8 px-4'>
             {/* Navigation Buttons Container */}
             <div 
-                className='flex mlg:space-x-8 space-x-2 px-1 md:px-4 lg:py-2 py-1 rounded-full bg-sweet-corn-100 relative overflow-scroll'
+                className='flex mlg:space-x-8 space-x-2 px-1 md:px-4 lg:py-2 py-1 rounded-full bg-hibiscus-100 relative overflow-scroll'
                 ref={containerRef}
             >
                 {/* Chip Background */}
                 <animated.div
-                    className='absolute bg-sweet-corn-300 rounded-full z-10'
+                    className='absolute bg-hibiscus-300 rounded-full z-10'
                     style={{
                         ...props,
                         top: '50%',

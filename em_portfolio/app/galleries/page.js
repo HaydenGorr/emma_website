@@ -6,7 +6,6 @@ import Masonry from 'react-masonry-css';
 import GalleryImageContainer from "./components/gallery_image_container";
 import { animated, useSpring} from '@react-spring/web'
 import SearchChip from "./components/search_chip";
-import AnimatedBar from './components/animated_bar';
 import MediumFilter from "./components/medium_filter";
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import ImageSkeleton from "../components/image_skeleton";
@@ -147,13 +146,7 @@ const breakpointColumnsObj = {
 return (
 	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll -translate-y-">
 
-	<div className="absolute flex space-x-16 -translate-x-40">
-		<AnimatedBar colour="bg-sweet-corn-400" delay={0} angle={"-rotate-45"} direction={"right"}/>
-		<AnimatedBar colour="bg-pancho-400" delay={200} angle={"-rotate-45"} direction={"right"}/>
-		<AnimatedBar colour="bg-perfume-400" delay={400} angle={"-rotate-45"} direction={"right"}/>
-	</div>
-
-	<p className='md:text-5xl sm:text-5xl text-4xl font-extrabold font-header py-20 lg:py-20 sticky '>Gallery</p>
+	<p className='md:text-5xl sm:text-5xl text-4xl font-extrabold py-20 lg:py-20 z-50'>Gallery</p>
 
 	<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
 		{!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">

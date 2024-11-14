@@ -1,5 +1,6 @@
 import "./globals.css";
 import NavBar from "./components/nav_bar";
+import DecorativeLines from "./components/decorative_lines";
 
 export const metadata = {
   title: "Emma Dann Portfolio",
@@ -18,9 +19,9 @@ export default function RootLayout({ children }) {
             
         <body className={`font-main w-screen h-screen flex flex-col  text-blue-smoke-950`} >
         
-            <div className="flex-grow bg-blue-smoke-50">
+            <div className="flex-grow bg-blue-smoke-50 relative overflow-x-hidden">
                 {children}
-            
+                <DecorativeLines/>
             </div>
     
             <div className="fixed bottom-0 flex w-full z-50 overflow-hidden">

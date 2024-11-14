@@ -1,7 +1,6 @@
 'use client'
 import { useState } from "react";
 import { timeAgo } from "../utils/date_utils";
-import AnimatedBar from "../galleries/components/animated_bar";
 
 const colours = ["pancho", "perfume", "sweet-corn", "blue-smoke" ]
 
