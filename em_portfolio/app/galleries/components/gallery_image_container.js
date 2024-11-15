@@ -49,7 +49,7 @@ export default function GalleryImageContainer({title, date, description, medium,
     style={{...containerHover}}>
 
     <Image
-        className="w-full rounded-lg shadow-strong max-h-fit object-cover"
+        className="w-full rounded-lg shadow-strong object-cover"
         width={1000}
         height={1000}
         src={image_urls?.size_display || ''}

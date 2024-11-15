@@ -12,7 +12,7 @@ export default function ChannelDisplay({ channel_name, channel_link, channel_des
     });
 
     return (
-        <animated.div style={springs} className="self-center flex flex-col items-center mb-12">
+        <animated.div style={springs} className="self-center flex flex-col items-center mb-12 px-4">
             <Chips text={channel_name} link={channel_link}></Chips>
             <p className="max-w-prose z-50 mt-4">{channel_description}</p>
         </animated.div>
