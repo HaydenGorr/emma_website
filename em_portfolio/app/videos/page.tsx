@@ -4,7 +4,7 @@ import Title from "../components/title";
 import Chips from "./components/chips"
 import { get_page_data_promise, get_strapi_videos_promise } from "../utils/api";
 
-export const revalidate = 60
+export const revalidate = 0
 
 interface youtubeVideo {
     title: string;

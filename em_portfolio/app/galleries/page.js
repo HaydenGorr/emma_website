@@ -51,7 +51,6 @@ const loadingSpring = useSpring({
 
 // Load new images when scroll reaches 75% of screen
 const handlescroll = () => {
-	console.log(scrollheight, scroll_decimal, "\n\n")
 
     const scrollheight = window.scrollY + window.innerHeight;
 	const scroll_decimal = scrollheight / document.documentElement.scrollHeight
@@ -167,7 +166,7 @@ return (
 
 	</div>
 
-	<div className="pb-36 hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
+	<div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
 		<Masonry
 			breakpointCols={breakpointColumnsObj}
 			className="my-masonry-grid flex justify-center w-full pl-3">
