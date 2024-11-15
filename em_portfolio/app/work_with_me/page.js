@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Chips from "./components/chips";
 import { parse_api_richtext } from "../utils/richtext";
 import Markdown from "react-markdown";
-import Title from "../components/title";
+import { stringify_strapi_richtext } from "../utils/richtext";
 
 // export const revalidate = Number(process.env.REVALIDATE);
 
@@ -24,10 +24,11 @@ export default function WorkWithMe() {
     useEffect(() => {
   
         get_page_data("work-with-me-page", (data) => {
+            console.log(data)
             set_emma_header(data.emma_header)
-            set_emma_section(parse_api_richtext(data.emma_section[0].children))
+            set_emma_section(stringify_strapi_richtext(data.emma_section))
             set_hayden_header(data.hayden_header)
-            set_hayden_section(parse_api_richtext(data.hayden_section[0].children))
+            set_hayden_section(stringify_strapi_richtext(data.hayden_section))
             set_image_src(data.image.url)
 
             set_emma_links(data.emma_links)
