@@ -51,12 +51,17 @@ const loadingSpring = useSpring({
 
 // Load new images when scroll reaches 75% of screen
 const handlescroll = () => {
+	console.log(scrollheight, scroll_decimal, "\n\n")
+
     const scrollheight = window.scrollY + window.innerHeight;
 	const scroll_decimal = scrollheight / document.documentElement.scrollHeight
+
+	console.log(scrollheight, scroll_decimal, "\n\n")
+
     if (
       !fetchingRef.current &&  // Are we currently fetching images? 
 	  scrollheight > scrollLimitRef.current && // Are we past the buffer zone set during the last load
-	  scroll_decimal >= 0.75 && // Have we scrolled 75% of the page?
+	  scroll_decimal >= 0.50 && // Have we scrolled 75% of the page?
 	  loadingLevelRef.current < maxloadingLevelRef.current // Are there any more image loads left to do?
     ) {
 		const newLoadingLevel = loadingLevelRef.current + 1;
@@ -80,6 +85,8 @@ useEffect(() => {
 useEffect(() => {
 
 	FetchImages()
+
+	console.log("haha")
 
 	// Attach the scroll handler
 	window.addEventListener('scroll', handlescroll, { passive: true });
@@ -143,7 +150,7 @@ const breakpointColumnsObj = {
 };
 
 return (
-	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll -translate-y-">
+	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll">
 
 	<Title text={"Gallery"}/>
 
