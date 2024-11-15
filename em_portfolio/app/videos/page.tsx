@@ -142,7 +142,7 @@ export default async function Videos() {
             </div>
 
             <div className="z-40">
-                <YoutubeStats videos={data} additional_video_links={video_links}></YoutubeStats>
+                <YoutubeStats videos={data}></YoutubeStats>
             </div>
             
         </div>
