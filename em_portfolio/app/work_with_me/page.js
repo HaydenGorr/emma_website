@@ -49,7 +49,7 @@ export default function WorkWithMe() {
     const imageSpring = useSpring({
 		from: { scale: 0.9, opacity: 0},
 		to: { scale: 1, opacity: 1},
-		config: { tension: 40, friction: 12, mass: 1 },
+		config: { tension: 0, friction: 12, mass: 1 },
 	  });
     const e_section = useSpring(get_animation_with_delay(100))
     const e_section2 = useSpring(get_animation_with_delay(200))

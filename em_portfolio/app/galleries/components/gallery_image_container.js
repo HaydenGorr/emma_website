@@ -7,6 +7,7 @@ export default function GalleryImageContainer({title, date, description, medium,
 
   const infoBoxRef = useRef(null)
 
+  const [fadeIn, setFadeIn] = useState(false);
   const [infoBoxHeight, setInfoBoxHeight] = useState("0px");
 
   const [focus, set_focus] = useState("")
@@ -25,8 +26,10 @@ export default function GalleryImageContainer({title, date, description, medium,
   });
 
   const containerHover = useSpring({
-    from: { scale: 0.9 },
-    to: { scale: mouseover ? 1.03 : 1 }
+    from: { scale: 1, opacity:0, transform: 'translateY(1rem)'},
+    to: fadeIn ? { scale: mouseover ? 1.03 : 1, opacity: 1, transform: 'translateY(0rem)'  }
+    : { scale: 1, opacity:0, transform: 'translateY(1rem)'},
+    delay: 100
   });
   
   useEffect(() => {
@@ -46,13 +49,14 @@ export default function GalleryImageContainer({title, date, description, medium,
     style={{...containerHover}}>
 
     <Image
-        className="w-full rounded-lg shadow-strong "
+        className="w-full rounded-lg shadow-strong max-h-fit object-cover"
         width={1000}
         height={1000}
         src={image_urls?.size_display || ''}
         alt={description}
         layout="responsive"
         style={{ zIndex: 50 }}
+        onLoad={() => setFadeIn(true)}
         onClick={() => { show_description_callback() }}
     />
     
