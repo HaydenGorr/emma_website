@@ -55,7 +55,7 @@ export default function YoutubeStats({ videos }) {
         from: {opacity: 0, transform: 'translateY(1rem)'},
         to: {  opacity: 1, transform: 'translateY(0rem)'},
         config: { tension: 100, friction: 12, mass: 1 },
-        delay: 100 * index
+        delay: (100 * index) + 300
       })
     )
   }
