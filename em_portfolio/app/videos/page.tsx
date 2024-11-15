@@ -1,4 +1,4 @@
-import YoutubeStats from "./youtube_stats";
+import YoutubeStats from "./components/youtube_stats";
 import { get_youtube_data_promise } from "../utils/api";
 import Title from "../components/title";
 import Chips from "./components/chips"

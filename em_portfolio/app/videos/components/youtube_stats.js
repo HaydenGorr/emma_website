@@ -1,4 +1,4 @@
-import { timeAgo } from "../utils/date_utils";
+import { timeAgo } from "../../utils/date_utils";
 import Image from "next/image";
 
 const colorClasses = {
@@ -94,13 +94,15 @@ export default function YoutubeStats({ videos }) {
                     {val.description}
                   </p>
 
-                  <div className="flex space-x-4">
-                    {val.keep_at_top && (
-                      <Image width={25} height={10} src="/icons/star.png" alt="Star icon" />
-                    )}
+                  <div className="flex justify-between">
                     <p className={`text-xs self-start lg:self-start md:self-center py-1 whitespace-nowrap px-4 w-fit h-fit text-center ${colors.badge} rounded-full`}>
                       {timeAgo(val.date)}
                     </p>
+
+                    {val.keep_at_top && (
+                      <Image width={25} height={25} className="h-5 w-5 my-auto" src="/icons/star.png" alt="Star icon" />
+                    )}
+
                   </div>
                 </div>
               </div>
