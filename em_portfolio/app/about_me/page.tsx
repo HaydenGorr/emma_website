@@ -1,6 +1,7 @@
 import { get_page_data_promise } from "../utils/api";
 import { stringify_strapi_richtext } from "../utils/richtext";
 import Text_Display from './components/text_display'
+import Title from "../components/title";
 
 export const revalidate = 300
 
@@ -13,9 +14,9 @@ export default async function About() {
     const main_text = await getPageData();
 
     return (
-        <div className="w-full relative items-center mt-24 flex flex-col mb-32">
+        <div className="w-full relative items-center flex flex-col">
             
-	        <p className='md:text-5xl sm:text-5xl text-4xl font-extrabold pb-12 lg:pb-20 z-50'>About me</p>
+            <Title text={"About me"}/>
 
             <div className="max-w-prose px-4 z-50 space-y-4">
 

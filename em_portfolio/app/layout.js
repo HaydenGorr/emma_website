@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
             
         <body className={`font-main w-screen h-screen flex flex-col bg-blue-smoke-50 text-blue-smoke-950`} >
         
-            <div className="flex-grow bg-blue-smoke-50 relative overflow-x-hidden">
+            <div className="flex-grow bg-blue-smoke-50 relative overflow-x-hidden pb-32">
                 {children}
                 <DecorativeLines/>
             </div>

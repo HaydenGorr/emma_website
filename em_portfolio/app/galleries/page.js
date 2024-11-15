@@ -10,6 +10,7 @@ import MediumFilter from "./components/medium_filter";
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import ImageSkeleton from "../components/image_skeleton";
 import { getFullImageUrl, getDisplayImageUrl } from "../utils/getimageurl";
+import Title from "../components/title"
 
 export default function Galleries() {
 
@@ -144,7 +145,7 @@ const breakpointColumnsObj = {
 return (
 	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll -translate-y-">
 
-	<p className='md:text-5xl sm:text-5xl text-4xl font-extrabold py-20 lg:py-20 z-50'>Gallery</p>
+	<Title text={"Gallery"}/>
 
 	<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
 		{!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">

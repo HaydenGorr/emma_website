@@ -137,13 +137,13 @@ return (
         {greeting&&<div className={`h-full flex items-center text-center w-full justify-center px-4 lg:px-32 lg:pr-64 flex-col lg:flex-row`}>
 
             {/** LEFT SIDE */}
-            {your_name && <div className='left-side flex flex-col justify-start items-start order-3 lg:order-1 pb-32 lg:pb-0 z-50'>
+            {your_name && <div className='left-side flex flex-col justify-start items-start order-3 lg:order-1 lg:pb-0 z-50'>
               
             <animated.div className={`font-header text-blue-smoke-800 my-8`} style={{ ...NameSprings }}>
                 <h1 className='lg:text-left text-center'><span className='text-lg text-blue-smoke-700'>{visited_before > 1 ? visit_again_message : greeting}</span> <span className='md:text-6xl sm:text-5xl text-4xl font-extrabold'>{your_name}</span></h1>
             </animated.div>
 
-            <animated.div className={`text-lg lg:text-left text-center lg:mx-0 mx-auto mb-12 max-w-96`} style={{ ...DescSprings }}>
+            <animated.div className={`sm:text-lg lg:text-left text-base text-center lg:mx-0 mx-auto mb-12 max-w-96`} style={{ ...DescSprings }}>
                 <Markdown>{desc}</Markdown>
             </animated.div>
 
