@@ -55,8 +55,6 @@ const handlescroll = () => {
     const scrollheight = window.scrollY + window.innerHeight;
 	const scroll_decimal = scrollheight / document.documentElement.scrollHeight
 
-	console.log(scrollheight, scroll_decimal, "\n\n")
-
     if (
       !fetchingRef.current &&  // Are we currently fetching images? 
 	  scrollheight > scrollLimitRef.current && // Are we past the buffer zone set during the last load
@@ -84,8 +82,6 @@ useEffect(() => {
 useEffect(() => {
 
 	FetchImages()
-
-	console.log("haha")
 
 	// Attach the scroll handler
 	window.addEventListener('scroll', handlescroll, { passive: true });
@@ -154,15 +150,10 @@ return (
 	<Title text={"Gallery"}/>
 
 	<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
-		{!show_images && <animated.div style={{...loadingSpring}} className="space-y-8">
-		<ImageSkeleton h={"h-16"}></ImageSkeleton>
-		<ImageSkeleton h={"h-16"}></ImageSkeleton>
-		</animated.div>}
-
-		{show_images && <div style={{...springs}} className="space-y-8">
-			<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
-			<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
-		</div>}
+		<div style={{...springs}} className="space-y-8">
+			<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} border_colour={"border-pancho-400"} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
+			<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} border_colour={"border-perfume-400"} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
+		</div>
 
 	</div>
 

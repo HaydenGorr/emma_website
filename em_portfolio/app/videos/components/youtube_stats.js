@@ -1,5 +1,7 @@
+'use client'
 import { timeAgo } from "../../utils/date_utils";
 import Image from "next/image";
+import { useSpring, animated } from "@react-spring/web";
 
 const colorClasses = {
   "perfume": {
@@ -47,6 +49,17 @@ export default function YoutubeStats({ videos }) {
     return colorClasses[colorName];
   };
 
+  const getSprings = (index) => {
+    return (
+      useSpring({
+        from: {opacity: 0, transform: 'translateY(1rem)'},
+        to: {  opacity: 1, transform: 'translateY(0rem)'},
+        config: { tension: 100, friction: 12, mass: 1 },
+        delay: 100 * index
+      })
+    )
+  }
+
   return (
     <div className="flex flex-col mb-32 relative">
       <div className="self-center w-full lg:max-w-[55rem] space-y-16 px-4 z-50">
@@ -54,7 +67,8 @@ export default function YoutubeStats({ videos }) {
           const colors = getColorClasses(index);
           
           return (
-            <div 
+            <animated.div 
+              style={getSprings(index)}
               key={index} 
               className={`w-full p-4 flex rounded-3xl flex-col lg:flex-row shadow-strong ${colors.bg} ${
                 val.keep_at_top ? `relative border ${colors.border}` : ""
@@ -106,7 +120,7 @@ export default function YoutubeStats({ videos }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </animated.div>
           );
         })}
       </div>

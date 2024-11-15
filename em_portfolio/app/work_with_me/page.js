@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Chips from "./components/chips";
 import { parse_api_richtext } from "../utils/richtext";
 import Markdown from "react-markdown";
+import Title from "../components/title";
 
 // export const revalidate = Number(process.env.REVALIDATE);
 
@@ -19,8 +20,7 @@ export default function WorkWithMe() {
     const [emma_links, set_emma_links] = useState([])
     const [hayden_links, set_hayden_links] = useState([])
     const [image_src, set_image_src] = useState("")
-
-
+    
     useEffect(() => {
   
         get_page_data("work-with-me-page", (data) => {
@@ -38,7 +38,7 @@ export default function WorkWithMe() {
 
     const get_animation_with_delay = (delay) => {
         var page_animation = {
-            from: {opacity: 0, y: -30,},
+            from: {opacity: 0, y: 30,},
             to: {opacity: 1, y: 0},
             config: { friction: 30, mass: 2 }
         }
@@ -46,7 +46,11 @@ export default function WorkWithMe() {
         return page_animation
     }
 
-    const imageSpring = useSpring(get_animation_with_delay(0))
+    const imageSpring = useSpring({
+		from: { scale: 0.9, opacity: 0},
+		to: { scale: 1, opacity: 1},
+		config: { tension: 40, friction: 12, mass: 1 },
+	  });
     const e_section = useSpring(get_animation_with_delay(100))
     const e_section2 = useSpring(get_animation_with_delay(200))
     const e_section3 = useSpring(get_animation_with_delay(300))

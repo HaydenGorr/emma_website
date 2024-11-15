@@ -3,6 +3,7 @@ import { get_youtube_data_promise } from "../utils/api";
 import Title from "../components/title";
 import Chips from "./components/chips"
 import { get_page_data_promise, get_strapi_videos_promise } from "../utils/api";
+import ChannelDisplay from "./components/channel_display"
 
 export const revalidate = 0
 
@@ -134,12 +135,12 @@ export default async function Videos() {
     const data: youtubeVideo[] = parse_video_response(await get_youtube_data_promise(), video_links)
 
     return (
-        <div className=" overflow-hidden flex flex-col">
-            <div className="self-center flex flex-col items-center mb-12">
+        <div className="overflow-hidden flex flex-col">
+            <div className="self-center">
                 <Title text={"My Videos"}></Title>
-                <Chips text={channel_name} link={channel_link}></Chips>
-                <p className="max-w-prose z-50 mt-4">{channel_description}</p>
             </div>
+
+            <ChannelDisplay channel_name={channel_name} channel_link={channel_link} channel_description={channel_description}/>
 
             <div className="z-40">
                 <YoutubeStats videos={data}></YoutubeStats>

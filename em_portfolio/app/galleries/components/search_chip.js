@@ -1,6 +1,10 @@
 import { animated, useSpring} from '@react-spring/web'
+import { useState } from 'react';
+import Image from 'next/image';
 
 export default function SearchChip({isSelected, onClick, text, colour}) {
+
+  const [clicked, setClicked] = useState(false)
 
     const chipSpring = useSpring({
         from: { transform: 'scale(1)' },
@@ -14,8 +18,10 @@ export default function SearchChip({isSelected, onClick, text, colour}) {
 
     return (
     <animated.button
-        className={`${colour} h-8 px-4 rounded-full font-medium text-sm z-50 whitespace-nowrap`}
-        onClick={()=>{onClick()}}
-        style={{...chipSpring}}>{text}</animated.button>
+        className={`${colour} h-8 px-4 flex rounded-full items-center font-bold text-sm z-50 whitespace-nowrap overflow-visible transition-shadow ${clicked ? "shadow-lg" : "shadow-sm"}`}
+        onClick={()=>{ setClicked(!clicked); onClick()}}
+        style={{...chipSpring}}>
+          {text}
+        </animated.button>
   );
 }
