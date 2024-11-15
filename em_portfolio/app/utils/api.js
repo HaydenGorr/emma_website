@@ -28,6 +28,25 @@ export const get_portfolio_images = async (level, selected_themes=[], selected_m
 }
 
 
+export const get_strapi_videos_promise = async () => {
+
+    try {
+        const response = await fetch(`https://www.emmadannpersonal.com/api/video-links?populate=*`, {
+            headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+
+}
+
+
 export const get_page_data = async (page, callback) => {
     fetch(`https://www.emmadannpersonal.com/api/${page}?populate=*`, 
         {
@@ -50,10 +69,10 @@ export const get_page_data_promise = async (page) => {
             }
         });
         const data = await response.json();
-        return data; // Return the data directly
+        return data;
     } catch (error) {
         console.error('Error:', error);
-        throw error; // Optionally re-throw the error if you want to handle it elsewhere
+        throw error;
     }
 };
 
@@ -63,9 +82,9 @@ export const get_youtube_data_promise = async (page) => {
             next: { revalidate: 300 }, 
         });
         const data = await response.json();
-        return data.items; // Return the data directly
+        return data.items;
     } catch (error) {
         console.error('Error:', error);
-        throw error; // Optionally re-throw the error if you want to handle it elsewhere
+        throw error;
     }
 };

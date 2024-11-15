@@ -1,10 +1,11 @@
 'use client'
 import { useState } from "react";
 import { timeAgo } from "../utils/date_utils";
+import Image from "next/image";
 
-const colours = ["pancho", "perfume", "sweet-corn", "blue-smoke" ]
+const colours = ["perfume", "sweet-corn", "blue-smoke", "matisse", "hibiscus", "magic-mint" ]
 
-export default function YoutubeStats({ videos, additional_video_links }) {
+export default function YoutubeStats({ videos }) {
 
     return (
         <div className="flex flex-col mb-32 relative">
@@ -12,7 +13,7 @@ export default function YoutubeStats({ videos, additional_video_links }) {
             <div className="self-center w-full lg:max-w-[55rem] space-y-16 px-4 z-50">
 
                 {videos.map((val, index) => (
-                    <div key={index} className={`w-full p-4 flex bg-${colours[index % colours.length]}-100 rounded-3xl flex-col lg:flex-row shadow-strong`}>
+                    <div key={index} className={`${val.keep_at_top ? `relative border border-${colours[index % colours.length]}-600` : ""} w-full p-4 flex bg-${colours[index % colours.length]}-100 rounded-3xl flex-col lg:flex-row shadow-strong`}>
 
                     {/* Video Container */}
                     <div
@@ -41,14 +42,23 @@ export default function YoutubeStats({ videos, additional_video_links }) {
                         <h1 className="md:order-1 order-2 lg:order-2 font-bold text-xl overflow-ellipsis whitespace-nowrap truncate">
                           {val.title}
                         </h1>
-                        <p className={`md:order-2 lg:order-1 order-1 text-xs mb-2 self-start lg:self-start md:self-center py-1 whitespace-nowrap px-4 md:ml-4 lg:ml-0 w-fit h-fit text-center bg-${colours[index % colours.length]}-400 rounded-full`}>
-                        {timeAgo(val.date)}
-                        </p>
                       </div>
                   
-                      <p className="mt-4 break-all">
-                        {val.description}
-                      </p>
+                      <div className="flex flex-col flex-grow">
+                        <p className="my-4 break-all flex-grow overflow-ellipsis">
+                          {val.description}
+                        </p>
+
+                        <div className="flex space-x-4">
+                          {val.keep_at_top &&
+                            <Image width={25} height={10} src={"/icons/star.png"}></Image>
+                          }
+                          <p className={`text-xs self-start lg:self-start md:self-center py-1 whitespace-nowrap px-4 w-fit h-fit text-center bg-${colours[index % colours.length]}-400 rounded-full`}>
+                            {timeAgo(val.date)}
+                          </p>
+
+                        </div>
+                      </div>
                     </div>
                   </div>
                   
