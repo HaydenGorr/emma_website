@@ -52,17 +52,17 @@ export default function MediumFilter({
 
                 {<div className={'flex justify-start space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
                 {chips.map((val: string, index) => {
-                return (
-                    <div className={`overflow-visible`}>
-                        <SearchChip
-                        key={index}
-                        isSelected={selected_items.includes(val.toUpperCase())}
-                        onClick={()=>{adjust_filter(return_updated_filter_list(val.toUpperCase()))}}
-                        text={val}
-                        colour={selected_items.includes(val.toUpperCase()) ? selected: unselected}/>
-                    </div>
-                )
-                })}
+                    return (
+                        <div className={`overflow-visible`}>
+                            <SearchChip
+                            key={val}
+                            isSelected={selected_items.includes(val.toUpperCase())}
+                            onClick={()=>{adjust_filter(return_updated_filter_list(val.toUpperCase()))}}
+                            text={val}
+                            colour={selected_items.includes(val.toUpperCase()) ? selected: unselected}/>
+                        </div>
+                    )
+                    })}
                 </div>}
                 
             </div>
