@@ -25,7 +25,7 @@ export default function GalleryImageContainer({title, date, description, medium,
   });
 
   const containerHover = useSpring({
-    from: { scale: 1 },
+    from: { scale: 0.9 },
     to: { scale: mouseover ? 1.03 : 1 }
   });
   
