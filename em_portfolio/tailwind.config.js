@@ -140,6 +140,29 @@ module.exports = {
       boxShadow: {
         'strong': '0 10px 30px rgba(0, 0, 0, 0.3)', // Example of a strong shadow
       },
+      keyframes: {
+        shimmer: {
+          '0%': { 
+            maskPosition: '200% 0',
+            WebkitMaskPosition: '200% 0',
+            opacity: '0.5'
+          },
+          '90%': {
+            maskPosition: '-100% 0',
+            WebkitMaskPosition: '-100% 0',
+            opacity: '0.5'
+          },
+          '100%': {
+            maskPosition: '-100% 0',
+            WebkitMaskPosition: '-100% 0',
+            opacity: '0'
+          }
+        }
+      },
+      animation: {
+        shimmer: 'shimmer 0.5s linear forwards'  // Changed to 'forwards' instead of 'infinite'
+      }
+      
     },
   },
   plugins: [

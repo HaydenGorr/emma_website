@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { timeAgo } from "../utils/date_utils";
 import Image from "next/image";
+import Shimmer from '../components/shimmer'
 
 const colours = ["perfume", "sweet-corn", "blue-smoke", "matisse", "hibiscus", "magic-mint" ]
 
@@ -13,7 +14,9 @@ export default function YoutubeStats({ videos }) {
             <div className="self-center w-full lg:max-w-[55rem] space-y-16 px-4 z-50">
 
                 {videos.map((val, index) => (
-                    <div key={index} className={`${val.keep_at_top ? `relative border border-${colours[index % colours.length]}-600` : ""} w-full p-4 flex bg-${colours[index % colours.length]}-100 rounded-3xl flex-col lg:flex-row shadow-strong`}>
+                  <div key={index} className={`${val.keep_at_top ? `relative overflow-hidden border border-${colours[index % colours.length]}-600` : ""} w-full p-4 flex bg-${colours[index % colours.length]}-100 rounded-3xl flex-col lg:flex-row shadow-strong`}>
+                      
+                    {val.keep_at_top && <Shimmer/>}
 
                     {/* Video Container */}
                     <div
