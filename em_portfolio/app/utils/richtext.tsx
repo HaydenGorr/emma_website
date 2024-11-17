@@ -1,10 +1,29 @@
+interface StrapiRichtextBlock_child {
+    text: string;
+    bold?: boolean;
+    italic?: boolean;
+}
+
+interface StrapiRichtextBlock_children {
+    text: string;
+    bold?: boolean;
+    italic?: boolean;
+    children?: Array<StrapiRichtextBlock_child | StrapiRichtextBlock_children>
+}
+
+interface StrapiRichtextBlock {
+    type: string;
+    format?: string;
+    children: StrapiRichtextBlock_children[];
+
+}
 
 const style_map = {
     bold: (str) => `**${str}**`,
     italic: (str) => `*${str}*`,
 }
 
-export const parse_api_richtext = (array_of_text) => {
+export const parse_api_richtext = (array_of_text: StrapiRichtextBlock_child[]) => {
     
     let str = ""
 
@@ -34,7 +53,9 @@ export const parse_api_richtext = (array_of_text) => {
     return str
 }
 
-export const stringify_strapi_richtext = (rich_text_block) => {
+
+
+export const stringify_strapi_richtext = (rich_text_block: StrapiRichtextBlock[]) => {
     return rich_text_block.map(block => {
         switch (block.type) {
             case 'paragraph':

@@ -49,16 +49,16 @@ export default function GalleryImageContainer({title, date, description, medium,
     style={{...containerHover}}>
 
     <Image
-        className="w-full rounded-lg shadow-strong object-cover"
-        width={1000}
-        height={1000}
-        src={image_urls?.size_display || ''}
-        alt={description}
-        layout="responsive"
-        style={{ zIndex: 50 }}
-        onLoad={() => setFadeIn(true)}
-        onClick={() => { show_description_callback() }}
+      className="rounded-lg shadow-strong w-full"
+      src={image_urls?.size_display || ''}
+      alt={description}
+      width={1200}
+      height={800}
+      priority={true}
+      onClick={() => show_description_callback()}
+      onLoad={() => setFadeIn(true)}
     />
+    
     
     <animated.div
         className="mt-2 bg-pancho-300 text-pancho-900 p-4 rounded-lg relative flex flex-col justify-between"

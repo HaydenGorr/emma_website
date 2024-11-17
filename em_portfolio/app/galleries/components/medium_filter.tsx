@@ -53,9 +53,8 @@ export default function MediumFilter({
                 {<div className={'flex justify-start space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
                 {chips.map((val: string, index) => {
                     return (
-                        <div className={`overflow-visible`}>
+                        <div className={`overflow-visible`} key={val}>
                             <SearchChip
-                            key={val}
                             isSelected={selected_items.includes(val.toUpperCase())}
                             onClick={()=>{adjust_filter(return_updated_filter_list(val.toUpperCase()))}}
                             text={val}
