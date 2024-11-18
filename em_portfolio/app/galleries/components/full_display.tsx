@@ -80,7 +80,7 @@ export default function FullDisplay({close, url, already_loaded, title, descript
 
 						<div ref={contRef} >
 							<img
-								
+								alt='mid-res image'
 								src={old_url}
 								className={`object-contain rounded-3xl shadow-strong max-h-full max-w-full ${showFullRes ? "hidden" : "visible"}`}
 							/>
@@ -88,6 +88,7 @@ export default function FullDisplay({close, url, already_loaded, title, descript
 
 						<div ref={fullRescontRef}>
 							<img
+								alt='full-res image'
 								src={url}
 								className={`object-contain rounded-3xl shadow-strong max-h-full max-w-full ${showFullRes ? "visible" : "hidden"}`}
 								onLoad={() => (set_showFullRes(true))}
@@ -98,7 +99,7 @@ export default function FullDisplay({close, url, already_loaded, title, descript
 						<div className='fixed bottom-0 flex justify-center flex-col items-center space-y-4 px-4 w-full'>
 							<button className='bg-hibiscus-100 text-hibiscus-900 px-2 py-1 rounded-lg flex space-x-2 w-fit' onClick={() => {setshowInfo(!showInfo)}}>
 								<p>{showInfo ? "close description" : "see description"}</p>
-								<Image src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0"/>
+								<Image alt={"click icon"} src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0"/>
 							</button>
 							{<animated.div className='max-w-prose w-full bg-magic-mint-100 p-4 rounded-t-lg flex flex-col' style={{...info_springs}}>
 								<div className='flex-grow'>
