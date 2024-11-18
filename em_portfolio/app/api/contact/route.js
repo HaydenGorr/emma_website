@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
   try {
-    const { message } = await request.json();
+    const { name, from, message } = await request.json();
 
     // Create a transporter using SMTP
     const transporter = nodemailer.createTransport({
@@ -21,8 +21,8 @@ export async function POST(request) {
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: process.env.ADMIN_EMAIL,
-      subject: 'New Contact Form Message',
-      text: message,
+      subject: `Quick Contact Message: ${from || ""}`,
+      text: `name: ${name || "unknown"}\n\nemail ${from||""}\n\n${message}`,
     });
 
     return NextResponse.json({ message: 'Email sent successfully' });

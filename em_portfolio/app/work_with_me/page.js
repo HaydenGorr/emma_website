@@ -60,12 +60,6 @@ export default function WorkWithMe() {
     const h_section2 = useSpring(get_animation_with_delay(500))
     const h_section3 = useSpring(get_animation_with_delay(600))
 
-    const boxExpandSpring = useSpring({
-		from: { height: "auto"},
-		to: { height: "auto", height: "auto"},
-		config: { tension: 0, friction: 12, mass: 1 },
-    });
-
     return (
         <div className={`h-full w-full items-center flex flex-col ${image_src ? "" : "hidden"}`}>
             <animated.div className={`w-40 h-40 my-20 shadow-strong relative aspect-square rounded-lg overflow-hidden z-40 bg-green-500`}
@@ -82,7 +76,7 @@ export default function WorkWithMe() {
 
                 {/** EMMA'S SECTION */}
                 <animated.div className="bg-perfume-300 p-4 rounded-lg text-perfume-800 font-bold border-2 border-perfume-400 mx-4"
-                style={e_section}>
+                style={{...e_section}}>
                     <div className="flex items-center justify-between">
                         {emma_header}
                         <button className="font-medium text-xs bg-perfume-400 py-1 px-2 rounded-full flex items-center" onClick={()=> {set_openContactForm(!openContactForm)}}>
@@ -117,10 +111,10 @@ export default function WorkWithMe() {
                 <animated.div className="bg-pancho-200 p-4 rounded-lg text-pancho-600 font-bold border-2 border-pancho-300 mx-4 flex justify-between items-center"
                 style={h_section}>
                     {hayden_header}
-                    <button className="font-medium text-xs bg-pancho-300 py-1 px-2 rounded-full flex items-center">
+                    {/* <button className="font-medium text-xs bg-pancho-300 py-1 px-2 rounded-full flex items-center">
                         {"quick contact"}
                         <Image src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0 ml-1"/>
-                    </button>
+                    </button> */}
                 </animated.div>
 
                 <animated.div className="flex max-w-full overflow-scroll" style={h_section2}>

@@ -3,6 +3,21 @@ import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import ThreeDots from 'react-loading-icons/dist/esm/components/three-dots';
 
+const colours = {
+    emma: {
+        input: {
+            bg: "bg-perfume-50",
+            border: "border-perfume-500/40"
+        },
+        button: {
+            bg: "bg-perfume-100"
+        }
+    },
+    hayden: {
+
+    }
+}
+
 enum message_states {
     creating_message,
     submitting,
@@ -24,7 +39,7 @@ const error_messages = {
     [ErrorTypes.message_too_long]: "Woah there, this message is a bit too long to send",
 }
 
-export default function ContactFormNew({ className }) {
+export default function ContactFormNew({ className, who }) {
 
     const [formData, setFormData] = useState<{name:string, email:string, message:string}>({
         name: '',
@@ -44,9 +59,9 @@ export default function ContactFormNew({ className }) {
     };
 
     const growSpring = useSpring({
-        from: { scale: 0.9 },
-        to: { scale: 1 },
-        config: { duration: 80 },
+        // from: { opacity: 0 },
+        // to: { opacity: 1 },
+        // config: { duration: 300 },
     });
 
     const verifyUserInput = (): { errors: ErrorTypes[]; isValid: boolean } => {
@@ -97,7 +112,7 @@ export default function ContactFormNew({ className }) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify( formData.message.trim() ),
+                body: JSON.stringify( {name: formData.name, from: formData.email, message: formData.message.trim()} ),
             });
         
             if (!response.ok) throw new Error('Failed to send message');
@@ -117,7 +132,7 @@ export default function ContactFormNew({ className }) {
             {messageState != message_states.success && <form onSubmit={handleSubmit} className='bg-perfume-100 rounded-lg p-4 h-fit'>
                 <div className='flex items-center'>
                     {"name"}
-                    <input name="name" value={formData.name} onChange={handleChange} className=" pl-0.5 w-full h-full my-2 ml-5 rounded-lg bg-perfume-50 border-perfume-500/40 border-2" 
+                    <input name="name" value={formData.name} onChange={handleChange} className={`pl-0.5 w-full h-full my-2 ml-5 rounded-lg ${colours.emma.input.bg} ${colours.emma.input.border} border-2`}
                         type='text' style={{ height: "2rem" }}
                     />
                 </div>
@@ -130,8 +145,8 @@ export default function ContactFormNew({ className }) {
 
                     <div className='flex items-center'>
                         {"email*"}
-                        <input name="email" value={formData.email} onChange={handleChange} placeholder={" this is mandatory"} 
-                        className={`pl-0.5 w-full h-full mb-2 ml-4 rounded-lg border-2 ${ errors ? "bg-perfume-50 border-perfume-500/40" : "bg-perfume-50 border-perfume-500/40"}`}
+                        <input name="email" value={formData.email} onChange={handleChange} placeholder={""} 
+                        className={`pl-0.5 w-full h-full mb-2 ml-4 rounded-lg border-2 ${colours.emma.input.bg} ${colours.emma.input.border}`}
                             type='email' style={{ height: "2rem" }}
                         />
                     </div>
@@ -146,12 +161,12 @@ export default function ContactFormNew({ className }) {
 
                     <div className='flex flex-col'>
                         {"message*"}
-                        <textarea name="message" value={formData.message} onChange={handleChange} placeholder={"What's up?"} className='px-0.5 items-center h-32 w-full rounded-lg bg-perfume-50 border-perfume-500/40 border-2' />
+                        <textarea name="message" value={formData.message} onChange={handleChange} placeholder={""} className={`px-0.5 items-center h-32 w-full rounded-lg ${colours.emma.input.bg} ${colours.emma.input.border} border-2`} />
                     </div>
                 </div>
             </form>}
           
-            { messageState != message_states.success && <button onClick={handleSubmit} disabled={messageState == message_states.submitting} className='py-1 px-2 bg-perfume-100 rounded-lg mt-4 self-center flex space-x-4 items-center'>
+            { messageState != message_states.success && <button onClick={handleSubmit} disabled={messageState == message_states.submitting} className={`py-1 px-2 ${colours.emma.button.bg} rounded-lg mt-4 self-center flex space-x-4 items-center`}>
                 {messageState == message_states.submitting ? "Submitting..." : "submit"}
                 {messageState != message_states.submitting && <Image alt="click icon" src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0 ml-1"/>}
                 {messageState == message_states.submitting && <ThreeDots className='h-6 w-6 ml-4' fill='#7d24a7' speed={.5}/>}
