@@ -65,7 +65,7 @@ export default function GalleryImageContainer({title, date, description, medium,
         onMouseOver={() => set_mouseover(true)} onMouseOut={() => set_mouseover(false)}
         style={{...containerHover}}>
 
-        {/* <Image
+        <Image
           ref={(elem) => { setRef(elem); }}
           className="rounded-lg shadow-strong w-full"
           src={image_urls?.size_display || ''}
@@ -75,16 +75,7 @@ export default function GalleryImageContainer({title, date, description, medium,
           priority={true}
           onClick={() => {set_expand(true); onClick()}}
           onLoad={() => setFadeIn(true)}
-        /> */}
-
-        <div ref={(elem) => { setRef(elem); }}>
-          <img
-            className="rounded-lg shadow-strong w-full"
-            src={image_urls?.size_display || ''}
-            alt={description}
-            onClick={() => {set_expand(true); onClick()}}
-            onLoad={() => setFadeIn(true)}/>
-        </div>
+        />
         
         
         {/* <animated.div
