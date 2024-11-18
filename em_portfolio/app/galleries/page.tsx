@@ -22,7 +22,9 @@ interface ImageProps {
 	image_urls: {
 		size_display: string;
 		size_full: string;
-	}
+	},
+	aspect_ratio: number;
+	width: number;
 }
 
 export default function Galleries() {
@@ -111,10 +113,6 @@ useEffect(() => {
 	FetchImages()
 }, [selected_themes, selected_mediums]);
 
-useEffect(() => {
-	// imageRefs.current = []
-});
-
 const adjust_filter = (themes=null, mediums=null) => {
 	if (themes) {set_selected_theme(themes)}
 	if (mediums) {set_selected_medium(mediums)}
@@ -134,17 +132,19 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=s
 		var formattedImages:ImageProps[] = []
 
 		for (let image_obj of res.data) {
-		formattedImages.push({
-			title: image_obj?.Title || 'No title available',
-			date: image_obj?.updatedAt || 'No date available',
-			description: image_obj?.description || 'No description available',
-			medium: image_obj?.medium_theme?.medium || 'uncategorised',
-			theme: image_obj?.medium_theme?.theme || 'uncategorised',
-			image_urls: {
-			size_display: `${process.env.NEXT_PUBLIC_BASE_URL}/${getDisplayImageUrl(image_obj)}`,
-			size_full: `${process.env.NEXT_PUBLIC_BASE_URL}/${getFullImageUrl(image_obj)}`
-			}
-		})
+			formattedImages.push({
+				title: image_obj?.Title || 'No title available',
+				date: image_obj?.updatedAt || 'No date available',
+				description: image_obj?.description || 'No description available',
+				medium: image_obj?.medium_theme?.medium || 'uncategorised',
+				theme: image_obj?.medium_theme?.theme || 'uncategorised',
+				image_urls: {
+					size_display: `${process.env.NEXT_PUBLIC_BASE_URL}/${getDisplayImageUrl(image_obj)}`,
+					size_full: `${process.env.NEXT_PUBLIC_BASE_URL}/${getFullImageUrl(image_obj)}`
+				},
+				aspect_ratio: image_obj.Image.width/image_obj.Image.height,
+				width: image_obj.Image.width
+			})
 		}
 
 		set_images((prevImages: ImageProps[]) => {
@@ -197,22 +197,13 @@ return (
 			<Masonry
 				breakpointCols={breakpointColumnsObj}
 				className="my-masonry-grid flex justify-center w-full pl-3">
-				{show_images ? images.map((val, index) => (
-				<animated.div key={index} className="w-full flex items-center px-8 pb-16 h-fit" style={{...springs}}>
+				{images.map((val, index) => (
+				<animated.div key={index} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
 					<GalleryImageContainer {...val} 
 					setRef={(elem) => setImageRef(index, elem)}
 					onClick={() => { set_expand(index) }}/>
 				</animated.div>
-				)) :
-				
-				[1,2,3,4,5,6].map((val, index) => (
-				<animated.div key={index} className="w-full flex items-center justify-center px-8 pb-16"
-				style={{...loadingSpring}}>
-					<ImageSkeleton h={"h-80"} w={"w-full"} />
-				</animated.div>
-				))
-
-				}
+				))}
 			</Masonry>
 		</div>
 	</div>
