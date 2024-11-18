@@ -56,8 +56,8 @@ const [show_images, set_show_images] = useState(false);
 const springs = useSpring({
 	from: { opacity: 0 },
 	to: show_images ? { opacity: 1 } : { opacity: 0 },
-	config: { duration: 500 }
-});
+	config: { duration: 500 },
+  });  
 
 const loadingSpring = useSpring({
 	from: { opacity: 1 },
@@ -186,10 +186,10 @@ return (
 		<Title text={"Gallery"}/>
 
 		<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
-			<div style={{...springs}} className="space-y-8">
+			<animated.div style={springs} className="space-y-8">
 				<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} border_colour={"border-pancho-400"} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
 				<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} border_colour={"border-perfume-400"} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
-			</div>
+			</animated.div>
 
 		</div>
 
@@ -200,8 +200,6 @@ return (
 				{show_images ? images.map((val, index) => (
 				<animated.div key={index} className="w-full flex items-center px-8 pb-16 h-fit" style={{...springs}}>
 					<GalleryImageContainer {...val} 
-					show_description_callback={set_showdesc}
-					showdesc={showdesc == index}
 					setRef={(elem) => setImageRef(index, elem)}
 					onClick={() => { set_expand(index) }}/>
 				</animated.div>
@@ -210,7 +208,7 @@ return (
 				[1,2,3,4,5,6].map((val, index) => (
 				<animated.div key={index} className="w-full flex items-center justify-center px-8 pb-16"
 				style={{...loadingSpring}}>
-					<ImageSkeleton h={"h-80"} />
+					<ImageSkeleton h={"h-80"} w={"w-full"} />
 				</animated.div>
 				))
 

@@ -5,7 +5,7 @@ import SearchChip from './search_chip';
 interface Props {
     chips: string[];
     selected_items: string[];
-    selected: string[];
+    selected: string;
     unselected: string;
     bg_clour: string;
     border_colour: string;

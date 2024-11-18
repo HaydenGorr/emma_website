@@ -9,18 +9,16 @@ interface props {
   description: string;
   medium: string;
   theme: string;
-  showdesc: boolean;
   date: Date;
   image_urls: {
     size_display: string;
     size_full: string;
   }
-  show_description_callback: () => void
   setRef: (element: HTMLImageElement | null) => void
   onClick: ()=> void
 }
 
-export default function GalleryImageContainer({title, date, description, medium, theme, image_urls, showdesc, show_description_callback, setRef, onClick}: props) {
+export default function GalleryImageContainer({title, date, description, medium, theme, image_urls, setRef, onClick}: props) {
 
   const infoBoxRef = useRef(null)
   const imageRef = useRef(null)
@@ -75,7 +73,7 @@ export default function GalleryImageContainer({title, date, description, medium,
           width={1200}
           height={800}
           priority={true}
-          onClick={() => {show_description_callback(); set_expand(true); onClick()}}
+          onClick={() => {set_expand(true); onClick()}}
           onLoad={() => setFadeIn(true)}
         />
         
