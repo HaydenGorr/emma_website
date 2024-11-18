@@ -1,18 +1,19 @@
 'use client'
-// import { useEffect, useState } from "react";
 import Image from "next/image";
 import { get_page_data } from "../utils/api";
 import { animated, useSpring} from '@react-spring/web'
 import { useEffect, useState } from "react";
 import Chips from "./components/chips";
-import { parse_api_richtext } from "../utils/richtext";
 import Markdown from "react-markdown";
 import { stringify_strapi_richtext } from "../utils/richtext";
 import { getSmallestImageUrl } from '../utils/getimageurl';
+import ContactFormNew from "./components/contact_form";
 
 // export const revalidate = Number(process.env.REVALIDATE);
 
 export default function WorkWithMe() {
+
+    const [openContactForm, set_openContactForm] = useState(false)
 
     const [emma_header, set_emma_header] = useState("")
     const [emma_section, set_emma_section] = useState("")
@@ -59,6 +60,12 @@ export default function WorkWithMe() {
     const h_section2 = useSpring(get_animation_with_delay(500))
     const h_section3 = useSpring(get_animation_with_delay(600))
 
+    const boxExpandSpring = useSpring({
+		from: { height: "auto"},
+		to: { height: "auto", height: "auto"},
+		config: { tension: 0, friction: 12, mass: 1 },
+    });
+
     return (
         <div className={`h-full w-full items-center flex flex-col ${image_src ? "" : "hidden"}`}>
             <animated.div className={`w-40 h-40 my-20 shadow-strong relative aspect-square rounded-lg overflow-hidden z-40 bg-green-500`}
@@ -76,10 +83,20 @@ export default function WorkWithMe() {
                 {/** EMMA'S SECTION */}
                 <animated.div className="bg-perfume-300 p-4 rounded-lg text-perfume-800 font-bold border-2 border-perfume-400 mx-4"
                 style={e_section}>
-                    {emma_header}
+                    <div className="flex items-center justify-between">
+                        {emma_header}
+                        <button className="font-medium text-xs bg-perfume-400 py-1 px-2 rounded-full flex items-center" onClick={()=> {set_openContactForm(!openContactForm)}}>
+                            {"quick contact"}
+                            <Image src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0 ml-1"/>
+                        </button>
+                    </div>
+
+                    {openContactForm && <ContactFormNew className={"mt-4"}></ContactFormNew>}
+
                 </animated.div>
 
                 <animated.div className="flex max-w-full overflow-scroll" style={e_section2}>
+                    {/* <button className="bg-perfume-200 px-2 py-0.5 text-sm rounded-lg text-perfume-600">quick contact</button> */}
                     {emma_links.map((chip, index) => {
                         return (
                             <div className="mx-4" key={index}>
@@ -97,16 +114,20 @@ export default function WorkWithMe() {
 
 
                 {/** HAYDEN'S SECTION */}
-                <animated.div className="bg-pancho-200 p-4 rounded-lg text-pancho-500 font-bold border-2 border-pancho-300 mx-4"
+                <animated.div className="bg-pancho-200 p-4 rounded-lg text-pancho-600 font-bold border-2 border-pancho-300 mx-4 flex justify-between items-center"
                 style={h_section}>
                     {hayden_header}
+                    <button className="font-medium text-xs bg-pancho-300 py-1 px-2 rounded-full flex items-center">
+                        {"quick contact"}
+                        <Image src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0 ml-1"/>
+                    </button>
                 </animated.div>
 
                 <animated.div className="flex max-w-full overflow-scroll" style={h_section2}>
                 {hayden_links.map((chip, index) => {
                     return (
                         <div className="mx-4" key={index}>
-                            <Chips {...chip} bg_colour={"bg-pancho-100"} text_colour={"text-pancho-500"}/>
+                            <Chips {...chip} bg_colour={"bg-pancho-100"} text_colour={"text-pancho-500"} />
                         </div>
                     )
                 })}
