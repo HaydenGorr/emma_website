@@ -11,6 +11,19 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import ImageSkeleton from "../components/image_skeleton";
 import { getFullImageUrl, getDisplayImageUrl } from "../utils/getimageurl";
 import Title from "../components/title"
+import FullDisplay from './components/full_display'
+
+interface ImageProps {
+	title: string;
+	date: Date;
+	description: string;
+	medium: string;
+	theme: string;
+	image_urls: {
+		size_display: string;
+		size_full: string;
+	}
+}
 
 export default function Galleries() {
 
@@ -19,9 +32,10 @@ const Medium_chips = ["painting", "drawing", "sculpture", "digital", "print", "m
 const [selected_themes, set_selected_theme] = useState([]); // For filtering
 const [selected_mediums, set_selected_medium] = useState([]); // For filtering
 
-const [images, set_images] = useState([]);
+const [images, set_images] = useState<ImageProps[]>([]);
 const [showdesc, set_showdesc] = useState(null);
 const [loading, set_loading] = useState(true);
+const [expand, set_expand] = useState<number>(-1); 
 
 // const [loadingLevel, set_loadingLevel] = useState(1);
 
@@ -29,6 +43,8 @@ const scrollLimitRef = useRef(0);
 const loadingLevelRef = useRef(1); // The current page we have loaded. Will incriment
 const maxloadingLevelRef = useRef(1); // The current page we have loaded. Will incriment. 1 is initial value
 const fetchingRef = useRef(false); // The current page we have loaded. Will incriment
+
+const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
 
 /** Used to show images once they've loaded
  * The loaded state var won't do because it toggled on load
@@ -95,6 +111,10 @@ useEffect(() => {
 	FetchImages()
 }, [selected_themes, selected_mediums]);
 
+useEffect(() => {
+	// imageRefs.current = []
+});
+
 const adjust_filter = (themes=null, mediums=null) => {
 	if (themes) {set_selected_theme(themes)}
 	if (mediums) {set_selected_medium(mediums)}
@@ -111,7 +131,7 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=s
 	get_portfolio_images(inloadingLevel, inselected_themes, inselected_mediums, (res) => {
 		if (isFirstLoad) maxloadingLevelRef.current = res.meta.pagination.pageCount
 
-		var formattedImages = []
+		var formattedImages:ImageProps[] = []
 
 		for (let image_obj of res.data) {
 		formattedImages.push({
@@ -127,7 +147,7 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=s
 		})
 		}
 
-		set_images((prevImages) => {
+		set_images((prevImages: ImageProps[]) => {
 			const finalArray = isFirstLoad ? [] : [...prevImages];
 			return [...finalArray, ...formattedImages];
 		});
@@ -144,39 +164,59 @@ const breakpointColumnsObj = {
 	700: 1
 };
 
+const setImageRef = (index: number, elem:HTMLImageElement) => {
+    if (elem) {
+      imageRefs.current[index] = elem;
+    }
+};
+
 return (
 	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll">
 
-	<Title text={"Gallery"}/>
+		{expand > -1 && <FullDisplay 
+			close={() => { set_expand(-1) }}
+			url={images[expand].image_urls.size_full}
+			already_loaded={imageRefs.current[expand].complete}
+			title={images[expand].title}
+			description={images[expand].description}
+			medium={images[expand].medium}
+			theme={images[expand].theme}
+			old_url={images[expand].image_urls.size_display}/>}
+	
+		<Title text={"Gallery"}/>
 
-	<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
-		<div style={{...springs}} className="space-y-8">
-			<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} border_colour={"border-pancho-400"} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
-			<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} border_colour={"border-perfume-400"} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
+		<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
+			<div style={{...springs}} className="space-y-8">
+				<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} border_colour={"border-pancho-400"} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
+				<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} border_colour={"border-perfume-400"} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
+			</div>
+
 		</div>
 
-	</div>
+		<div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
+			<Masonry
+				breakpointCols={breakpointColumnsObj}
+				className="my-masonry-grid flex justify-center w-full pl-3">
+				{show_images ? images.map((val, index) => (
+				<animated.div key={index} className="w-full flex items-center px-8 pb-16 h-fit" style={{...springs}}>
+					<GalleryImageContainer {...val} 
+					show_description_callback={set_showdesc}
+					showdesc={showdesc == index}
+					setRef={(elem) => setImageRef(index, elem)}
+					onClick={() => { set_expand(index) }}/>
+				</animated.div>
+				)) :
+				
+				[1,2,3,4,5,6].map((val, index) => (
+				<animated.div key={index} className="w-full flex items-center justify-center px-8 pb-16"
+				style={{...loadingSpring}}>
+					<ImageSkeleton h={"h-80"} />
+				</animated.div>
+				))
 
-	<div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
-		<Masonry
-			breakpointCols={breakpointColumnsObj}
-			className="my-masonry-grid flex justify-center w-full pl-3">
-			{show_images ? images.map((val, index) => (
-			<animated.div key={index} className="w-full flex items-center px-8 pb-4 h-fit" style={{...springs}}>
-				<GalleryImageContainer {...val} show_description_callback={set_showdesc} showdesc={showdesc == index} />
-			</animated.div>
-			)) :
-			
-			[1,2,3,4,5,6].map((val, index) => (
-			<animated.div key={index} className="w-full flex items-center justify-center px-8 pb-16"
-			style={{...loadingSpring}}>
-				<ImageSkeleton  h={"h-80"} />
-			</animated.div>
-			))
-
-			}
-		</Masonry>
-	</div>
+				}
+			</Masonry>
+		</div>
 	</div>
 );
 }
