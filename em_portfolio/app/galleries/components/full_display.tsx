@@ -37,7 +37,7 @@ export default function FullDisplay({close, url, already_loaded, title, descript
 			? { transform: 'translateY(0rem)', opacity: 1 }
 			: { transform: 'translateY(-5rem)', opacity: 0 },
 		config: { tension: 25, friction: 20, mass: 1 },
-		delay: 300
+		delay: 0
 	});
 
 	const info_springs = useSpring({

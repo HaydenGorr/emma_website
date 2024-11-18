@@ -1,0 +1,21 @@
+# Default robots.txt for Next.js website
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin paths
+Disallow: /admin/
+Disallow: /api/
+
+# Disallow Strapi backend path
+Disallow: /admin/
+
+# Common files to disallow
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# Sitemap location (uncomment and adjust if you have a sitemap)
+# Sitemap: https://www.emmadannpersonal.com/sitemap.xml
+
+# Crawl-delay: 10
