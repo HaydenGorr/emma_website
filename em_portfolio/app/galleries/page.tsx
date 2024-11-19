@@ -86,19 +86,6 @@ const handlescroll = () => {
 		loadingLevelRef.current = newLoadingLevel
 		scrollLimitRef.current = document.documentElement.scrollHeight * 0.75;
     }
-	else{
-		console.log("not fetching new")
-		console.log(
-			{
-				a: !fetchingRef.current,
-				b: scrollheight > scrollLimitRef.current,
-				c: scroll_decimal >= 0.50,
-				d: loadingLevelRef.current <= maxloadingLevelRef.current,
-				e: scrollLimitRef.current,
-				f: scrollheight,
-			}
-		)
-	}
 };
 
 useEffect(() => {
