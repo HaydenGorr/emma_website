@@ -2,6 +2,7 @@ import { get_page_data_promise } from "../utils/api";
 import { stringify_strapi_richtext } from "../utils/richtext";
 import Text_Display from './components/text_display'
 import Title from "../components/title";
+import ArticleContainer from "./components/articleContainer"
 
 export const revalidate = 300
 
@@ -17,6 +18,8 @@ export default async function About() {
         <div className="w-full relative items-center flex flex-col">
             
             <Title text={"About me"}/>
+
+            <ArticleContainer className={"max-w-prose"}/>
 
             <div className="max-w-prose px-4 z-50 space-y-4">
 
