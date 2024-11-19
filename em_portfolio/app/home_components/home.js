@@ -170,9 +170,8 @@ return (
             {image_src && <animated.div className={`lg:w-56 lg:h-56 w-40 h-40 relative aspect-square rounded-full overflow-hidden z-40 shadow-strong mt-8 lg:pt-0`} style={{ ...profil_picSprings }}>
                 <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/${image_src}`}
-                alt={'Square Image'}
-                width={150}
-                height={150}
+                alt={'Main pic'}
+                fill
                 className="object-cover object-[-15%_10%]"
                 />
             </animated.div>}
