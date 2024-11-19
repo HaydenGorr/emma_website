@@ -76,7 +76,7 @@ const handlescroll = () => {
 
     if (
       !fetchingRef.current &&  // Are we currently fetching images? 
-	  scrollheight >= scrollLimitRef.current && // Are we past the buffer zone set during the last load
+	  scrollheight > scrollLimitRef.current && // Are we past the buffer zone set during the last load
 	  scroll_decimal >= 0.50 && // Have we scrolled 75% of the page?
 	  loadingLevelRef.current < maxloadingLevelRef.current // Are there any more image loads left to do?
     ) {
@@ -84,7 +84,7 @@ const handlescroll = () => {
 		const newLoadingLevel = loadingLevelRef.current + 1;
         FetchImages(newLoadingLevel, selected_themes, selected_mediums);
 		loadingLevelRef.current = newLoadingLevel
-		scrollLimitRef.current = document.documentElement.scrollHeight - 200;
+		scrollLimitRef.current = document.documentElement.scrollHeight * 0.75;
     }
 	else{
 		console.log("not fetching new")
