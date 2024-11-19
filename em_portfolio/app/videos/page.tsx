@@ -44,7 +44,6 @@ export default async function Videos() {
          */
         var keep_at_top_videos: youtubeVideo[] = video_links
         .filter((vid: VideoLink_strapi) => {
-            console.log("there", vid)
             return vid.keep_at_top
         })
         .map((val: VideoLink_strapi): youtubeVideo => {

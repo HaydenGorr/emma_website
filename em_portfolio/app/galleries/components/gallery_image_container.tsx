@@ -59,7 +59,6 @@ const hide_loading = useSpring({
 });
 
 useEffect(() => {
-	console.log(Math.round(width*aspect_ratio))
 	// Update the height when focus changes
 	if (focus && infoBoxRef.current) {
 	setInfoBoxHeight(`${infoBoxRef.current.scrollHeight + 16}px`);

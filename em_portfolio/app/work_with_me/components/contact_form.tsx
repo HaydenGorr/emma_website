@@ -98,8 +98,6 @@ export default function ContactFormNew({ className, who }) {
 
         const { errors, isValid } = verifyUserInput();
 
-        console.log(errors)
-
         if (!isValid) {
             setErrors(errors)
             setmessageState(message_states.failed)

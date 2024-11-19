@@ -14,6 +14,7 @@ import Title from "../components/title"
 import FullDisplay from './components/full_display'
 
 interface ImageProps {
+	id: number;
 	title: string;
 	date: Date;
 	description: string;
@@ -75,15 +76,29 @@ const handlescroll = () => {
 
     if (
       !fetchingRef.current &&  // Are we currently fetching images? 
-	  scrollheight > scrollLimitRef.current && // Are we past the buffer zone set during the last load
+	  scrollheight >= scrollLimitRef.current && // Are we past the buffer zone set during the last load
 	  scroll_decimal >= 0.50 && // Have we scrolled 75% of the page?
 	  loadingLevelRef.current < maxloadingLevelRef.current // Are there any more image loads left to do?
     ) {
+		console.log("fetching new")
 		const newLoadingLevel = loadingLevelRef.current + 1;
         FetchImages(newLoadingLevel, selected_themes, selected_mediums);
 		loadingLevelRef.current = newLoadingLevel
-		scrollLimitRef.current = document.documentElement.scrollHeight;
+		scrollLimitRef.current = document.documentElement.scrollHeight - 200;
     }
+	else{
+		console.log("not fetching new")
+		console.log(
+			{
+				a: !fetchingRef.current,
+				b: scrollheight > scrollLimitRef.current,
+				c: scroll_decimal >= 0.50,
+				d: loadingLevelRef.current <= maxloadingLevelRef.current,
+				e: scrollLimitRef.current,
+				f: scrollheight,
+			}
+		)
+	}
 };
 
 useEffect(() => {
@@ -122,6 +137,8 @@ const adjust_filter = (themes=null, mediums=null) => {
 
 const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=selected_themes, inselected_mediums=selected_mediums) => {
 
+	console.log("maxloadingLevelRef", loadingLevelRef.current)
+
 	fetchingRef.current = true
 
 	const isFirstLoad = inloadingLevel === 1;
@@ -133,6 +150,7 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=s
 
 		for (let image_obj of res.data) {
 			formattedImages.push({
+				id: image_obj.id,
 				title: image_obj?.Title || 'No title available',
 				date: image_obj?.updatedAt || 'No date available',
 				description: image_obj?.description || 'No description available',
@@ -198,7 +216,7 @@ return (
 				breakpointCols={breakpointColumnsObj}
 				className="my-masonry-grid flex justify-center w-full pl-3">
 				{images.map((val, index) => (
-				<animated.div key={index} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
+				<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
 					<GalleryImageContainer {...val} 
 					setRef={(elem) => setImageRef(index, elem)}
 					onClick={() => { set_expand(index) }}/>
