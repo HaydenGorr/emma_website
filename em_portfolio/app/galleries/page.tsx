@@ -46,6 +46,8 @@ const scrollLimitRef = useRef(0);
 const loadingLevelRef = useRef(1); // The current page we have loaded. Will incriment
 const maxloadingLevelRef = useRef(1); // The current page we have loaded. Will incriment. 1 is initial value
 const fetchingRef = useRef(false); // The current page we have loaded. Will incriment
+const themes_for_searching = useRef<string[]>([]); // The current page we have loaded. Will incriment
+const mediums_for_searching = useRef<string[]>([]); // The current page we have loaded. Will incriment
 
 const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
 
@@ -80,9 +82,8 @@ const handlescroll = () => {
 	  scroll_decimal >= 0.50 && // Have we scrolled 75% of the page?
 	  loadingLevelRef.current < maxloadingLevelRef.current // Are there any more image loads left to do?
     ) {
-		console.log("fetching new")
 		const newLoadingLevel = loadingLevelRef.current + 1;
-        FetchImages(newLoadingLevel, selected_themes, selected_mediums);
+        FetchImages(newLoadingLevel);
 		loadingLevelRef.current = newLoadingLevel
 		scrollLimitRef.current = document.documentElement.scrollHeight * 0.75;
     }
@@ -111,33 +112,44 @@ useEffect(() => {
 
 }, []);
 
-useEffect(() => {
-	FetchImages()
-}, [selected_themes, selected_mediums]);
+// useEffect(() => {
+// 	console.log("changed")
+// 	loadingLevelRef.current = 1
+// 	scrollLimitRef.current = 0
+// 	FetchImages()
+// }, [selected_themes, selected_mediums]);
 
-const adjust_filter = (themes=null, mediums=null) => {
+const adjust_filter = (themes:string[]=[], mediums:string[]=[]) => {
 	if (themes) {set_selected_theme(themes)}
 	if (mediums) {set_selected_medium(mediums)}
+
+	themes_for_searching.current = themes || [];
+	mediums_for_searching.current = mediums || [];
+
 	loadingLevelRef.current = 1
 	scrollLimitRef.current = 0
+	FetchImages()
 }
 
-const FetchImages = (inloadingLevel=loadingLevelRef.current, inselected_themes=selected_themes, inselected_mediums=selected_mediums) => {
-
-	console.log("maxloadingLevelRef", loadingLevelRef.current)
+const FetchImages = (inloadingLevel=loadingLevelRef.current) => {
 
 	fetchingRef.current = true
 
 	const isFirstLoad = inloadingLevel === 1;
 
-	get_portfolio_images(inloadingLevel, inselected_themes, inselected_mediums, (res) => {
+
+	console.log("yep ", themes_for_searching, mediums_for_searching)
+
+	get_portfolio_images(inloadingLevel, themes_for_searching.current, mediums_for_searching.current, (res) => {
 		if (isFirstLoad) maxloadingLevelRef.current = res.meta.pagination.pageCount
 
 		var formattedImages:ImageProps[] = []
 
+		console.log(res.data)
+
 		for (let image_obj of res.data) {
 			formattedImages.push({
-				id: image_obj.id,
+				id: 2,
 				title: image_obj?.Title || 'No title available',
 				date: image_obj?.updatedAt || 'No date available',
 				description: image_obj?.description || 'No description available',

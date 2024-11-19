@@ -2,6 +2,8 @@
 
 export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], callback) => {
 
+    console.log("calling with: ", level, selected_themes, selected_mediums)
+
     const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=25&pagination[page]=${level}&sort=createdAt:desc`
     
     const theme_addition = selected_themes.map((val, index) => {
