@@ -1,10 +1,10 @@
 
 
-export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], callback) => {
+export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], get_pinned=false, callback) => {
 
     console.log("calling with: ", level, selected_themes, selected_mediums)
 
-    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=25&pagination[page]=${level}&sort=createdAt:desc`
+    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '100' : '25'}&pagination[page]=${level}&sort=createdAt:desc`
     
     const theme_addition = selected_themes.map((val, index) => {
         return `filters[$and][0][$or][${index}][medium_theme][theme][$eq]=${val}`;
@@ -14,7 +14,12 @@ export const get_portfolio_images = async (level, selected_themes=[], selected_m
         return `filters[$and][1][$or][${index}][medium_theme][medium][$eq]=${val}`;
     }).join('&');
 
-    const final_url = step1_url + (theme_addition ? `&${theme_addition}` : '') + (medium_addition ? `&${medium_addition}` : '')
+    // Add the pinned filter as another AND condition
+    const pinned_filter = get_pinned 
+    ? `filters[$and][2][pinned][$eq]=true`
+    : `filters[$and][2][$or][0][pinned][$eq]=false&filters[$and][2][$or][1][pinned][$null]=true`;
+
+    const final_url = step1_url + (theme_addition ? `&${theme_addition}` : '') + (medium_addition ? `&${medium_addition}` : '') + (`&${pinned_filter}`)
 
     fetch(final_url, 
         {
@@ -26,7 +31,6 @@ export const get_portfolio_images = async (level, selected_themes=[], selected_m
     .then(response => response.json())
     .then(data => callback(data))
     .catch(error => console.error('Error:', error));
-
 }
 
 

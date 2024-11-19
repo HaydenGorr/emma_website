@@ -7,9 +7,6 @@ import FullDisplay from './full_display';
 interface props {
 title: string;
 description: string;
-medium: string;
-theme: string;
-date: Date;
 image_urls: {
 	size_display: string;
 	size_full: string;

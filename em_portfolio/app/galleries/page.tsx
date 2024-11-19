@@ -12,6 +12,7 @@ import ImageSkeleton from "../components/image_skeleton";
 import { getFullImageUrl, getDisplayImageUrl } from "../utils/getimageurl";
 import Title from "../components/title"
 import FullDisplay from './components/full_display'
+import PinnedGalleryImageContainer from "./components/pinned_gallery_image_container";
 
 interface ImageProps {
 	id: number;
@@ -26,6 +27,7 @@ interface ImageProps {
 	},
 	aspect_ratio: number;
 	width: number;
+	pinned: boolean;
 }
 
 export default function Galleries() {
@@ -36,6 +38,7 @@ const [selected_themes, set_selected_theme] = useState([]); // For filtering
 const [selected_mediums, set_selected_medium] = useState([]); // For filtering
 
 const [images, set_images] = useState<ImageProps[]>([]);
+const [pinned_images, set_pinned_images] = useState<ImageProps[]>([]);
 const [showdesc, set_showdesc] = useState(null);
 const [loading, set_loading] = useState(true);
 const [expand, set_expand] = useState<number>(-1); 
@@ -102,6 +105,7 @@ useEffect(() => {
 
 useEffect(() => {
 
+	FetchPinnedImages()
 	FetchImages()
 
 	// Attach the scroll handler
@@ -112,13 +116,6 @@ useEffect(() => {
 
 }, []);
 
-// useEffect(() => {
-// 	console.log("changed")
-// 	loadingLevelRef.current = 1
-// 	scrollLimitRef.current = 0
-// 	FetchImages()
-// }, [selected_themes, selected_mediums]);
-
 const adjust_filter = (themes:string[]=[], mediums:string[]=[]) => {
 	if (themes) {set_selected_theme(themes)}
 	if (mediums) {set_selected_medium(mediums)}
@@ -128,7 +125,36 @@ const adjust_filter = (themes:string[]=[], mediums:string[]=[]) => {
 
 	loadingLevelRef.current = 1
 	scrollLimitRef.current = 0
+	FetchPinnedImages();
 	FetchImages()
+}
+
+const process_image_fetch_request = (result_data)  => {
+	var formattedImages:ImageProps[] = []
+	for (let image_obj of result_data) {
+		formattedImages.push({
+			id: image_obj?.medium_theme.id, // for some reasing the correct image id is in medium_theme
+			title: image_obj?.Title || 'No title available',
+			date: image_obj?.updatedAt || 'No date available',
+			description: image_obj?.description || 'No description available',
+			medium: image_obj?.medium_theme?.medium || 'uncategorised',
+			theme: image_obj?.medium_theme?.theme || 'uncategorised',
+			image_urls: {
+				size_display: `${process.env.NEXT_PUBLIC_BASE_URL}/${getDisplayImageUrl(image_obj)}`,
+				size_full: `${process.env.NEXT_PUBLIC_BASE_URL}/${getFullImageUrl(image_obj)}`
+			},
+			aspect_ratio: image_obj.Image.width/image_obj.Image.height,
+			width: image_obj.Image.width,
+			pinned: image_obj.pinned == true,
+		})
+	}
+	return formattedImages
+}
+
+const FetchPinnedImages = () => {
+	get_portfolio_images(1, themes_for_searching.current, mediums_for_searching.current, true, (res) => {
+		set_pinned_images(process_image_fetch_request(res.data));
+	});
 }
 
 const FetchImages = (inloadingLevel=loadingLevelRef.current) => {
@@ -137,29 +163,10 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current) => {
 
 	const isFirstLoad = inloadingLevel === 1;
 
-	get_portfolio_images(inloadingLevel, themes_for_searching.current, mediums_for_searching.current, (res) => {
+	get_portfolio_images(inloadingLevel, themes_for_searching.current, mediums_for_searching.current, false, (res) => {
 		if (isFirstLoad) maxloadingLevelRef.current = res.meta.pagination.pageCount
 
-		var formattedImages:ImageProps[] = []
-
-		console.log(res.data)
-
-		for (let image_obj of res.data) {
-			formattedImages.push({
-				id: 2,
-				title: image_obj?.Title || 'No title available',
-				date: image_obj?.updatedAt || 'No date available',
-				description: image_obj?.description || 'No description available',
-				medium: image_obj?.medium_theme?.medium || 'uncategorised',
-				theme: image_obj?.medium_theme?.theme || 'uncategorised',
-				image_urls: {
-					size_display: `${process.env.NEXT_PUBLIC_BASE_URL}/${getDisplayImageUrl(image_obj)}`,
-					size_full: `${process.env.NEXT_PUBLIC_BASE_URL}/${getFullImageUrl(image_obj)}`
-				},
-				aspect_ratio: image_obj.Image.width/image_obj.Image.height,
-				width: image_obj.Image.width
-			})
-		}
+		var formattedImages:ImageProps[] = process_image_fetch_request(res.data)
 
 		set_images((prevImages: ImageProps[]) => {
 			const finalArray = isFirstLoad ? [] : [...prevImages];
@@ -168,6 +175,7 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current) => {
 
 		set_loading(false)
 	});
+
 	fetchingRef.current = false
 }
 
@@ -207,7 +215,30 @@ return (
 
 		</div>
 
-		<div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
+		{!loading && images.length > 0 && <div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
+			
+			{pinned_images.length > 0 &&
+			<div>
+				<div className="w-full flex justify-center">
+					<Title delay={500} className={"md:text-3xl sm:text-2xl text-3xl my-8 lg:my-8 pb-6"} text={"Pinned"}/>
+				</div>
+				<Masonry
+					breakpointCols={breakpointColumnsObj}
+					className="my-masonry-grid flex justify-center w-full pl-3">
+					{pinned_images.map((val, index) => (
+					<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
+						<PinnedGalleryImageContainer {...val} 
+						setRef={(elem) => setImageRef(index, elem)}
+						onClick={() => { set_expand(index) }}/>
+					</animated.div>
+					))}
+				</Masonry>
+			</div>}
+
+			{/** rest of gallery */}
+			<div className="w-full flex justify-center">
+				<Title delay={500} className={"md:text-3xl sm:text-2xl text-3xl my-8 lg:my-8 pb-6"} text={"rest of gallery"}/>
+			</div>
 			<Masonry
 				breakpointCols={breakpointColumnsObj}
 				className="my-masonry-grid flex justify-center w-full pl-3">
@@ -219,7 +250,7 @@ return (
 				</animated.div>
 				))}
 			</Masonry>
-		</div>
+		</div>}
 	</div>
 );
 }
