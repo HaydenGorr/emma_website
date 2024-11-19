@@ -137,9 +137,6 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current) => {
 
 	const isFirstLoad = inloadingLevel === 1;
 
-
-	console.log("yep ", themes_for_searching, mediums_for_searching)
-
 	get_portfolio_images(inloadingLevel, themes_for_searching.current, mediums_for_searching.current, (res) => {
 		if (isFirstLoad) maxloadingLevelRef.current = res.meta.pagination.pageCount
 
