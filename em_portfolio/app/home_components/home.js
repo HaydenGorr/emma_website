@@ -171,7 +171,8 @@ return (
                 <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/${image_src}`}
                 alt={'Square Image'}
-                fill
+                width={150}
+                height={150}
                 className="object-cover object-[-15%_10%]"
                 />
             </animated.div>}
