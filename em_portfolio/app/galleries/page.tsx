@@ -276,9 +276,6 @@ return (
 		</div>
 
 		<animated.div className="w-full flex items-center justify-center z-50 my-8 space-x-4" style={springs}>
-			{/* {getgallerySizebutton(gallery_size.large)}
-			{getgallerySizebutton(gallery_size.medium)}
-			{getgallerySizebutton(gallery_size.small)} */}
 			<SizeButton
 				onClick={()=>{set_user_pref_gallery_size(gallery_size.large)}}
 				size={gallery_size.large}
