@@ -1,8 +1,6 @@
 
 
-export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], get_pinned=false, callback) => {
-
-    console.log("calling with: ", level, selected_themes, selected_mediums)
+export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], get_pinned, callback) => {
 
     const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '100' : '25'}&pagination[page]=${level}&sort=createdAt:desc`
     
@@ -28,8 +26,7 @@ export const get_portfolio_images = async (level, selected_themes=[], selected_m
             'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json())
-    .then(data => callback(data))
+    .then(response => { response.json().then( data => callback(data) )})
     .catch(error => console.error('Error:', error));
 }
 
