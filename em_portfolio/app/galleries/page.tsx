@@ -1,19 +1,17 @@
 'use client';
 import { useEffect, useState, useRef, use } from "react";
-import Image from "next/image";
 import { get_portfolio_images } from "../utils/api";
 import Masonry from 'react-masonry-css';
 import GalleryImageContainer from "./components/gallery_image_container";
 import { animated, useSpring} from '@react-spring/web'
-import SearchChip from "./components/search_chip";
 import MediumFilter from "./components/medium_filter";
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import ImageSkeleton from "../components/image_skeleton";
 import { getFullImageUrl, getDisplayImageUrl } from "../utils/getimageurl";
 import Title from "../components/title"
 import FullDisplay from './components/full_display'
 import PinnedGalleryImageContainer from "./components/pinned_gallery_image_container";
 import SizeButton from "./components/size_button";
+import ScrollingGallery from "./components/scrolling_gallery";
+import { get_images } from "../utils/gallery_helpers";
 
 interface ImageProps {
 	id: number;
@@ -131,29 +129,29 @@ const handlescroll = () => {
 	}
 };
 
-useEffect(() => {
+// useEffect(() => {
 
-	if (loading) return
+// 	if (loading) return
 
-	// Fade in the images
-	setTimeout(() => {
-		set_show_images(true)
-	}, 500)
+// 	// Fade in the images
+// 	setTimeout(() => {
+// 		set_show_images(true)
+// 	}, 500)
 
-}, [loading]);
+// }, [loading]);
 
-useEffect(() => {
+// useEffect(() => {
 
-	FetchPinnedImages()
-	FetchImages()
+// 	FetchPinnedImages()
+// 	FetchImages()
 
-	// Attach the scroll handler
-	window.addEventListener('scroll', handlescroll, { passive: true });
-	return () => {
-		window.removeEventListener('scroll', handlescroll);
-	};
+// 	// Attach the scroll handler
+// 	window.addEventListener('scroll', handlescroll, { passive: true });
+// 	return () => {
+// 		window.removeEventListener('scroll', handlescroll);
+// 	};
 
-}, []);
+// }, []);
 
 const adjust_filter = (themes:string[]=[], mediums:string[]=[]) => {
 	if (themes) {set_selected_theme(themes)}
@@ -171,7 +169,7 @@ const adjust_filter = (themes:string[]=[], mediums:string[]=[]) => {
 const process_image_fetch_request = (result_data):image_object  => {
 	var formattedImages:image_object = {}
 	for (let image_obj of result_data) {
-		
+
 		const id = image_obj.medium_theme?.id || image_obj.i-1 || null
 		if (!id) continue
 
@@ -256,79 +254,116 @@ const setImageRef = (id: number, elem:HTMLImageElement) => {
 };
 
 return (
-	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll">
 
-		{expand > -1 && <FullDisplay 
-			close={() => { set_expand(-1) }}
-			url={(images[expand]||pinned_images[expand]).image_urls.size_full}
-			already_loaded={false}
-			title={(images[expand]||pinned_images[expand]).title}
-			description={(images[expand]||pinned_images[expand]).description}
-			medium={(images[expand]||pinned_images[expand]).medium}
-			theme={(images[expand]||pinned_images[expand]).theme}
-			old_url={(images[expand]||pinned_images[expand]).image_urls.size_display}/>}
-	
-		<Title text={"Gallery"}/>
-
-		<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
-			<animated.div style={springs} className="space-y-8">
-				<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} border_colour={"border-pancho-400"} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
-				<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} border_colour={"border-perfume-400"} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
-			</animated.div>
-
+	<div>
+		<div className="w-full h-full flex justify-center">
+			<ScrollingGallery
+				title="Pinned"
+				className={"max-w-[80rem]"}
+				colBreakpoints={getColumnBreakpoints()}
+				fetch_images_callback={ async (loadingLevel, callback) => {
+					const new_images:porfolio_return_type = await get_images(
+						loadingLevel,
+						themes_for_searching.current,
+						mediums_for_searching.current,
+						true)
+					callback(new_images.data, new_images.max_page)
+				}}
+			/>
 		</div>
-
-		<animated.div className="w-full flex items-center justify-center z-50 my-8 space-x-4" style={springs}>
-			<SizeButton
-				onClick={()=>{set_user_pref_gallery_size(gallery_size.large)}}
-				size={gallery_size.large}
-				isSelected={user_pref_gallery_size==gallery_size.large}/>
-			<SizeButton
-				onClick={()=>{set_user_pref_gallery_size(gallery_size.medium)}}
-				size={gallery_size.medium}
-				isSelected={user_pref_gallery_size==gallery_size.medium}/>
-			<SizeButton
-				onClick={()=>{set_user_pref_gallery_size(gallery_size.small)}}
-				size={gallery_size.small}
-				isSelected={user_pref_gallery_size==gallery_size.small}/>
-		</animated.div>
-
-		{!loading && <div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
-			
-			<div>
-				<div className="w-full flex justify-center">
-					<Title delay={500} className={"md:text-3xl sm:text-2xl text-3xl my-8 lg:my-8 pb-6"} text={"Pinned"}/>
-				</div>
-				<Masonry
-					breakpointCols={getColumnBreakpoints()}
-					className="my-masonry-grid flex justify-center w-full pl-3">
-					{Object.values(pinned_images).reverse().map((val, index) => (
-					<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
-						<PinnedGalleryImageContainer {...val} 
-						setRef={(elem) => setImageRef(val.id, elem)}
-						onClick={() => { set_expand(val.id) }}/>
-					</animated.div>
-					
-					))}
-				</Masonry>
-			</div>
-
-			{/** rest of gallery */}
-			{Object.values(pinned_images).length > 0 && <div className="w-full flex justify-center">
-				<Title delay={500} className={"md:text-3xl sm:text-2xl text-3xl my-8 lg:my-8 pb-6"} text={"rest of gallery"}/>
-			</div>}
-			<Masonry
-				breakpointCols={getColumnBreakpoints()}
-				className="my-masonry-grid flex justify-center w-full pl-3">
-				{Object.values(images).reverse().map((val, index) => (
-				<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
-					<GalleryImageContainer {...val} 
-					setRef={(elem) => setImageRef(val.id, elem)}
-					onClick={() => { set_expand(val.id) }}/>
-				</animated.div>
-				))}
-			</Masonry>
-		</div>}
+		<div className="w-full h-full flex justify-center">
+			<ScrollingGallery
+				title="Rest of Gallery"
+				className={"max-w-[80rem]"}
+				colBreakpoints={getColumnBreakpoints()}
+				fetch_images_callback={ async (loadingLevel, callback) => {
+					const new_images:porfolio_return_type = await get_images(
+						loadingLevel,
+						themes_for_searching.current,
+						mediums_for_searching.current,
+						false)
+					callback(new_images.data, new_images.max_page)
+				}}
+			/>
+		</div>
 	</div>
+
+
+
+
+	// <div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll">
+
+	// 	{expand > -1 && <FullDisplay 
+	// 		close={() => { set_expand(-1) }}
+	// 		url={(images[expand]||pinned_images[expand]).image_urls.size_full}
+	// 		already_loaded={false}
+	// 		title={(images[expand]||pinned_images[expand]).title}
+	// 		description={(images[expand]||pinned_images[expand]).description}
+	// 		medium={(images[expand]||pinned_images[expand]).medium}
+	// 		theme={(images[expand]||pinned_images[expand]).theme}
+	// 		old_url={(images[expand]||pinned_images[expand]).image_urls.size_display}/>}
+	
+	// 	<Title text={"Gallery"}/>
+
+	// 	<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
+	// 		<animated.div style={springs} className="space-y-8">
+	// 			<MediumFilter chips={Medium_chips} adjust_filter={(data) => {adjust_filter(null, data)}} border_colour={"border-pancho-400"} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
+	// 			<MediumFilter chips={Themes_chips} adjust_filter={(data) => {adjust_filter(data)}} border_colour={"border-perfume-400"} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
+	// 		</animated.div>
+
+	// 	</div>
+
+	// 	<animated.div className="w-full flex items-center justify-center z-50 my-8 space-x-4" style={springs}>
+	// 		<SizeButton
+	// 			onClick={()=>{set_user_pref_gallery_size(gallery_size.large)}}
+	// 			size={gallery_size.large}
+	// 			isSelected={user_pref_gallery_size==gallery_size.large}/>
+	// 		<SizeButton
+	// 			onClick={()=>{set_user_pref_gallery_size(gallery_size.medium)}}
+	// 			size={gallery_size.medium}
+	// 			isSelected={user_pref_gallery_size==gallery_size.medium}/>
+	// 		<SizeButton
+	// 			onClick={()=>{set_user_pref_gallery_size(gallery_size.small)}}
+	// 			size={gallery_size.small}
+	// 			isSelected={user_pref_gallery_size==gallery_size.small}/>
+	// 	</animated.div>
+
+	// 	{!loading && <div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
+			
+	// 		<div>
+	// 			<div className="w-full flex justify-center">
+	// 				<Title delay={500} className={"md:text-3xl sm:text-2xl text-3xl my-8 lg:my-8 pb-6"} text={"Pinned"}/>
+	// 			</div>
+	// 			<Masonry
+	// 				breakpointCols={getColumnBreakpoints()}
+	// 				className="my-masonry-grid flex justify-center w-full pl-3">
+	// 				{Object.values(pinned_images).reverse().map((val, index) => (
+	// 				<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
+	// 					<PinnedGalleryImageContainer {...val} 
+	// 					setRef={(elem) => setImageRef(val.id, elem)}
+	// 					onClick={() => { set_expand(val.id) }}/>
+	// 				</animated.div>
+					
+	// 				))}
+	// 			</Masonry>
+	// 		</div>
+
+	// 		{/** rest of gallery */}
+	// 		{Object.values(pinned_images).length > 0 && <div className="w-full flex justify-center">
+	// 			<Title delay={500} className={"md:text-3xl sm:text-2xl text-3xl my-8 lg:my-8 pb-6"} text={"rest of gallery"}/>
+	// 		</div>}
+	// 		<Masonry
+	// 			breakpointCols={getColumnBreakpoints()}
+	// 			className="my-masonry-grid flex justify-center w-full pl-3">
+	// 			{Object.values(images).reverse().map((val, index) => (
+	// 			<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
+	// 				<GalleryImageContainer {...val} 
+	// 				setRef={(elem) => setImageRef(val.id, elem)}
+	// 				onClick={() => { set_expand(val.id) }}/>
+	// 			</animated.div>
+	// 			))}
+	// 		</Masonry>
+	// 	</div>}
+	// </div>
 );
 }

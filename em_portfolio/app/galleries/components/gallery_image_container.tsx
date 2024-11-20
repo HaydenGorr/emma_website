@@ -17,7 +17,7 @@ setRef: (element: HTMLImageElement | null) => void
 onClick: ()=> void
 }
 
-export default function GalleryImageContainer({title, description, image_urls, aspect_ratio, width, setRef, onClick}: props) {
+export default function GalleryImageContainer({title, description, image_urls, aspect_ratio, width, setRef, onClick=()=>{}}: props) {
 
 const infoBoxRef = useRef(null)
 const imageRef = useRef(null)
@@ -72,7 +72,7 @@ return (
 		style={{...containerHover}}>
 		<div>
 			<Image
-			ref={(elem) => { setRef(elem); }}
+			// ref={(elem) => { setRef(elem); }}
 			className={`rounded-lg shadow-strong w-full absolute ${fadeIn ? "visible" : "invisible"}`}
 			src={image_urls?.size_display || ''}
 			alt={description}
