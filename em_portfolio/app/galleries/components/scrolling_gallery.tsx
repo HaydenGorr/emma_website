@@ -2,9 +2,9 @@
 import { useEffect, useState, useRef } from "react";
 import Masonry from 'react-masonry-css';
 import GalleryImageContainer from "../components/gallery_image_container";
-import { animated, useSpring} from '@react-spring/web'
+import { animated } from '@react-spring/web'
 import Title from "../../components/title"
-import { ImageProps, image_object } from '../../utils/gallery_helpers'
+import { ImageProps } from '../../utils/gallery_helpers'
 
 interface props {
 
@@ -14,7 +14,7 @@ interface props {
 	}
 	fetch_images_callback: (
 		loadingLevel: number,
-		setter: (fetchedItems: image_object, maxPages: number) => void
+		setter: (fetchedItems: ImageProps[], maxPages: number) => void
 	) => void;
 	className?: string;
 	title: string;
@@ -26,7 +26,7 @@ interface props {
 
 export default function ScrollingGallery( {title, colBreakpoints, className, perform_refresh, fetch_images_callback, on_img_click=() =>{}} : props ) {
 
-const [fetched_images, set_fetched_images] = useState<image_object>({});
+const [fetched_images, set_fetched_images] = useState<ImageProps[]>([]);
 
 const scrollLimitRef = useRef(0);
 const loadingLevelRef = useRef(1); // The current page we have loaded. Will incriment
@@ -36,35 +36,48 @@ const fetchingRef = useRef(false); // The current page we have loaded. Will incr
 const clearImagesFlag = useRef(false); // The current page we have loaded. Will incriment
 const containerRef = useRef(null); // The current page we have loaded. Will incriment
 
-const grab_images_lambda = () => {
-	fetch_images_callback(loadingLevelRef.current, (fetchedItems: image_object, max_pages:number) => {
-		set_fetched_images((prevImages: image_object) => {
+const grab_images_lambda = () => { 
+	fetchingRef.current = true
+	fetch_images_callback(loadingLevelRef.current, (fetchedItems: ImageProps[], max_pages: number) => {
+		set_fetched_images((prevImages: ImageProps[]) => {
+
 			maxloadingLevelRef.current = max_pages
+			var return_val = []
 			if (clearImagesFlag.current){
 				clearImagesFlag.current = false
-				return {...fetchedItems}
+				return_val = [...fetchedItems]
 			}else {
-				return {...fetchedItems, ...prevImages };
+				return_val = [...prevImages, ...fetchedItems ];
 			}
+			fetchingRef.current = false
+
+			return return_val
 		});
 	});
-  };
-  
+};
 
-  useEffect(()=>{
-	clearImagesFlag.current = true
-	grab_images_lambda()
-  }, [perform_refresh])
+useEffect(()=>{
+clearImagesFlag.current = true
+loadingLevelRef.current = 1
+grab_images_lambda()
+}, [perform_refresh])
 
-  useEffect(()=>{
-	console.log("fetched_images asd", fetched_images)
-  }, [fetched_images])
+useEffect(()=>{
+	console.log(fetched_images.length)
+	}, [fetched_images])
 
 // Load new images when scroll reaches 75% of screen
 const handlescroll = () => {
-	console.log(scrollLimitRef.current, containerRef.current?.offsetHeight * 0.75)
     const scrollheight = window.scrollY + window.innerHeight;
-	const scroll_decimal = scrollheight / document.documentElement.scrollHeight
+	const distance_down = containerRef.current?.getBoundingClientRect().top
+	const scroll_decimal = scrollheight / (containerRef.current?.offsetHeight + distance_down)
+	scrollLimitRef.current = (containerRef.current?.offsetHeight * 0.75) + distance_down;
+
+	// console.log(loadingLevelRef.current < maxloadingLevelRef.current,
+	// 	!fetchingRef.current,
+	// 	scrollheight > scrollLimitRef.current,
+	// 	scroll_decimal >= 0.75)
+
     if (
 		loadingLevelRef.current < maxloadingLevelRef.current && // Are there any more image loads left to do?	
 		!fetchingRef.current &&  // Are we currently fetching images? 
@@ -73,7 +86,6 @@ const handlescroll = () => {
     ) {
 		loadingLevelRef.current = loadingLevelRef.current + 1
 		grab_images_lambda()
-		scrollLimitRef.current = containerRef.current?.offsetHeight * 0.75;
     }
 };
 
@@ -88,7 +100,7 @@ useEffect(() => {
 
 return (
 	<div className={`h-full flex flex-col w-full relative overflow-hidden hide-scroll ${className}`}>
-		<div ref={containerRef}>
+		{fetched_images.length > 0 && <div ref={containerRef}>
 			<div className="w-full flex justify-center">
 				<Title delay={500} className={"md:text-3xl sm:text-2xl text-3xl my-8 lg:my-8 pb-6"} text={title}/>
 			</div>
@@ -96,14 +108,14 @@ return (
 				breakpointCols={colBreakpoints}
 				className="my-masonry-grid flex justify-center w-full pl-3">
 
-				{Object.values(fetched_images).reverse().map((val, index) => (
+				{fetched_images.map((val, index) => (
 				<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative">
 					<GalleryImageContainer {...val} setRef={()=>{}} onClick={()=> (on_img_click(val))}/>
 				</animated.div>
 				))}
 				
 			</Masonry>
-		</div>
+		</div>}
 	</div>
 	);
 }

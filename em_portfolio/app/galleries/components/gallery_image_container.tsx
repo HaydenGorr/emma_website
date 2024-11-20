@@ -49,9 +49,9 @@ const containerHover = useSpring({
 });
 
 const hide_loading = useSpring({
-	from: { Opacity:1, Scale: 0.9 },
-	to: fadeIn ? { Scale: 1, Opacity:0 }
-	: { Opacity:1, Scale: 0.9 },
+	from: { Opacity:0, Scale: 0.9 },
+	to: fadeIn ? { Scale: 1, Opacity:1 }
+	: { Opacity:0, Scale: 0.9 },
 	delay: 0
 });
 
@@ -72,15 +72,15 @@ return (
 		style={{...containerHover}}>
 		<div>
 			<Image
-			// ref={(elem) => { setRef(elem); }}
-			className={`rounded-lg shadow-strong w-full absolute ${fadeIn ? "visible" : "invisible"}`}
-			src={image_urls?.size_display || ''}
-			alt={description}
-			width={1200}
-			height={800}
-			priority={true}
-			onClick={() => {set_expand(true); onClick()}}
-			onLoad={() => setFadeIn(true)}
+				// ref={(elem) => { setRef(elem); }}
+				className={`rounded-lg shadow-strong w-full absolute ${fadeIn ? "visible" : "invisible"}`}
+				src={image_urls?.size_display || ''}
+				alt={description}
+				width={1200}
+				height={800}
+				priority={true}
+				onClick={() => {set_expand(true); onClick()}}
+				onLoad={() => setFadeIn(true)}
 			/>
 			
 			<animated.div className={`bg-zinc-400 rounded-lg shadow-strong w-full ${fadeIn ? "" : "animate-pulse"}`}

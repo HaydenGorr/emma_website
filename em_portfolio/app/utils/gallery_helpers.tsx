@@ -22,13 +22,13 @@ export interface image_object {
 }
 
 export interface porfolio_return_type {
-	data:image_object;
+	data:ImageProps[];
 	max_page:number;
 	total:number;
 }
 
-const process_image_fetch_request = (result_data):image_object  => {
-	var processed_images:image_object = {}
+const process_image_fetch_request = (result_data):ImageProps[]  => {
+	var processed_images:ImageProps[] = []
 
 	for (let image_obj of result_data) {
 		
@@ -36,7 +36,7 @@ const process_image_fetch_request = (result_data):image_object  => {
 		if (!id) continue
 
 		try{
-			const processed ={
+			processed_images.push({
 				id: id, // for some reasing the correct image id is in medium_theme
 				title: image_obj?.Title || 'No title available',
 				date: image_obj?.updatedAt || 'No date available',
@@ -50,8 +50,7 @@ const process_image_fetch_request = (result_data):image_object  => {
 				aspect_ratio: image_obj.Image.width/image_obj.Image.height,
 				width: image_obj.Image.width,
 				pinned: image_obj.pinned == true,
-			}
-			processed_images[id] = processed
+			})
 		}
 		catch {
 			continue
@@ -59,11 +58,11 @@ const process_image_fetch_request = (result_data):image_object  => {
 
 		
 	}
+
 	return processed_images
 }
 
 export const get_images = async (level, filter_themes: string[], filter_mediums:string[], get_pinned:Boolean ): Promise<porfolio_return_type> => {
-	console.log("family", filter_themes, )
 	const result = await get_portfolio_images_promise(level, filter_themes, filter_mediums, get_pinned)
 	return {data: process_image_fetch_request(result.data), max_page:result.meta.pagination.pageCount, total:result.meta.pagination.total}
 }
