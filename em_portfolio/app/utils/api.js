@@ -1,5 +1,8 @@
 function build_image_getter_url(level, selected_themes=[], selected_mediums=[], get_pinned) {
-    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '100' : '25'}&pagination[page]=${level}&sort=createdAt:desc`
+    
+    console.log("l st, sm, gp", level, selected_themes, selected_mediums, get_pinned)
+
+    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '20' : '20'}&pagination[page]=${level}&sort=createdAt:desc`
     
     const theme_addition = selected_themes.map((val, index) => {
         return `filters[$and][0][$or][${index}][medium_theme][theme][$eq]=${val}`;

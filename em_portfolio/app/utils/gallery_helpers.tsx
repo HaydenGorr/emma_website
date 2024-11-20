@@ -1,7 +1,7 @@
 import { getFullImageUrl, getDisplayImageUrl } from "../utils/getimageurl";
 import { get_portfolio_images_promise } from "../utils/api";
 
-interface ImageProps {
+export interface ImageProps {
 	id: number;
 	title: string;
 	date: Date;
@@ -17,11 +17,11 @@ interface ImageProps {
 	pinned: boolean;
 }
 
-interface image_object {
+export interface image_object {
 	[id: number]: ImageProps 
 }
 
-interface porfolio_return_type {
+export interface porfolio_return_type {
 	data:image_object;
 	max_page:number;
 	total:number;
@@ -63,8 +63,8 @@ const process_image_fetch_request = (result_data):image_object  => {
 }
 
 export const get_images = async (level, filter_themes: string[], filter_mediums:string[], get_pinned:Boolean ): Promise<porfolio_return_type> => {
+	console.log("family", filter_themes, )
 	const result = await get_portfolio_images_promise(level, filter_themes, filter_mediums, get_pinned)
-	console.log("family", result)
 	return {data: process_image_fetch_request(result.data), max_page:result.meta.pagination.pageCount, total:result.meta.pagination.total}
 }
 
