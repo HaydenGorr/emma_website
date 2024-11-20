@@ -1,8 +1,7 @@
+function build_image_getter_url(level, selected_themes=[], selected_mediums=[], get_pinned) {
+    
 
-
-export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], get_pinned, callback) => {
-
-    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '100' : '25'}&pagination[page]=${level}&sort=createdAt:desc`
+    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '15' : '15'}&pagination[page]=${level}&sort=createdAt:desc`
     
     const theme_addition = selected_themes.map((val, index) => {
         return `filters[$and][0][$or][${index}][medium_theme][theme][$eq]=${val}`;
@@ -19,7 +18,14 @@ export const get_portfolio_images = async (level, selected_themes=[], selected_m
 
     const final_url = step1_url + (theme_addition ? `&${theme_addition}` : '') + (medium_addition ? `&${medium_addition}` : '') + (`&${pinned_filter}`)
 
-    fetch(final_url, 
+    return final_url
+}
+
+export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], get_pinned, callback) => {
+
+    const url = build_image_getter_url(level, selected_themes=[], selected_mediums=[], get_pinned)
+
+    fetch(url, 
         {
         headers: {
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
@@ -46,9 +52,7 @@ export const get_strapi_videos_promise = async () => {
         console.error('Error:', error);
         throw error;
     }
-
 }
-
 
 export const get_page_data = async (page, callback) => {
     fetch(`https://www.emmadannpersonal.com/api/${page}?populate=*`, 
@@ -91,3 +95,23 @@ export const get_youtube_data_promise = async (page) => {
         throw error;
     }
 };
+
+export const get_portfolio_images_promise = async (level, selected_themes=[], selected_mediums=[], get_pinned, callback) => {
+
+    const url = build_image_getter_url(level, selected_themes, selected_mediums, get_pinned)
+    console.log(selected_themes, selected_mediums, url)
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+    
+}
