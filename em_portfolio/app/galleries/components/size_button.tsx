@@ -34,7 +34,7 @@ export default function SizeButton({isSelected, onClick, size }) {
     return (
 		<animated.button 
 			style={chipSpring}
-			className={`${getColour()} h-11 w-11 flex justify-center rounded-full`}
+			className={`${getColour()} h-11 w-11 flex justify-center rounded-full ${isSelected ? "shadow-strong" : "shadow-sm"}`}
 			onClick={ () => onClick()}
 			onMouseOver={()=>{set_gallery_size_hover(true)}}
 			onMouseOut={()=>{set_gallery_size_hover(false)}}>

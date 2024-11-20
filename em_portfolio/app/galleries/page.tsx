@@ -31,6 +31,14 @@ interface ImageProps {
 	pinned: boolean;
 }
 
+interface image_object {
+	[id: number]: ImageProps 
+}
+
+interface asdwd {
+	[id: number]: HTMLImageElement | null 
+}
+
 enum gallery_size {
 	small,
 	medium,
@@ -45,13 +53,12 @@ const Medium_chips = ["painting", "drawing", "sculpture", "digital", "print", "m
 const [selected_themes, set_selected_theme] = useState([]); // For filtering
 const [selected_mediums, set_selected_medium] = useState([]); // For filtering
 
-const [images, set_images] = useState<ImageProps[]>([]);
-const [pinned_images, set_pinned_images] = useState<ImageProps[]>([]);
+const [images, set_images] = useState<image_object>({});
+const [pinned_images, set_pinned_images] = useState<image_object>({});
 const [loading, set_loading] = useState(true);
 const [expand, set_expand] = useState<number>(-1); 
 
 const [user_pref_gallery_size, set_user_pref_gallery_size] = useState<gallery_size>(gallery_size.large); 
-const [gallery_size_hover, set_gallery_size_hover] = useState<gallery_size>(gallery_size.none); 
 
 // const [loadingLevel, set_loadingLevel] = useState(1);
 
@@ -62,7 +69,7 @@ const fetchingRef = useRef(false); // The current page we have loaded. Will incr
 const themes_for_searching = useRef<string[]>([]); // The current page we have loaded. Will incriment
 const mediums_for_searching = useRef<string[]>([]); // The current page we have loaded. Will incriment
 
-const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
+const imageRefs = useRef<asdwd>({});
 
 /** Used to show images once they've loaded
  * The loaded state var won't do because it toggled on load
@@ -101,11 +108,27 @@ const handlescroll = () => {
 	  scroll_decimal >= 0.50 && // Have we scrolled 75% of the page?
 	  loadingLevelRef.current < maxloadingLevelRef.current // Are there any more image loads left to do?
     ) {
+		console.log("ALL TRUE",
+			"!fetchingRef.current", !fetchingRef.current,
+		"\nscrollheight > scrollLimitRef.current", scrollheight > scrollLimitRef.current,
+		"\nscroll_decimal >= 0.50", scroll_decimal >= 0.50,
+		"\nloadingLevelRef.current < maxloadingLevelRef.current", loadingLevelRef.current < maxloadingLevelRef.current,
+		"\n\n"
+		)
 		const newLoadingLevel = loadingLevelRef.current + 1;
         FetchImages(newLoadingLevel);
 		loadingLevelRef.current = newLoadingLevel
 		scrollLimitRef.current = document.documentElement.scrollHeight * 0.75;
     }
+	else {
+		// console.log("ALL FALSE", 
+		// 	"!fetchingRef.current", !fetchingRef.current,
+		// "\nscrollheight > scrollLimitRef.current", scrollheight > scrollLimitRef.current,
+		// "\nscroll_decimal >= 0.50", scroll_decimal >= 0.50,
+		// "\nloadingLevelRef.current < maxloadingLevelRef.current", loadingLevelRef.current < maxloadingLevelRef.current,
+		// "\n\n"
+		// )
+	}
 };
 
 useEffect(() => {
@@ -145,11 +168,15 @@ const adjust_filter = (themes:string[]=[], mediums:string[]=[]) => {
 	FetchImages()
 }
 
-const process_image_fetch_request = (result_data)  => {
-	var formattedImages:ImageProps[] = []
+const process_image_fetch_request = (result_data):image_object  => {
+	var formattedImages:image_object = {}
 	for (let image_obj of result_data) {
-		formattedImages.push({
-			id: image_obj.medium_theme?.id, // for some reasing the correct image id is in medium_theme
+		
+		const id = image_obj.medium_theme?.id || image_obj.i-1 || null
+		if (!id) continue
+
+		formattedImages[image_obj.medium_theme?.id]={
+			id: id, // for some reasing the correct image id is in medium_theme
 			title: image_obj?.Title || 'No title available',
 			date: image_obj?.updatedAt || 'No date available',
 			description: image_obj?.description || 'No description available',
@@ -162,7 +189,7 @@ const process_image_fetch_request = (result_data)  => {
 			aspect_ratio: image_obj.Image.width/image_obj.Image.height,
 			width: image_obj.Image.width,
 			pinned: image_obj.pinned == true,
-		})
+		}
 	}
 	return formattedImages
 }
@@ -182,11 +209,11 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current) => {
 	get_portfolio_images(inloadingLevel, themes_for_searching.current, mediums_for_searching.current, false, (res) => {
 		if (isFirstLoad) maxloadingLevelRef.current = res.meta.pagination.pageCount
 
-		var formattedImages:ImageProps[] = process_image_fetch_request(res.data)
+		var formattedImages:image_object = process_image_fetch_request(res.data)
 
-		set_images((prevImages: ImageProps[]) => {
-			const finalArray = isFirstLoad ? [] : [...prevImages];
-			return [...finalArray, ...formattedImages];
+		set_images((prevImages: image_object) => {
+			const finalArray = isFirstLoad ? {} : {...prevImages};
+			return {...finalArray, ...formattedImages};
 		});
 
 		set_loading(false)
@@ -194,13 +221,6 @@ const FetchImages = (inloadingLevel=loadingLevelRef.current) => {
 
 	fetchingRef.current = false
 }
-
-// For the masonry gallery
-const breakpointColumnsObj = {
-	default: 3,
-	1100: 2,
-	700: 1
-};
 
 const getColumnBreakpoints = () => {
 	switch (user_pref_gallery_size) {
@@ -231,39 +251,22 @@ const getColumnBreakpoints = () => {
 	}
 }
 
-const setImageRef = (index: number, elem:HTMLImageElement) => {
-    if (elem) {
-      imageRefs.current[index] = elem;
-    }
+const setImageRef = (id: number, elem:HTMLImageElement) => {
+	imageRefs.current[id] = elem;
 };
-
-const getgallerySizebutton = (size: gallery_size) => {
-	// const image = size == gallery_size.large ? "l" : size == gallery_size.medium ? "m" : "s"
-	// const colour = size == gallery_size.large ? "bg-matisse-200" : size == gallery_size.medium ? "bg-hibiscus-200" : "bg-magic-mint-200"
-	// return (
-	// 	<animated.button 
-	// 		style={}
-	// 		className={`${colour} p-4 h-12 w-12 flex justify-center rounded-full ${user_pref_gallery_size == size ? "shadow-strong": "shadow-sm"}`}
-	// 		onClick={ () => set_user_pref_gallery_size(size)}
-	// 		onMouseOver={()=>{set_gallery_size_hover(size)}}
-	// 		onMouseOut={()=>{set_gallery_size_hover(size)}}>
-	// 			<Image className="self-center" src={`/icons/${image}.png`} width={20} height={20} alt=""></Image>
-	// 	</animated.button>
-	// )
-}
 
 return (
 	<div className="h-full flex flex-col w-full items-center overflow-y-scroll relative overflow-hidden hide-scroll">
 
 		{expand > -1 && <FullDisplay 
 			close={() => { set_expand(-1) }}
-			url={images[expand].image_urls.size_full}
-			already_loaded={imageRefs.current[expand].complete}
-			title={images[expand].title}
-			description={images[expand].description}
-			medium={images[expand].medium}
-			theme={images[expand].theme}
-			old_url={images[expand].image_urls.size_display}/>}
+			url={(images[expand]||pinned_images[expand]).image_urls.size_full}
+			already_loaded={false}
+			title={(images[expand]||pinned_images[expand]).title}
+			description={(images[expand]||pinned_images[expand]).description}
+			medium={(images[expand]||pinned_images[expand]).medium}
+			theme={(images[expand]||pinned_images[expand]).theme}
+			old_url={(images[expand]||pinned_images[expand]).image_urls.size_display}/>}
 	
 		<Title text={"Gallery"}/>
 
@@ -290,7 +293,7 @@ return (
 				isSelected={user_pref_gallery_size==gallery_size.small}/>
 		</animated.div>
 
-		{!loading && images.length > 0 && <div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
+		{!loading && <div className="hide-scroll pt-20 w-full z-50" style={{maxWidth: '80rem'}}>
 			
 			<div>
 				<div className="w-full flex justify-center">
@@ -299,28 +302,29 @@ return (
 				<Masonry
 					breakpointCols={getColumnBreakpoints()}
 					className="my-masonry-grid flex justify-center w-full pl-3">
-					{pinned_images.map((val, index) => (
+					{Object.values(pinned_images).reverse().map((val, index) => (
 					<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
 						<PinnedGalleryImageContainer {...val} 
-						setRef={(elem) => setImageRef(index, elem)}
-						onClick={() => { set_expand(index) }}/>
+						setRef={(elem) => setImageRef(val.id, elem)}
+						onClick={() => { set_expand(val.id) }}/>
 					</animated.div>
+					
 					))}
 				</Masonry>
 			</div>
 
 			{/** rest of gallery */}
-			{pinned_images.length > 0 && <div className="w-full flex justify-center">
+			{Object.values(pinned_images).length > 0 && <div className="w-full flex justify-center">
 				<Title delay={500} className={"md:text-3xl sm:text-2xl text-3xl my-8 lg:my-8 pb-6"} text={"rest of gallery"}/>
 			</div>}
 			<Masonry
 				breakpointCols={getColumnBreakpoints()}
 				className="my-masonry-grid flex justify-center w-full pl-3">
-				{images.map((val, index) => (
+				{Object.values(images).reverse().map((val, index) => (
 				<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative" style={{...springs}}>
 					<GalleryImageContainer {...val} 
-					setRef={(elem) => setImageRef(index, elem)}
-					onClick={() => { set_expand(index) }}/>
+					setRef={(elem) => setImageRef(val.id, elem)}
+					onClick={() => { set_expand(val.id) }}/>
 				</animated.div>
 				))}
 			</Masonry>
