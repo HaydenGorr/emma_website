@@ -1,14 +1,9 @@
 'use client';
-import { useEffect, useState, useRef, use } from "react";
-import { get_portfolio_images } from "../../utils/api";
-import Masonry from 'react-masonry-css';
-import GalleryImageContainer from "../components/gallery_image_container";
+import { useState, useRef } from "react";
 import { animated, useSpring} from '@react-spring/web'
 import MediumFilter from "../components/medium_filter";
-import { getFullImageUrl, getDisplayImageUrl } from "../../utils/getimageurl";
 import Title from "../../components/title"
 import FullDisplay from '../components/full_display'
-import PinnedGalleryImageContainer from "../components/pinned_gallery_image_container";
 import SizeButton from "../components/size_button";
 import ScrollingGallery from "../components/scrolling_gallery";
 import { get_images } from "../../utils/gallery_helpers";
