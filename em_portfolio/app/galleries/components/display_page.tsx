@@ -35,7 +35,7 @@ const [selected_mediums, set_selected_medium] = useState([]); // For filtering
 const [selected_image, set_selected_image] = useState<ImageProps|null>(null);
 const [perform_refresh, set_perform_refresh] = useState(true);
 
-const [user_pref_gallery_size, set_user_pref_gallery_size] = useState<gallery_size>(gallery_size.medium); 
+const [user_pref_gallery_size, set_user_pref_gallery_size] = useState<gallery_size>(gallery_size.large); 
 
 const themes_for_searching = useRef<string[]>([]); // The current page we have loaded. Will incriment
 const mediums_for_searching = useRef<string[]>([]); // The current page we have loaded. Will incriment
