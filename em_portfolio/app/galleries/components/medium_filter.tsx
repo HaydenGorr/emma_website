@@ -1,20 +1,21 @@
 import { useSpring, animated } from '@react-spring/web'
 import { useState, useEffect } from 'react'
 import SearchChip from './search_chip';
+import { image_type } from '../../utils/gallery_helpers';
 
 interface Props {
     chips: string[];
-    selected_items: string[];
+    selected_item: string;
     selected: string;
     unselected: string;
     bg_clour: string;
     border_colour: string;
-    adjust_filter: (a: string[], b?: string[]) => void;
+    adjust_filter: (a: string) => void;
 }
 
 export default function MediumFilter({ 
     chips, 
-    selected_items, 
+    selected_item, 
     selected, 
     unselected, 
     bg_clour, 
@@ -23,14 +24,6 @@ export default function MediumFilter({
 }: Props) {
 
     const [animate, set_animate] = useState(false)
-
-    const return_updated_filter_list = (sel_str) => {
-        if (selected_items.includes(sel_str)) {
-            return selected_items.filter(val => val !== sel_str);
-        } else {
-            return [...selected_items, sel_str];
-        }
-    }
 
     const springs = useSpring({
         from: { width: "100%", opacity: 0, scale: 0.9},
@@ -47,18 +40,18 @@ export default function MediumFilter({
 
     return (
         
-        <animated.div className={`flex ${bg_clour} border-2 ${border_colour} rounded-lg overflow-x-scroll hide-scroll h-16`} style={{...springs}}>
-            <div className={`cursor-pointer flex justify-center items-center z-40`}>
+        <animated.div className={`flex ${bg_clour} border-2 ${border_colour} rounded-lg overflow-x-scroll hide-scroll h-16 w-full`} style={{...springs}}>
+            <div className={`cursor-pointer flex justify-center items-center z-40 w-full`}>
 
-                {<div className={'flex justify-start space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
+                {<div className={'flex w-full justify-around space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
                 {chips.map((val: string, index) => {
                     return (
                         <div className={`overflow-visible`} key={val}>
                             <SearchChip
-                            isSelected={selected_items.includes(val.toUpperCase())}
-                            onClick={()=>{adjust_filter(return_updated_filter_list(val.toUpperCase()))}}
+                            isSelected={selected_item == val}
+                            onClick={()=>{adjust_filter( val )}}
                             text={val}
-                            colour={selected_items.includes(val.toUpperCase()) ? selected: unselected}/>
+                            colour={selected_item.toLowerCase() == val.toLowerCase() ? selected: unselected}/>
                         </div>
                     )
                     })}

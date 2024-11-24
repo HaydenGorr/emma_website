@@ -62,9 +62,9 @@ loadingLevelRef.current = 1
 grab_images_lambda()
 }, [perform_refresh])
 
-useEffect(()=>{
-	console.log(fetched_images.length)
-	}, [fetched_images])
+// useEffect(()=>{
+// 	console.log(fetched_images.length)
+// 	}, [fetched_images])
 
 // Load new images when scroll reaches 75% of screen
 const handlescroll = () => {

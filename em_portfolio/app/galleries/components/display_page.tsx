@@ -1,18 +1,13 @@
 'use client';
-import { useEffect, useState, useRef, use } from "react";
-import { get_portfolio_images } from "../../utils/api";
-import Masonry from 'react-masonry-css';
-import GalleryImageContainer from "../components/gallery_image_container";
+import { useState, useRef } from "react";
 import { animated, useSpring} from '@react-spring/web'
 import MediumFilter from "../components/medium_filter";
-import { getFullImageUrl, getDisplayImageUrl } from "../../utils/getimageurl";
 import Title from "../../components/title"
 import FullDisplay from '../components/full_display'
-import PinnedGalleryImageContainer from "../components/pinned_gallery_image_container";
 import SizeButton from "../components/size_button";
 import ScrollingGallery from "../components/scrolling_gallery";
 import { get_images } from "../../utils/gallery_helpers";
-import {porfolio_return_type, image_object, ImageProps} from '../../utils/gallery_helpers';
+import {porfolio_return_type, ImageProps} from '../../utils/gallery_helpers';
 
 interface asdwd {
 	[id: number]: HTMLImageElement | null 
@@ -27,18 +22,16 @@ enum gallery_size {
 
 export default function DisplayPage() {
 
-const Themes_chips = ["Christianity", "Femininity", "Gender Neutralism", "Experimentalism", "Realism"]
-const Medium_chips = ["painting", "drawing", "sculpture", "digital", "print", "mixed"]
-const [selected_themes, set_selected_theme] = useState([]); // For filtering
-const [selected_mediums, set_selected_medium] = useState([]); // For filtering
+const sort_chips = ["Digital", "Sculpture", "Drawing"] 
+
+const [selected_sort_chip, set_sort_chip] = useState(""); // For filtering
 
 const [selected_image, set_selected_image] = useState<ImageProps|null>(null);
 const [perform_refresh, set_perform_refresh] = useState(true);
 
 const [user_pref_gallery_size, set_user_pref_gallery_size] = useState<gallery_size>(gallery_size.large); 
 
-const themes_for_searching = useRef<string[]>([]); // The current page we have loaded. Will incriment
-const mediums_for_searching = useRef<string[]>([]); // The current page we have loaded. Will incriment
+const sort_chip_for_searching = useRef(""); // The current page we have loaded. Will incriment
 
 /** Used to show images once they've loaded
  * The loaded state var won't do because it toggled on load
@@ -65,16 +58,23 @@ const loadingSpring = useSpring({
 	config: { duration: 500 }
 });
 
-const adjust_filter = (themes:string[], mediums:string[]) => {
+const adjust_filter = ( sort:string ) => {
 
-	if (themes !== null) {
-		set_selected_theme(themes)
-		themes_for_searching.current = themes
+	if (sort !== null) {
+		const set_val = sort_chip_for_searching.current == sort.toLowerCase() ? "" : sort.toLowerCase()
+
+		set_sort_chip(set_val)
+		sort_chip_for_searching.current = set_val
 	}
-	if (mediums !== null) {
-		set_selected_medium(mediums)
-		mediums_for_searching.current = mediums
-	}
+
+	// if (themes !== null) {
+	// 	set_selected_theme(themes)
+	// 	themes_for_searching.current = themes
+	// }
+	// if (mediums !== null) {
+	// 	set_selected_medium(mediums)
+	// 	mediums_for_searching.current = mediums
+	// }
 
 	set_perform_refresh(!perform_refresh)
 }
@@ -125,8 +125,14 @@ return (
 
 		<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
 			<animated.div style={springs} className="space-y-8">
-				<MediumFilter chips={Medium_chips} adjust_filter={(data: string[]) => {adjust_filter(null, data)}} border_colour={"border-pancho-400"} selected_items={selected_mediums} bg_clour={"bg-pancho-300"} unselected={"bg-pancho-200"} selected={"bg-pancho-400"}/>
-				<MediumFilter chips={Themes_chips} adjust_filter={(data: string[]) => {adjust_filter(data, null)}} border_colour={"border-perfume-400"} selected_items={selected_themes} bg_clour={"bg-perfume-300"} unselected={"bg-perfume-200"} selected={"bg-perfume-400"}/>
+				<MediumFilter 
+					chips={sort_chips}
+					adjust_filter={(data: string) => {adjust_filter( data )}}
+					border_colour={"border-perfume-400"}
+					selected_item={selected_sort_chip}
+					bg_clour={"bg-perfume-300"}
+					unselected={"bg-perfume-200"}
+					selected={"bg-perfume-400"}/>
 			</animated.div>		
 		</div>
 
@@ -148,21 +154,21 @@ return (
 		<animated.div className="w-full h-full flex justify-center z-50" style={loadingSpring}>
 			<ScrollingGallery
 				on_img_click={(image_obj: ImageProps|null) => set_selected_image(image_obj)}
-				title="Pinned"
+				title={`${selected_sort_chip.charAt(0).toUpperCase() + selected_sort_chip.slice(1)} Pinned`}
 				className={"max-w-[80rem]"}
 				colBreakpoints={getColumnBreakpoints()}
 				perform_refresh={perform_refresh}
 				fetch_images_callback={ async (loadingLevel, callback) => {
 					const new_images:porfolio_return_type = await get_images(
 						loadingLevel,
-						themes_for_searching.current,
-						mediums_for_searching.current,
+						sort_chip_for_searching.current,
 						true)
 					set_show_images(true)
 					callback(new_images.data, new_images.max_page)
 				}}
 			/>
 		</animated.div>
+
 		<animated.div className="w-full h-full flex justify-center z-50" style={loadingSpring}>
 			<ScrollingGallery
 				on_img_click={(image_obj: ImageProps|null) => set_selected_image(image_obj)}
@@ -173,8 +179,7 @@ return (
 				fetch_images_callback={ async (loadingLevel, callback) => {
 					const new_images:porfolio_return_type = await get_images(
 						loadingLevel,
-						themes_for_searching.current,
-						mediums_for_searching.current,
+						sort_chip_for_searching.current,
 						false)
 					set_show_images(true)
 					callback(new_images.data, new_images.max_page)

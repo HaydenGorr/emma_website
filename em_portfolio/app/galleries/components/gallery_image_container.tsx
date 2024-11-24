@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { animated, useSpring } from '@react-spring/web';
 import { useEffect, useState, useRef } from 'react';
 import FullDisplay from './full_display';
+import { image_type } from '../../utils/gallery_helpers';
 
 interface props {
 title: string;
@@ -13,11 +14,13 @@ image_urls: {
 },
 aspect_ratio: number,
 width: number,
+type: image_type|null,
+id: number,
 setRef: (element: HTMLImageElement | null) => void
 onClick: ()=> void
 }
 
-export default function GalleryImageContainer({title, description, image_urls, aspect_ratio, width, setRef, onClick=()=>{}}: props) {
+export default function GalleryImageContainer({title, description, image_urls, aspect_ratio, width, id, type, setRef, onClick=()=>{}}: props) {
 
 const infoBoxRef = useRef(null)
 const imageRef = useRef(null)
@@ -56,6 +59,7 @@ const hide_loading = useSpring({
 });
 
 useEffect(() => {
+	// console.log(type)
 	// Update the height when focus changes
 	if (focus && infoBoxRef.current) {
 	setInfoBoxHeight(`${infoBoxRef.current.scrollHeight + 16}px`);
@@ -66,7 +70,7 @@ useEffect(() => {
 
 return (
 
-	<animated.div className={`w-full rounded-lg overflow-visible cursor-pointer z-50`}
+	<animated.div className={`w-full rounded-lg overflow-visible cursor-pointer z-50 relative`}
 		onClick={() => set_focus(!focus)}
 		onMouseOver={() => set_mouseover(true)} onMouseOut={() => set_mouseover(false)}
 		style={{...containerHover}}>
@@ -90,6 +94,10 @@ return (
 				borderRadius: '8px',
 				...hide_loading,
 			}}/>
+
+			{!type && <div className='bg-red-500/80 z-50 bottom-2 right-2 absolute px-4 rounded-full font-bold'>
+				{`missing type ${id}`}
+				</div>}
 
 		</div>
 
