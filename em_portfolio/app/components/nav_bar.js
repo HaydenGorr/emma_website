@@ -28,9 +28,9 @@ export default function NavBar() {
 
     // const pages = ['/', '/galleries', '/about', '/contact']
     const pages = [{path: '/', name: 'Home'},
-        {path: '/about_me', name: 'About Me'},
+        {path: '/stop_motion', name: 'Stop Motion Animation'},
         {path: '/galleries', name: 'Gallery'},
-        {path: '/videos', name: 'My Videos'},
+        {path: '/animation_reel', name: 'Animation Reel'},
         {path: '/work_with_me', name: 'Work With Me'}]
 
     const handlePageChange = (url, button_ref) => {

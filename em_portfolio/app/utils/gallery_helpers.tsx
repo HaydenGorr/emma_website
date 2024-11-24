@@ -15,10 +15,22 @@ export interface ImageProps {
 	aspect_ratio: number;
 	width: number;
 	pinned: boolean;
+	type: image_type;
 }
 
 export interface image_object {
 	[id: number]: ImageProps 
+}
+
+export interface image_type {
+	art_type: "none" | "digital" | "sculpture" | "drawing" 
+}
+
+export enum image_type_enum {
+	"none",
+	"digital",
+	"sculpture",
+	"drawing"
 }
 
 export interface porfolio_return_type {
@@ -50,6 +62,7 @@ const process_image_fetch_request = (result_data):ImageProps[]  => {
 				aspect_ratio: image_obj.Image.width/image_obj.Image.height,
 				width: image_obj.Image.width,
 				pinned: image_obj.pinned == true,
+				type: image_type_enum[image_obj.art_type] || image_type_enum["*"],
 			})
 		}
 		catch {
@@ -59,11 +72,13 @@ const process_image_fetch_request = (result_data):ImageProps[]  => {
 		
 	}
 
+	console.log("draw", processed_images)
+
 	return processed_images
 }
 
-export const get_images = async (level, filter_themes: string[], filter_mediums:string[], get_pinned:Boolean ): Promise<porfolio_return_type> => {
-	const result = await get_portfolio_images_promise(level, filter_themes, filter_mediums, get_pinned)
+export const get_images = async (level, filter_type:string, get_pinned:Boolean ): Promise<porfolio_return_type> => {
+	const result = await get_portfolio_images_promise(level, (filter_type || "*"), get_pinned)
 	return {data: process_image_fetch_request(result.data), max_page:result.meta.pagination.pageCount, total:result.meta.pagination.total}
 }
 

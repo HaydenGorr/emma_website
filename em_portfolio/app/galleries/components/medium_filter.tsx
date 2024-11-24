@@ -1,20 +1,21 @@
 import { useSpring, animated } from '@react-spring/web'
 import { useState, useEffect } from 'react'
 import SearchChip from './search_chip';
+import { image_type } from '../../utils/gallery_helpers';
 
 interface Props {
     chips: string[];
-    selected_items: string[];
+    selected_item: string;
     selected: string;
     unselected: string;
     bg_clour: string;
     border_colour: string;
-    adjust_filter: (a: string[], b?: string[]) => void;
+    adjust_filter: (a: string) => void;
 }
 
 export default function MediumFilter({ 
     chips, 
-    selected_items, 
+    selected_item, 
     selected, 
     unselected, 
     bg_clour, 
@@ -23,14 +24,6 @@ export default function MediumFilter({
 }: Props) {
 
     const [animate, set_animate] = useState(false)
-
-    const return_updated_filter_list = (sel_str) => {
-        if (selected_items.includes(sel_str)) {
-            return selected_items.filter(val => val !== sel_str);
-        } else {
-            return [...selected_items, sel_str];
-        }
-    }
 
     const springs = useSpring({
         from: { width: "100%", opacity: 0, scale: 0.9},
@@ -55,10 +48,10 @@ export default function MediumFilter({
                     return (
                         <div className={`overflow-visible`} key={val}>
                             <SearchChip
-                            isSelected={selected_items.includes(val.toUpperCase())}
-                            onClick={()=>{adjust_filter(return_updated_filter_list(val.toUpperCase()))}}
+                            isSelected={selected_item == val}
+                            onClick={()=>{adjust_filter( val )}}
                             text={val}
-                            colour={selected_items.includes(val.toUpperCase()) ? selected: unselected}/>
+                            colour={selected_item == val.toLocaleLowerCase() ? selected: unselected}/>
                         </div>
                     )
                     })}

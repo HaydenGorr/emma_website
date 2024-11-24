@@ -1,26 +1,29 @@
-function build_image_getter_url(level, selected_themes=[], selected_mediums=[], get_pinned) {
-    
+function build_image_getter_url(level, filter_type, get_pinned) {
+
+    console.log("spot", level, filter_type, get_pinned)
 
     const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '15' : '15'}&pagination[page]=${level}&sort=createdAt:desc`
     
-    const theme_addition = selected_themes.map((val, index) => {
-        return `filters[$and][0][$or][${index}][medium_theme][theme][$eq]=${val}`;
-    }).join('&');
-    
-    const medium_addition = selected_mediums.map((val, index) => {
-        return `filters[$and][1][$or][${index}][medium_theme][medium][$eq]=${val}`;
-    }).join('&');
+    // Handle filter_type based on whether it's "*" or a specific value
+    const filter_type_addition = filter_type 
+        ? (filter_type === "*" 
+            ? `filters[$and][0][art_type][$eq]=*`  // When filter_type is "*"
+            : `filters[$and][0][art_type][$eq]=${filter_type}`) // For specific values
+        : '';
 
-    // Add the pinned filter as another AND condition
+    // Pinned filter becomes the second AND condition
     const pinned_filter = get_pinned 
-    ? `filters[$and][2][pinned][$eq]=true`
-    : `filters[$and][2][$or][0][pinned][$eq]=false&filters[$and][2][$or][1][pinned][$null]=true`;
+        ? `filters[$and][1][pinned][$eq]=true`
+        : `filters[$and][1][$or][0][pinned][$eq]=false&filters[$and][1][$or][1][pinned][$null]=true`;
 
-    const final_url = step1_url + (theme_addition ? `&${theme_addition}` : '') + (medium_addition ? `&${medium_addition}` : '') + (`&${pinned_filter}`)
+    const final_url = step1_url + 
+        (filter_type_addition ? `&${filter_type_addition}` : '') +
+        (`&${pinned_filter}`);
+
+    console.log("summoning", final_url);
 
     return final_url
 }
-
 export const get_portfolio_images = async (level, selected_themes=[], selected_mediums=[], get_pinned, callback) => {
 
     const url = build_image_getter_url(level, selected_themes=[], selected_mediums=[], get_pinned)
@@ -96,10 +99,9 @@ export const get_youtube_data_promise = async (page) => {
     }
 };
 
-export const get_portfolio_images_promise = async (level, selected_themes=[], selected_mediums=[], get_pinned, callback) => {
+export const get_portfolio_images_promise = async (level, filter_type, get_pinned, callback) => {
+    const url = build_image_getter_url(level, filter_type, get_pinned)
 
-    const url = build_image_getter_url(level, selected_themes, selected_mediums, get_pinned)
-    console.log(selected_themes, selected_mediums, url)
     try {
         const response = await fetch(url, {
             headers: {
