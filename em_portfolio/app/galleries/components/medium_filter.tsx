@@ -40,10 +40,10 @@ export default function MediumFilter({
 
     return (
         
-        <animated.div className={`flex ${bg_clour} border-2 ${border_colour} rounded-lg overflow-x-scroll hide-scroll h-16`} style={{...springs}}>
-            <div className={`cursor-pointer flex justify-center items-center z-40`}>
+        <animated.div className={`flex ${bg_clour} border-2 ${border_colour} rounded-lg overflow-x-scroll hide-scroll h-16 w-full`} style={{...springs}}>
+            <div className={`cursor-pointer flex justify-center items-center z-40 w-full`}>
 
-                {<div className={'flex justify-start space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
+                {<div className={'flex w-full justify-around space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >
                 {chips.map((val: string, index) => {
                     return (
                         <div className={`overflow-visible`} key={val}>
@@ -51,7 +51,7 @@ export default function MediumFilter({
                             isSelected={selected_item == val}
                             onClick={()=>{adjust_filter( val )}}
                             text={val}
-                            colour={selected_item == val.toLocaleLowerCase() ? selected: unselected}/>
+                            colour={selected_item.toLowerCase() == val.toLowerCase() ? selected: unselected}/>
                         </div>
                     )
                     })}

@@ -1,18 +1,13 @@
 'use client';
-import { useEffect, useState, useRef, use } from "react";
-import { get_portfolio_images } from "../../utils/api";
-import Masonry from 'react-masonry-css';
-import GalleryImageContainer from "../components/gallery_image_container";
+import { useState, useRef } from "react";
 import { animated, useSpring} from '@react-spring/web'
 import MediumFilter from "../components/medium_filter";
-import { getFullImageUrl, getDisplayImageUrl } from "../../utils/getimageurl";
 import Title from "../../components/title"
 import FullDisplay from '../components/full_display'
-import PinnedGalleryImageContainer from "../components/pinned_gallery_image_container";
 import SizeButton from "../components/size_button";
 import ScrollingGallery from "../components/scrolling_gallery";
 import { get_images } from "../../utils/gallery_helpers";
-import {porfolio_return_type, image_object, image_type, ImageProps} from '../../utils/gallery_helpers';
+import {porfolio_return_type, ImageProps} from '../../utils/gallery_helpers';
 
 interface asdwd {
 	[id: number]: HTMLImageElement | null 
@@ -29,14 +24,14 @@ export default function DisplayPage() {
 
 const sort_chips = ["Digital", "Sculpture", "Drawing"] 
 
-const [selected_sort_chip, set_sort_chip] = useState(null); // For filtering
+const [selected_sort_chip, set_sort_chip] = useState(""); // For filtering
 
 const [selected_image, set_selected_image] = useState<ImageProps|null>(null);
 const [perform_refresh, set_perform_refresh] = useState(true);
 
 const [user_pref_gallery_size, set_user_pref_gallery_size] = useState<gallery_size>(gallery_size.large); 
 
-const sort_chip_for_searching = useRef(null); // The current page we have loaded. Will incriment
+const sort_chip_for_searching = useRef(""); // The current page we have loaded. Will incriment
 
 /** Used to show images once they've loaded
  * The loaded state var won't do because it toggled on load
@@ -66,11 +61,11 @@ const loadingSpring = useSpring({
 const adjust_filter = ( sort:string ) => {
 
 	if (sort !== null) {
-		set_sort_chip(sort.toLowerCase())
-		sort_chip_for_searching.current = sort.toLowerCase()
-	}
+		const set_val = sort_chip_for_searching.current == sort.toLowerCase() ? "" : sort.toLowerCase()
 
-	console.log("sort_chip_for_searching", sort_chip_for_searching)
+		set_sort_chip(set_val)
+		sort_chip_for_searching.current = set_val
+	}
 
 	// if (themes !== null) {
 	// 	set_selected_theme(themes)
@@ -159,7 +154,7 @@ return (
 		<animated.div className="w-full h-full flex justify-center z-50" style={loadingSpring}>
 			<ScrollingGallery
 				on_img_click={(image_obj: ImageProps|null) => set_selected_image(image_obj)}
-				title="Pinned"
+				title={`${selected_sort_chip.charAt(0).toUpperCase() + selected_sort_chip.slice(1)} Pinned`}
 				className={"max-w-[80rem]"}
 				colBreakpoints={getColumnBreakpoints()}
 				perform_refresh={perform_refresh}
@@ -173,6 +168,7 @@ return (
 				}}
 			/>
 		</animated.div>
+
 		<animated.div className="w-full h-full flex justify-center z-50" style={loadingSpring}>
 			<ScrollingGallery
 				on_img_click={(image_obj: ImageProps|null) => set_selected_image(image_obj)}

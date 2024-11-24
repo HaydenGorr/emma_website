@@ -15,7 +15,7 @@ export interface ImageProps {
 	aspect_ratio: number;
 	width: number;
 	pinned: boolean;
-	type: image_type;
+	type: image_type|null;
 }
 
 export interface image_object {
@@ -43,7 +43,6 @@ const process_image_fetch_request = (result_data):ImageProps[]  => {
 	var processed_images:ImageProps[] = []
 
 	for (let image_obj of result_data) {
-		
 		const id = image_obj.medium_theme?.id || image_obj.i-1 || null
 		if (!id) continue
 
@@ -62,17 +61,13 @@ const process_image_fetch_request = (result_data):ImageProps[]  => {
 				aspect_ratio: image_obj.Image.width/image_obj.Image.height,
 				width: image_obj.Image.width,
 				pinned: image_obj.pinned == true,
-				type: image_type_enum[image_obj.art_type] || image_type_enum["*"],
+				type: image_obj?.art_type?.art_type || null,
 			})
 		}
 		catch {
 			continue
 		}
-
-		
 	}
-
-	console.log("draw", processed_images)
 
 	return processed_images
 }
@@ -81,25 +76,3 @@ export const get_images = async (level, filter_type:string, get_pinned:Boolean )
 	const result = await get_portfolio_images_promise(level, (filter_type || "*"), get_pinned)
 	return {data: process_image_fetch_request(result.data), max_page:result.meta.pagination.pageCount, total:result.meta.pagination.total}
 }
-
-// export const FetchImages = (inloadingLevel=loadingLevelRef.current) => {
-
-// 	fetchingRef.current = true
-
-// 	const isFirstLoad = inloadingLevel === 1;
-
-// 	get_portfolio_images(inloadingLevel, themes_for_searching.current, mediums_for_searching.current, false, (res) => {
-// 		if (isFirstLoad) maxloadingLevelRef.current = res.meta.pagination.pageCount
-
-// 		var formattedImages:image_object = process_image_fetch_request(res.data)
-
-// 		set_images((prevImages: image_object) => {
-// 			const finalArray = isFirstLoad ? {} : {...prevImages};
-// 			return {...finalArray, ...formattedImages};
-// 		});
-
-// 		set_loading(false)
-// 	});
-
-// 	fetchingRef.current = false
-// }

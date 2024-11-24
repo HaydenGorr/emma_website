@@ -1,14 +1,12 @@
 function build_image_getter_url(level, filter_type, get_pinned) {
 
-    console.log("spot", level, filter_type, get_pinned)
-
     const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '15' : '15'}&pagination[page]=${level}&sort=createdAt:desc`
     
     // Handle filter_type based on whether it's "*" or a specific value
     const filter_type_addition = filter_type 
         ? (filter_type === "*" 
-            ? `filters[$and][0][art_type][$eq]=*`  // When filter_type is "*"
-            : `filters[$and][0][art_type][$eq]=${filter_type}`) // For specific values
+            ? ``  // When filter_type is "*"
+            : `filters[$and][0][art_type][art_type][$eq]=${filter_type}`) // For specific values
         : '';
 
     // Pinned filter becomes the second AND condition
@@ -19,8 +17,6 @@ function build_image_getter_url(level, filter_type, get_pinned) {
     const final_url = step1_url + 
         (filter_type_addition ? `&${filter_type_addition}` : '') +
         (`&${pinned_filter}`);
-
-    console.log("summoning", final_url);
 
     return final_url
 }

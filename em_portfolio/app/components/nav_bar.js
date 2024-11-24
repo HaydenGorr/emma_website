@@ -28,7 +28,7 @@ export default function NavBar() {
 
     // const pages = ['/', '/galleries', '/about', '/contact']
     const pages = [{path: '/', name: 'Home'},
-        {path: '/stop_motion', name: 'Stop Motion Animation'},
+        {path: '/about_me', name: 'About Me'},
         {path: '/galleries', name: 'Gallery'},
         {path: '/animation_reel', name: 'Animation Reel'},
         {path: '/work_with_me', name: 'Work With Me'}]
