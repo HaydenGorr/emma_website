@@ -10,7 +10,6 @@ export default async function Home() {
         const response = await get_page_data_promise("landingpage")
         const cv_response = await get_page_data_promise("emma-cv")
         return {
-            
             visited_before: 1,
             greeting: response.data.greeting,
             your_name: response.data.your_name,

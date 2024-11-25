@@ -39,7 +39,7 @@ export default function Chips({ name, type, link, bg_colour, text_colour }) {
     style={{...growSpring}}>
         <p className="m-0 whitespace-nowrap hover:">{name}</p>
         <div className="h-5 w-5 relative m-0 opacity-60 ml-2">
-            <Image src={"/icons/cursor.png"} fill className="object-cover m-0"/>
+            <Image alt={"cursor image"} src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0"/>
         </div>
     </animated.div>
   )

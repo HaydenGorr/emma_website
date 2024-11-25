@@ -83,7 +83,7 @@ export default function WorkWithMe() {
                         {emma_header}
                         <button className="font-medium text-xs bg-perfume-400 py-1 px-2 rounded-full flex items-center" onClick={()=> {set_openContactForm(!openContactForm)}}>
                             {"quick contact"}
-                            <Image src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0 ml-1"/>
+                            <Image alt={"cursor image"} src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0 ml-1"/>
                         </button>
                     </div>
 

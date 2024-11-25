@@ -38,7 +38,7 @@ export default function SizeButton({isSelected, onClick, size }) {
 			onClick={ () => onClick()}
 			onMouseOver={()=>{set_gallery_size_hover(true)}}
 			onMouseOut={()=>{set_gallery_size_hover(false)}}>
-                <Image className="self-center" src={`/icons/${getImage()}.png`} width={22} height={22} alt=""></Image>
+                <Image className="self-center" src={`/icons/${getImage()}.png`} width={22} height={22} alt="size button"></Image>
 		</animated.button>
   );
 }

@@ -74,7 +74,7 @@ export default function FullDisplay({close, url, already_loaded, title, descript
 		<animated.div className='fixed inset-0 w-screen h-screen backdrop-blur-3xl bg-black/80' style={{zIndex: 998, ...springs}}>
 
 			<button className={"absolute right-2 top-2 sm:h-9 sm:w-9 h-10 w-10 z-50"} onClick={() => close()}>
-				<Image className='z-40' alt={""} width={50} height={50} src={"/icons/close.png"}/>
+				<Image className='z-40' alt={"close button"} width={50} height={50} src={"/icons/close.png"}/>
 			</button>
 
 			<div className='fixed inset-4'>

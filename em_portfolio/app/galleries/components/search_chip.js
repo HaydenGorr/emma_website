@@ -8,7 +8,7 @@ export default function SearchChip({isSelected, onClick, text, colour}) {
 
     const chipSpring = useSpring({
         from: { transform: 'scale(1)' },
-        to: isSelected ? { transform: 'scale(1.1)' } : { transform: 'scale(1)' },
+        to: clicked ? { transform: 'scale(1.1)' } : { transform: 'scale(1)' },
         config: {
           tension: 300,
           friction: 10,
