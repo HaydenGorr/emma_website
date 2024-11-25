@@ -110,7 +110,7 @@ return (
 
 				{fetched_images.map((val, index) => (
 				<animated.div key={val.id} className="w-full flex items-center px-8 pb-16 h-fit relative">
-					<GalleryImageContainer {...val} setRef={()=>{}} onClick={()=> (on_img_click(val))}/>
+					<GalleryImageContainer {...val} onClick={()=> (on_img_click(val))}/>
 				</animated.div>
 				))}
 				

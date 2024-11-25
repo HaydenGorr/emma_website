@@ -16,11 +16,10 @@ aspect_ratio: number,
 width: number,
 type: image_type|null,
 id: number,
-setRef: (element: HTMLImageElement | null) => void
 onClick: ()=> void
 }
 
-export default function GalleryImageContainer({title, description, image_urls, aspect_ratio, width, id, type, setRef, onClick=()=>{}}: props) {
+export default function GalleryImageContainer({title, description, image_urls, aspect_ratio, width, id, type, onClick=()=>{}}: props) {
 
 const infoBoxRef = useRef(null)
 const imageRef = useRef(null)
