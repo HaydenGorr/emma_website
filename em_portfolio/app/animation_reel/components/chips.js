@@ -12,7 +12,7 @@ export default function Chips({ text, link }) {
         onMouseOut={() => setHovered(false)}>
             <p className="m-0 whitespace-nowrap text-xl">{text}</p>
             <div className="h-5 w-5 relative m-0 opacity-60 ml-2 self-center">
-                <Image src={"/icons/cursor.png"} fill className="object-cover m-0"/>
+                <Image src={"/icons/cursor.png"} fill className="object-cover m-0" alt=''/>
             </div>
         </div>
     )

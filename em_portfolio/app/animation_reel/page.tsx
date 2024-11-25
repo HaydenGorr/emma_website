@@ -7,7 +7,7 @@ import ChannelDisplay from "../animation_reel/components/channel_display";
 import { parse_video_response, getVideosFromStrapi } from "../utils/videos";
 import { youtubeVideo, VideoLink_strapi, strapi_video_pages } from "../utils/interfaces/videos";
 
-export const revalidate = 120
+export const revalidate = 0
 
 export default async function AnimationReel() {
 
@@ -15,7 +15,7 @@ export default async function AnimationReel() {
         const res = await get_page_data_promise("video-page");
         return res.data;
     })();
-    const video_links:VideoLink_strapi[] = await getVideosFromStrapi(strapi_video_pages.stop_motion_animation_page);
+    const video_links:VideoLink_strapi[] = await getVideosFromStrapi(strapi_video_pages.animation_reel_page);
     const data: youtubeVideo[] = parse_video_response(await get_youtube_data_promise(playlist_ID), video_links)
 
     return (

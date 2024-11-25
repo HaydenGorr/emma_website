@@ -8,6 +8,7 @@ import Markdown from "react-markdown";
 import { stringify_strapi_richtext } from "../utils/richtext";
 import { getSmallestImageUrl } from '../utils/getimageurl';
 import ContactFormNew from "./components/contact_form";
+import Title from "../components/title";
 
 // export const revalidate = Number(process.env.REVALIDATE);
 
@@ -62,7 +63,8 @@ export default function WorkWithMe() {
 
     return (
         <div className={`h-full w-full items-center flex flex-col ${image_src ? "" : "hidden"}`}>
-            <animated.div className={`w-40 h-40 my-20 shadow-strong relative aspect-square rounded-lg overflow-hidden z-40 bg-green-500`}
+            <Title text={"Work With Me"}></Title>
+            <animated.div className={`w-40 h-40 mb-20 shadow-strong relative aspect-square rounded-lg overflow-hidden z-40 bg-green-500`}
             style={{...imageSpring}}>
                 <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/${image_src}`}

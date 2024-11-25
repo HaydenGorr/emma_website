@@ -1,13 +1,12 @@
 import YoutubeStats from "../animation_reel/components/youtube_stats";
 import { get_youtube_data_promise } from "../utils/api";
 import Title from "../components/title";
-import Chips from "../animation_reel/components/chips"
-import { get_page_data_promise, get_strapi_videos_promise } from "../utils/api";
+import { get_page_data_promise } from "../utils/api";
 import ChannelDisplay from "../animation_reel/components/channel_display";
 import { parse_video_response, getVideosFromStrapi } from "../utils/videos";
 import { youtubeVideo, VideoLink_strapi, strapi_video_pages } from "../utils/interfaces/videos";
 
-export const revalidate = 120
+export const revalidate = 0
 
 
 export default async function StopMotionAnimation() {

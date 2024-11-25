@@ -78,6 +78,8 @@ export const parse_video_response = (youtube_api_videos: any, video_links: Video
 export const getVideosFromStrapi = async (page: strapi_video_pages): Promise<VideoLink_strapi[]> => {
 
     const data = await get_strapi_videos_promise(page)
+    
+    console.log("strap", data)
 
     return (
         data.data.map((val):VideoLink_strapi =>{

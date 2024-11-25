@@ -34,6 +34,8 @@ export const get_strapi_videos_promise = async (page: strapi_video_pages) => {
         add_string = "?filters[Stop_Motion_Animation][$eq]=true"
     }
 
+    console.log("tier", `https://www.emmadannpersonal.com/api/video-links${add_string}&populate=*`)
+
     try {
         const response = await fetch(`https://www.emmadannpersonal.com/api/video-links${add_string}&populate=*`, {
             headers: {
@@ -63,7 +65,6 @@ export const get_page_data = async (page, callback) => {
 }
 
 export const get_page_data_promise = async (page: string) => {
-    console.log("calling")
     try {
         const response = await fetch(`https://www.emmadannpersonal.com/api/${page}?populate=*`, {
             headers: {
@@ -72,7 +73,6 @@ export const get_page_data_promise = async (page: string) => {
             }
         });
         const data = await response.json();
-        console.log("live", data)
         return data;
     } catch (error) {
         console.error('Error:', error);

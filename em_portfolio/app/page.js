@@ -3,7 +3,7 @@ import { get_page_data_promise } from './utils/api'
 import HomePageDynamic from './home_components/home';
 import { getSmallestImageUrl } from './utils/getimageurl';
 
-export const revalidate = 600
+export const revalidate = 120
 
 export default async function Home() {
 	const set_vars = async () => {
