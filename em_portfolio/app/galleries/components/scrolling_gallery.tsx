@@ -5,6 +5,7 @@ import GalleryImageContainer from "../components/gallery_image_container";
 import { animated } from '@react-spring/web'
 import Title from "../../components/title"
 import { ImageProps } from '../../utils/gallery_helpers'
+import { gallery_type_enum } from "../../interfaces";
 
 interface props {
 
@@ -18,13 +19,14 @@ interface props {
 	) => void;
 	className?: string;
 	title: string;
+	gallery_type: gallery_type_enum;
 	on_img_click?: (image_obj: ImageProps) => void;
 	perform_refresh: Boolean;
 }
 
 
 
-export default function ScrollingGallery( {title, colBreakpoints, className, perform_refresh, fetch_images_callback, on_img_click=() =>{}} : props ) {
+export default function ScrollingGallery( {title, gallery_type, colBreakpoints, className, perform_refresh, fetch_images_callback, on_img_click=() =>{}} : props ) {
 
 const [fetched_images, set_fetched_images] = useState<ImageProps[]>([]);
 

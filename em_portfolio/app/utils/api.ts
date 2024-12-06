@@ -1,27 +1,41 @@
 import { strapi_video_pages } from "./interfaces/videos";
-
-function build_image_getter_url(level, filter_type, get_pinned) {
-
-    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${get_pinned ? '15' : '15'}&pagination[page]=${level}&sort=createdAt:desc`
-    
-    // Handle filter_type based on whether it's "*" or a specific value
-    const filter_type_addition = filter_type 
-        ? (filter_type === "*" 
-            ? ``  // When filter_type is "*"
-            : `filters[$and][0][art_type][art_type][$eq]=${filter_type}`) // For specific values
-        : '';
-
-    // Pinned filter becomes the second AND condition
-    const pinned_filter = get_pinned 
-        ? `filters[$and][1][pinned][$eq]=true`
-        : `filters[$and][1][$or][0][pinned][$eq]=false&filters[$and][1][$or][1][pinned][$null]=true`;
-
-    const final_url = step1_url + 
-        (filter_type_addition ? `&${filter_type_addition}` : '') +
-        (`&${pinned_filter}`);
-
-    return final_url
+function ensureArray<T>(input: T | T[]): T[] {
+    return Array.isArray(input) ? input : [input];
 }
+function build_image_getter_url(
+    level: number | string,
+    filter_type: string | string[],
+    get_pinned: Boolean
+): string {
+    console.log("Original filter_type:", filter_type);
+
+    // Normalize filter_type to always be an array
+    const filters: string[] = ensureArray(filter_type);
+    console.log("Normalized filters:", filters);
+
+    const pageSize = '15'; // Assuming pageSize is always 15
+    const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${pageSize}&pagination[page]=${level}&sort=createdAt:desc`;
+
+    let final_url = step1_url;
+
+    // Handle multiple filter types using $or
+    if (filters.length > 0 && filters[0] !== "*") {
+        filters.forEach((type, index) => {
+            const encodedType = encodeURIComponent(type);
+            final_url += `&filters[$and][0][$or][${index}][art_type][work_type][$eq]=${encodedType}`;
+        });
+    }
+
+    // Handle pinned filter
+    if (get_pinned) {
+        final_url += `&filters[$and][1][pinned][$eq]=true`;
+    } else {
+        final_url += `&filters[$and][1][$or][0][pinned][$eq]=false&filters[$and][1][$or][1][pinned][$null]=true`;
+    }
+
+    return final_url;
+}
+
 
 export const get_strapi_videos_promise = async (page: strapi_video_pages) => {
 
@@ -93,7 +107,9 @@ export const get_youtube_data_promise = async (playlist_ID:string) => {
     }
 };
 
-export const get_portfolio_images_promise = async (level, filter_type, get_pinned) => {
+export const get_portfolio_images_promise = async (level:string|number, filter_type: string[], get_pinned:Boolean) => {
+
+    
     const url = build_image_getter_url(level, filter_type, get_pinned)
 
     try {

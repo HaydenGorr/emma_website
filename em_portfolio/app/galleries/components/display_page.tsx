@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { animated, useSpring} from '@react-spring/web'
 import MediumFilter from "../components/medium_filter";
 import Title from "../../components/title"
@@ -8,6 +8,7 @@ import SizeButton from "../components/size_button";
 import ScrollingGallery from "../components/scrolling_gallery";
 import { get_images } from "../../utils/gallery_helpers";
 import {porfolio_return_type, ImageProps} from '../../utils/gallery_helpers';
+import { gallery_type_enum, all_standard_types } from "../../interfaces";
 
 interface asdwd {
 	[id: number]: HTMLImageElement | null 
@@ -20,7 +21,7 @@ enum gallery_size {
 	none
 }
 
-export default function DisplayPage() {
+export default function DisplayPage({ gallery_type }) {
 
 const sort_chips = ["Digital", "Sculpture", "Drawing"] 
 
@@ -31,7 +32,7 @@ const [perform_refresh, set_perform_refresh] = useState(true);
 
 const [user_pref_gallery_size, set_user_pref_gallery_size] = useState<gallery_size>(gallery_size.large); 
 
-const sort_chip_for_searching = useRef(""); // The current page we have loaded. Will incriment
+const sort_chip_for_searching = useRef<string[]>(gallery_type == gallery_type_enum.standard ? all_standard_types : gallery_type == gallery_type_enum.doll ? ['doll'] : ['makeup']); // The current page we have loaded. Will incriment
 
 /** Used to show images once they've loaded
  * The loaded state var won't do because it toggled on load
@@ -60,10 +61,12 @@ const loadingSpring = useSpring({
 
 const adjust_filter = ( sort:string ) => {
 
-	if (sort !== null) {
-		const set_val = sort_chip_for_searching.current == sort.toLowerCase() ? "" : sort.toLowerCase()
+	if (gallery_type != gallery_type_enum.standard) return
 
-		set_sort_chip(set_val)
+	if (sort !== null) {
+		const set_val: string[] = sort_chip_for_searching.current.includes(sort.toLowerCase()) ? all_standard_types : [sort.toLowerCase()]
+
+		set_sort_chip(set_val == all_standard_types ? "" : set_val[0])
 		sort_chip_for_searching.current = set_val
 	}
 
@@ -123,7 +126,7 @@ return (
 
 		<Title text={"Gallery"}/>
 
-		<div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
+		{gallery_type == gallery_type_enum.standard && <div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
 			<animated.div style={springs} className="space-y-8">
 				<MediumFilter 
 					chips={sort_chips}
@@ -134,7 +137,7 @@ return (
 					unselected={"bg-perfume-200"}
 					selected={"bg-perfume-400"}/>
 			</animated.div>		
-		</div>
+		</div>}
 
 		<animated.div className="w-full flex items-center justify-center z-50 my-8 space-x-4" style={springs}>
 			<SizeButton
@@ -158,10 +161,12 @@ return (
 				className={"max-w-[80rem]"}
 				colBreakpoints={getColumnBreakpoints()}
 				perform_refresh={perform_refresh}
+				gallery_type={gallery_type}
 				fetch_images_callback={ async (loadingLevel, callback) => {
 					const new_images:porfolio_return_type = await get_images(
+						gallery_type,
 						loadingLevel,
-						sort_chip_for_searching.current,
+						Array.isArray(sort_chip_for_searching.current) ? sort_chip_for_searching.current : [sort_chip_for_searching.current],
 						true)
 					set_show_images(true)
 					callback(new_images.data, new_images.max_page)
@@ -174,12 +179,14 @@ return (
 				on_img_click={(image_obj: ImageProps|null) => set_selected_image(image_obj)}
 				title="Rest of Gallery"
 				className={"max-w-[80rem]"}
+				gallery_type={gallery_type}
 				colBreakpoints={getColumnBreakpoints()}
 				perform_refresh={perform_refresh}
 				fetch_images_callback={ async (loadingLevel, callback) => {
 					const new_images:porfolio_return_type = await get_images(
+						gallery_type,
 						loadingLevel,
-						sort_chip_for_searching.current,
+						Array.isArray(sort_chip_for_searching.current) ? sort_chip_for_searching.current : [sort_chip_for_searching.current],
 						false)
 					set_show_images(true)
 					callback(new_images.data, new_images.max_page)

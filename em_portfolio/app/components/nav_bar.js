@@ -2,6 +2,7 @@
 import { useSpring, animated } from '@react-spring/web'
 import { useState, useEffect, useRef } from 'react'
 import { usePathname, useRouter } from 'next/navigation';
+import { gallery_type_enum } from '../interfaces';
 
 export default function NavBar() {
     const pathname = usePathname();
@@ -29,7 +30,9 @@ export default function NavBar() {
     // const pages = ['/', '/galleries', '/about', '/contact']
     const pages = [{path: '/', name: 'Home'},
         {path: '/stop_motion_animation', name: 'Stop Motion Animation'},
-        {path: '/galleries', name: 'Gallery'},
+        {path: `/galleries/${gallery_type_enum.makeup}`, name: 'Makeup'},
+        {path: `/galleries/${gallery_type_enum.doll}`, name: 'Dolls'},
+        {path: `/galleries/${gallery_type_enum.standard}`, name: 'Gallery'},
         {path: '/animation_reel', name: 'Animation Reel'},
         {path: '/work_with_me', name: 'Work With Me'}]
 
