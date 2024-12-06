@@ -43,6 +43,8 @@ const grab_images_lambda = () => {
 	fetch_images_callback(loadingLevelRef.current, (fetchedItems: ImageProps[], max_pages: number) => {
 		set_fetched_images((prevImages: ImageProps[]) => {
 
+			console.log(fetchedItems)
+
 			maxloadingLevelRef.current = max_pages
 			var return_val = []
 			if (clearImagesFlag.current){
@@ -59,14 +61,14 @@ const grab_images_lambda = () => {
 };
 
 useEffect(()=>{
-clearImagesFlag.current = true
-loadingLevelRef.current = 1
-grab_images_lambda()
+	clearImagesFlag.current = true
+	loadingLevelRef.current = 1
+	grab_images_lambda()
 }, [perform_refresh])
 
 // useEffect(()=>{
-// 	console.log(fetched_images.length)
-// 	}, [fetched_images])
+// 	console.log("out", fetched_images)
+// })
 
 // Load new images when scroll reaches 75% of screen
 const handlescroll = () => {

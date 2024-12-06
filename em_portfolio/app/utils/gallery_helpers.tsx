@@ -24,7 +24,7 @@ export interface image_object {
 }
 
 export interface image_type {
-	work_type: "none" | "digital" | "sculpture" | "drawing" 
+	work_type: "none" | "digital" | "sculpture" | "drawing" | "doll" | "makeup"
 }
 
 export enum image_type_enum {
@@ -62,7 +62,7 @@ const process_image_fetch_request = (result_data):ImageProps[]  => {
 				aspect_ratio: image_obj.Image.width/image_obj.Image.height,
 				width: image_obj.Image.width,
 				pinned: image_obj.pinned == true,
-				type: image_obj?.work_type?.work_type || null,
+				type: image_obj?.art_type?.work_type || null,
 			})
 		}
 		catch {
@@ -73,19 +73,22 @@ const process_image_fetch_request = (result_data):ImageProps[]  => {
 	return processed_images
 }
 
-export const get_images = async (gallery_type: gallery_type_enum, level:number|string, filter_type:string[], get_pinned:Boolean ): Promise<porfolio_return_type> => {
-
+export const get_images = async (gallery_type: gallery_type_enum, level:number|string, filter_type:string, get_pinned:Boolean ): Promise<porfolio_return_type> => {
+	var should_fetch_null_images = false
 	var normalised_filter = []
 
 	if (gallery_type == gallery_type_enum.doll) normalised_filter = ["doll"]
 	else if (gallery_type == gallery_type_enum.makeup) normalised_filter = ["makeup"]
-	else if (gallery_type == gallery_type_enum.standard) normalised_filter = filter_type || all_standard_types
+	else if (gallery_type == gallery_type_enum.standard) {
+		if (filter_type == "") {
+			normalised_filter = all_standard_types.map((val)=>{return val})
+			should_fetch_null_images = true
+		}
+		else normalised_filter = [filter_type]
+	}
 
-	console.log("gallery_type", gallery_type)
-	console.log("normalised_filter", normalised_filter)
-	console.log("filter_type", filter_type)
-	console.log("\n\n\n\n\n")
 
-	const result = await get_portfolio_images_promise(level, normalised_filter, get_pinned)
+	const result = await get_portfolio_images_promise(level, normalised_filter, get_pinned, should_fetch_null_images)
+	console.log("woosh",  result)
 	return {data: process_image_fetch_request(result.data), max_page:result.meta.pagination.pageCount, total:result.meta.pagination.total}
 }

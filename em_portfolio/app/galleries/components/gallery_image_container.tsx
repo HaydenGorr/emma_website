@@ -69,7 +69,7 @@ useEffect(() => {
 
 return (
 
-	<animated.div className={`w-full rounded-lg overflow-visible cursor-pointer z-50 relative`}
+	<animated.div className={`w-full rounded-lg overflow-visible cursor-pointer z-50 relative piccy`}
 		onClick={() => set_focus(!focus)}
 		onMouseOver={() => set_mouseover(true)} onMouseOut={() => set_mouseover(false)}
 		style={{...containerHover}}>

@@ -10,10 +10,6 @@ import { get_images } from "../../utils/gallery_helpers";
 import {porfolio_return_type, ImageProps} from '../../utils/gallery_helpers';
 import { gallery_type_enum, all_standard_types } from "../../interfaces";
 
-interface asdwd {
-	[id: number]: HTMLImageElement | null 
-}
-
 enum gallery_size {
 	small,
 	medium,
@@ -23,7 +19,7 @@ enum gallery_size {
 
 export default function DisplayPage({ gallery_type }) {
 
-const sort_chips = ["Digital", "Sculpture", "Drawing"] 
+const standard_gallery_sort_chips = ["Digital", "Sculpture", "Drawing"] 
 
 const [selected_sort_chip, set_sort_chip] = useState(""); // For filtering
 
@@ -32,7 +28,16 @@ const [perform_refresh, set_perform_refresh] = useState(true);
 
 const [user_pref_gallery_size, set_user_pref_gallery_size] = useState<gallery_size>(gallery_size.large); 
 
-const sort_chip_for_searching = useRef<string[]>(gallery_type == gallery_type_enum.standard ? all_standard_types : gallery_type == gallery_type_enum.doll ? ['doll'] : ['makeup']); // The current page we have loaded. Will incriment
+/**
+ * This useRef is empty to reflect no specified filter on page load
+ * 
+ * If the user has selected an alternative gallery like dolls or makeup
+ * then the doll or makeup filter is applied
+ * 
+ * GALLERY: STANDARD
+ * 
+ */
+const sort_chip_for_searching = useRef<string>("");
 
 /** Used to show images once they've loaded
  * The loaded state var won't do because it toggled on load
@@ -64,20 +69,11 @@ const adjust_filter = ( sort:string ) => {
 	if (gallery_type != gallery_type_enum.standard) return
 
 	if (sort !== null) {
-		const set_val: string[] = sort_chip_for_searching.current.includes(sort.toLowerCase()) ? all_standard_types : [sort.toLowerCase()]
+		const set_val: string = sort_chip_for_searching.current == sort.toLowerCase() ? "" : sort.toLowerCase()
 
-		set_sort_chip(set_val == all_standard_types ? "" : set_val[0])
+		set_sort_chip(set_val)
 		sort_chip_for_searching.current = set_val
 	}
-
-	// if (themes !== null) {
-	// 	set_selected_theme(themes)
-	// 	themes_for_searching.current = themes
-	// }
-	// if (mediums !== null) {
-	// 	set_selected_medium(mediums)
-	// 	mediums_for_searching.current = mediums
-	// }
 
 	set_perform_refresh(!perform_refresh)
 }
@@ -111,6 +107,36 @@ const getColumnBreakpoints = () => {
 	}
 }
 
+const get_page_title = ()=>{
+	switch(gallery_type){
+		case (gallery_type_enum.doll):
+			return "Doll"
+		case (gallery_type_enum.makeup):
+			return "Makeup"
+		case (gallery_type_enum.standard):
+			return ""
+		default:
+			return ""
+	}
+}
+
+/**
+ * This is used to overwrite the filter for get_images() if the gallery
+ * iss not standard
+ */
+const get_filters_for_gallery_type = (): string =>{
+	switch(gallery_type){
+		case (gallery_type_enum.doll):
+			return "doll"
+		case (gallery_type_enum.makeup):
+			return "makeup"
+		case (gallery_type_enum.standard):
+			return sort_chip_for_searching.current
+		default:
+			return sort_chip_for_searching.current
+	}
+}
+
 return (
 
 	<div className="w-full flex flex-col items-center justify-center">
@@ -124,12 +150,12 @@ return (
 			theme={selected_image.theme}
 			old_url={selected_image.image_urls.size_display}/>}
 
-		<Title text={"Gallery"}/>
+		<Title text={`${get_page_title()} Gallery`}/>
 
 		{gallery_type == gallery_type_enum.standard && <div className="filters flex flex-col space-y-8 text-lg font-medium max-w-prose w-full px-4 z-50 ">
 			<animated.div style={springs} className="space-y-8">
 				<MediumFilter 
-					chips={sort_chips}
+					chips={standard_gallery_sort_chips}
 					adjust_filter={(data: string) => {adjust_filter( data )}}
 					border_colour={"border-perfume-400"}
 					selected_item={selected_sort_chip}
@@ -166,7 +192,7 @@ return (
 					const new_images:porfolio_return_type = await get_images(
 						gallery_type,
 						loadingLevel,
-						Array.isArray(sort_chip_for_searching.current) ? sort_chip_for_searching.current : [sort_chip_for_searching.current],
+						get_filters_for_gallery_type(),
 						true)
 					set_show_images(true)
 					callback(new_images.data, new_images.max_page)
@@ -186,7 +212,7 @@ return (
 					const new_images:porfolio_return_type = await get_images(
 						gallery_type,
 						loadingLevel,
-						Array.isArray(sort_chip_for_searching.current) ? sort_chip_for_searching.current : [sort_chip_for_searching.current],
+						get_filters_for_gallery_type(),
 						false)
 					set_show_images(true)
 					callback(new_images.data, new_images.max_page)

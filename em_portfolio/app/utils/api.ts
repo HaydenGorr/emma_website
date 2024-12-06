@@ -1,30 +1,32 @@
 import { strapi_video_pages } from "./interfaces/videos";
-function ensureArray<T>(input: T | T[]): T[] {
-    return Array.isArray(input) ? input : [input];
-}
+// Define all_standard_types array
+import { all_standard_types } from "../interfaces";
+
 function build_image_getter_url(
     level: number | string,
-    filter_type: string | string[],
-    get_pinned: Boolean
+    filter_type: string[],
+    get_pinned: Boolean,
+    get_null: Boolean
 ): string {
-    console.log("Original filter_type:", filter_type);
+    console.log("build_image_getter_url filter_type:", filter_type);
 
-    // Normalize filter_type to always be an array
-    const filters: string[] = ensureArray(filter_type);
-    console.log("Normalized filters:", filters);
 
     const pageSize = '15'; // Assuming pageSize is always 15
     const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${pageSize}&pagination[page]=${level}&sort=createdAt:desc`;
 
     let final_url = step1_url;
 
-    // Handle multiple filter types using $or
-    if (filters.length > 0 && filters[0] !== "*") {
-        filters.forEach((type, index) => {
-            const encodedType = encodeURIComponent(type);
-            final_url += `&filters[$and][0][$or][${index}][art_type][work_type][$eq]=${encodedType}`;
-        });
+    if (get_null) {
+        final_url += `&filters[$and][2][art_type][work_type][$null]=true`;
+    }else {
+        if (filter_type.length > 0 && filter_type[0] !== "*") {
+            filter_type.forEach((type, index) => {
+                const encodedType = encodeURIComponent(type);
+                final_url += `&filters[$and][0][$or][${index}][art_type][work_type][$eq]=${encodedType}`;
+            });
+        }
     }
+
 
     // Handle pinned filter
     if (get_pinned) {
@@ -35,6 +37,7 @@ function build_image_getter_url(
 
     return final_url;
 }
+
 
 
 export const get_strapi_videos_promise = async (page: strapi_video_pages) => {
@@ -107,10 +110,11 @@ export const get_youtube_data_promise = async (playlist_ID:string) => {
     }
 };
 
-export const get_portfolio_images_promise = async (level:string|number, filter_type: string[], get_pinned:Boolean) => {
+export const get_portfolio_images_promise = async (level:string|number, filter_type: string[], get_pinned:Boolean, should_fetch_null_images:Boolean) => {
 
+    console.log("get_portfolio_images_promise", filter_type)
     
-    const url = build_image_getter_url(level, filter_type, get_pinned)
+    const url = build_image_getter_url(level, filter_type, get_pinned, should_fetch_null_images)
 
     try {
         const response = await fetch(url, {
