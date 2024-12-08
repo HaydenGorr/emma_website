@@ -1,6 +1,7 @@
 'use client'
 import Chips from './chips'
 import { animated, useSpring } from '@react-spring/web'
+import Markdown from 'react-markdown';
 
 export default function ChannelDisplay({ channel_name, channel_link, channel_description }) {
 
@@ -14,7 +15,7 @@ export default function ChannelDisplay({ channel_name, channel_link, channel_des
     return (
         <animated.div style={springs} className="self-center flex flex-col items-center mb-12 px-4">
             <Chips text={channel_name} link={channel_link}></Chips>
-            <p className="max-w-prose z-50 mt-4">{channel_description}</p>
+            <Markdown className="max-w-prose z-50 mt-4 whitespace-pre-line">{channel_description}</Markdown>
         </animated.div>
     )
 

@@ -8,7 +8,6 @@ import { youtubeVideo, VideoLink_strapi, strapi_video_pages } from "../utils/int
 
 export const revalidate = 0
 
-
 export default async function StopMotionAnimation() {
 
     const {channel_name, channel_description, channel_link, playlist_ID} = await (async () => {
