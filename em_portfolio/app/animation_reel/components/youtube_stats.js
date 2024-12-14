@@ -42,7 +42,7 @@ const colorClasses = {
   }
 };
 
-export default function YoutubeStats({ videos }) {
+export default function YoutubeStats({ videos=[] }) {
   const getColorClasses = (index) => {
     const colorNames = Object.keys(colorClasses);
     const colorName = colorNames[index % colorNames.length];

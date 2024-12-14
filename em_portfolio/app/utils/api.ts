@@ -38,7 +38,47 @@ function build_image_getter_url(
     return final_url;
 }
 
+export const get_full_article = async (id, callback) => {
 
+    const url = `https://www.emmadannpersonal.com/api/articles/${id}?populate=*`;
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        callback(data)
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
+
+export const get_articles_meta = async (level=1, callback) => {
+
+
+    const pageSize = '15'; // Assuming pageSize is always 15
+    const url = `https://www.emmadannpersonal.com/api/articles?fields[0]=title&fields[1]=description&fields[2]=updatedAt&populate=images`;
+    // const url = `https://www.emmadannpersonal.com/api/articles?populate=*`;
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        console.log("articles", data)
+        callback(data)
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
 
 export const get_strapi_videos_promise = async (page: strapi_video_pages) => {
 

@@ -1,4 +1,5 @@
 export function timeAgo(date) {
+    console.log(date)
     const now = new Date();
     const diffMs = now - date; // Difference in milliseconds
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24)); // Convert to days

@@ -4,6 +4,8 @@ import { strapi_video_pages } from "./interfaces/videos";
 
 export const parse_video_response = (youtube_api_videos: any, video_links: VideoLink_strapi[]): youtubeVideo[] => {
         
+    if (!youtube_api_videos) return
+
     /**
      * takes videos from the strapi api and filters for videos that
      * have keep_at_top set to true
