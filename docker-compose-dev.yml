@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  em_mysql_db:
+    image: mysql:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - em_mysql_data:/var/lib/mysql
+
+  em_strapi:
+    image: strapi:latest
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: ${MYSQL_HOST}
+      DATABASE_PORT: ${MYSQL_PORT}
+      DATABASE_NAME: ${MYSQL_DATABASE}
+      DATABASE_USERNAME: ${MYSQL_USER}
+      DATABASE_PASSWORD: ${MYSQL_PASSWORD}
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${STRAPI_PORT}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+    depends_on:
+      - em_mysql_db
+    volumes:
+      - em_strapi_data:/srv/app
+    ports:
+      - "${STRAPI_PORT}:${STRAPI_PORT}"
+
+volumes:
+  em_mysql_data:
+  em_strapi_data:
