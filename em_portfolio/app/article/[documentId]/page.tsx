@@ -51,10 +51,10 @@ type PageProps = {
             <Title className="max-w-[60rem] mx-4" text={title}/>
             <div className="flex space-x-2 overflow-x-auto pb-4">
               {images.map((image_src, index) => (
-                <div key={index} className="flex-none p-4">
+                <div key={index} className="flex-none p-4 w-full">
                   <img
                     alt="display image"
-                    className="h-80 w-auto object-contain rounded-lg"
+                    className={`${images.length == 1 ? '' : 'h-80 w-auto'} max-h-80 object-contain rounded-lg`}
                     src={`${process.env.NEXT_PUBLIC_BASE_URL}/${image_src}`}
                   />
                 </div>
