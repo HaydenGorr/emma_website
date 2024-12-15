@@ -60,7 +60,7 @@ type PageProps = {
                 </div>
               ))}
             </div>
-            <Markdown className="prose prose-stone" remarkPlugins={[remarkGfm]}>{text}</Markdown>
+            <Markdown className="prose prose-stone px-4" remarkPlugins={[remarkGfm]}>{text}</Markdown>
         </div>
     )
 
