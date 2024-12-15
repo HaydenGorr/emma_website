@@ -48,13 +48,13 @@ type PageProps = {
 
     return (
         <div className={`flex flex-col items-center`}>
-            <Title text={title}/>
+            <Title className="max-w-[60rem] mx-4" text={title}/>
             <div className="flex space-x-2 overflow-x-auto pb-4">
               {images.map((image_src, index) => (
                 <div key={index} className="flex-none p-4">
                   <img
                     alt="display image"
-                    className="h-80 w-auto object-cover rounded-lg shadow-strong"
+                    className="h-80 w-auto object-contain rounded-lg"
                     src={`${process.env.NEXT_PUBLIC_BASE_URL}/${image_src}`}
                   />
                 </div>

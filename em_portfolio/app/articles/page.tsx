@@ -62,7 +62,9 @@ export default function WorkWithMe() {
   
         get_articles_meta(1, (data) => {
 
-            data.data.map((val: article)=>{
+            console.log(data)
+
+            const res = data.map((val: article)=>{
                 try {
 
                     const images = val.images.map((val)=>{
@@ -81,15 +83,16 @@ export default function WorkWithMe() {
                         updatedAt: new Date(val.updatedAt)
                     }
 
-                    console.log("newObj", newObj)
-
-                    set_articles([...articles, newObj])
+                    return newObj
                 }
                 catch{
                     console.log("could not add an article due to incomplete data")
                 }
 
             })
+
+            set_articles(res)
+
         })
     
       }, []);

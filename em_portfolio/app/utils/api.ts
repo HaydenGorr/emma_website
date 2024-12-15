@@ -73,7 +73,7 @@ export const get_articles_meta = async (level=1, callback) => {
         });
         const data = await response.json();
         console.log("articles", data)
-        callback(data)
+        callback(data.data)
     } catch (error) {
         console.error('Error:', error);
         throw error;
