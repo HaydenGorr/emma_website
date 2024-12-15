@@ -100,7 +100,7 @@ export default function WorkWithMe() {
         <div className={`h-full w-full items-center flex flex-col`}>
             <Title text={"Articles"}></Title>
 
-            <div className="space-y-4 w-full flex flex-col items-center">
+            <div className="space-y-4 w-full flex flex-col items-center px-4">
                 {articles.map((val, index)=>{
                     return(
                         <ArticleContainer 
