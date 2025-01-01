@@ -106,7 +106,7 @@ export default function WorkWithMe() {
                         <ArticleContainer 
                             key={val.documentId}
                             documentId={val.documentId}
-                            colours={colorClasses[index]}
+                            colours={colorClasses[index % (colorClasses.length-1)]}
                             className={`max-w-prose px-4 py-2`}
                             title={val.title}
                             description={val.description}
