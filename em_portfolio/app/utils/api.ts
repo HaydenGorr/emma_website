@@ -61,7 +61,7 @@ export const get_articles_meta = async (level=1, callback) => {
 
 
     const pageSize = '15'; // Assuming pageSize is always 15
-    const url = `https://www.emmadannpersonal.com/api/articles?fields[0]=title&fields[1]=description&fields[2]=updatedAt[3]=createdAt&populate=images&sort[0]=createdAt:desc
+    const url = `https://www.emmadannpersonal.com/api/articles?fields[0]=title&fields[1]=description&fields[2]=updatedAt&fields[3]=createdAt&populate=images&sort[0]=createdAt:desc
 `;
     // const url = `https://www.emmadannpersonal.com/api/articles?populate=*`;
 
