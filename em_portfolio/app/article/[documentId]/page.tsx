@@ -73,7 +73,7 @@ type PageProps = {
                 </div>
               ))}
             </div>
-            <Markdown className="prose prose-stone px-4" remarkPlugins={[remarkGfm]}>{text}</Markdown>
+            <Markdown className="prose prose-stone px-4 w-full max-w-prose" remarkPlugins={[remarkGfm]}>{text}</Markdown>
 
             <p className="mt-16 mb-2 px-4 py-2 rounded-lg bg-hibiscus-400 text-white font-semibold">{`Written by ${written_by}`}</p>
 
