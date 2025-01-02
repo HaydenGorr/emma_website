@@ -13,6 +13,7 @@ interface article {
     description: string,
     images: any,
     updatedAt: Date,
+    createdAt: Date,
 }
 
 const colorClasses = [
@@ -80,7 +81,8 @@ export default function WorkWithMe() {
                         title: val.title,
                         description: val.description,
                         images: images,
-                        updatedAt: new Date(val.updatedAt)
+                        updatedAt: new Date(val.updatedAt),
+                        createdAt: new Date(val.createdAt)
                     }
 
                     return newObj
@@ -110,7 +112,7 @@ export default function WorkWithMe() {
                             className={`max-w-prose px-4 py-2`}
                             title={val.title}
                             description={val.description}
-                            updatedAt={val.updatedAt} />
+                            updatedAt={val.createdAt} />
                     )
                 })}
             </div>
