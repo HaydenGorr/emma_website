@@ -87,7 +87,6 @@ export const get_images = async (gallery_type: gallery_type_enum, level:number|s
 		else normalised_filter = [filter_type]
 	}
 
-
 	const result = await get_portfolio_images_promise(level, normalised_filter, get_pinned, should_fetch_null_images)
 	console.log("woosh",  result)
 	return {data: process_image_fetch_request(result.data), max_page:result.meta.pagination.pageCount, total:result.meta.pagination.total}

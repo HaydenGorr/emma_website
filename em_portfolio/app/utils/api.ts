@@ -1,5 +1,4 @@
 import { strapi_video_pages } from "./interfaces/videos";
-// Define all_standard_types array
 import { all_standard_types } from "../interfaces";
 
 function build_image_getter_url(
@@ -8,23 +7,22 @@ function build_image_getter_url(
     get_pinned: Boolean,
     get_null: Boolean
 ): string {
-    console.log("build_image_getter_url filter_type:", filter_type);
-
 
     const pageSize = '15'; // Assuming pageSize is always 15
     const step1_url = `https://www.emmadannpersonal.com/api/portfolio-images?populate=*&pagination[pageSize]=${pageSize}&pagination[page]=${level}&sort=createdAt:desc`;
 
     let final_url = step1_url;
 
+    if (filter_type.length > 0 && filter_type[0] !== "*") {
+        filter_type.forEach((type, index) => {
+            const encodedType = encodeURIComponent(type);
+            final_url += `&filters[$or][${index}][art_type][work_type][$eq]=${encodedType}`;
+        });
+    }
+    
     if (get_null) {
-        final_url += `&filters[$and][2][art_type][work_type][$null]=true`;
-    }else {
-        if (filter_type.length > 0 && filter_type[0] !== "*") {
-            filter_type.forEach((type, index) => {
-                const encodedType = encodeURIComponent(type);
-                final_url += `&filters[$and][0][$or][${index}][art_type][work_type][$eq]=${encodedType}`;
-            });
-        }
+        const nullIndex = filter_type.length;
+        final_url += `&filters[$or][${nullIndex}][art_type][work_type][$null]=true`;
     }
 
 
