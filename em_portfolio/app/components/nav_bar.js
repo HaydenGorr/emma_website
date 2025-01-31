@@ -30,11 +30,11 @@ export default function NavBar() {
     // const pages = ['/', '/galleries', '/about', '/contact']
     const pages = [{path: '/', name: 'Home'},
         {path: '/articles', name: 'Articles'},
-        {path: '/stop_motion_animation', name: 'Stop Motion Animation'},
+        //{path: '/stop_motion_animation', name: 'Stop Motion Animation'},
         {path: `/galleries/${gallery_type_enum.makeup}`, name: 'Makeup'},
         {path: `/galleries/${gallery_type_enum.doll}`, name: 'Dolls'},
         {path: `/galleries/${gallery_type_enum.standard}`, name: 'Gallery'},
-        {path: '/animation_reel', name: 'Animation Reel'},
+        //{path: '/animation_reel', name: 'Animation Reel'},
         {path: '/work_with_me', name: 'Work With Me'}]
 
     const handlePageChange = (url, button_ref) => {
