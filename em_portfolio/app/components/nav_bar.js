@@ -110,12 +110,12 @@ export default function NavBar() {
         <div className='w-full flex justify-center mb-8 px-4'>
             {/* Navigation Buttons Container */}
             <div 
-                className='flex mlg:space-x-8 space-x-2 px-1 md:px-4 lg:py-2 py-1 rounded-full bg-hibiscus-100 relative overflow-scroll'
+                className='flex mlg:space-x-8 space-x-2 px-1 md:px-4 lg:py-2 py-1 rounded-full bg-dusk-blue-400 relative overflow-scroll'
                 ref={containerRef}
             >
                 {/* Chip Background */}
                 <animated.div
-                    className='absolute bg-hibiscus-300 rounded-full z-10'
+                    className='absolute bg-black/30 rounded-full z-10'
                     style={{
                         ...props,
                         top: '50%',
@@ -130,7 +130,7 @@ export default function NavBar() {
                         <button
                             key={index}
                             ref={(el) => (buttonRefs.current[index] = el)}
-                            className={`relative px-4 py-2 rounded-full transition-colors duration-300 z-20 text-sm lg:text-base whitespace-nowrap ${
+                            className={`relative px-4 py-2 rounded-full text-white transition-colors duration-300 z-20 text-sm lg:text-base whitespace-nowrap ${
                                 isActive ? 'text-black font-bold' : 'text-gray-700'
                             }`}
                             onClick={() => handlePageChange(val.path, buttonRefs.current[index])}

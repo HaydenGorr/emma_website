@@ -27,7 +27,7 @@ export default function SizeButton({isSelected, onClick, size }) {
     }
 
     function getColour() {
-        return size == gallery_size.large ? "bg-matisse-200" : size == gallery_size.medium ? "bg-hibiscus-200" : "bg-magic-mint-200"
+        return size == gallery_size.large ? "bg-mellow-yellow-500" : size == gallery_size.medium ? "bg-mud-brown-400" : "bg-carpet-beige-400"
     }
     
 

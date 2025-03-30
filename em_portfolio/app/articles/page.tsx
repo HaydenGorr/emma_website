@@ -18,41 +18,41 @@ interface article {
 
 const colorClasses = [
     {
-      bg: "bg-purple-100",
-      border: "border-purple-600",
-      text: "text-purple-950",
-      badge: "bg-purple-400"
+      bg: "bg-baby-blue-300",
+      border: "bg-baby-blue-300",
+      text: "text-black",
+      badge: "bg-dusk-blue-400"
     },
     {
-      bg: "bg-yellow-100",
-      border: "border-yellow-600",
-      text: "text-yellow-950",
-      badge: "bg-yellow-400"
-    },
-    {
-      bg: "bg-blue-100",
-      border: "border-blue-600",
-      text: "text-blue-950",
-      badge: "bg-blue-400"
-    },
-    {
-      bg: "bg-indigo-100",
-      border: "border-indigo-600",
-      text: "text-indigo-950",
-      badge: "bg-indigo-400"
-    },
-    {
-      bg: "bg-pink-100",
-      border: "border-pink-600",
-      text: "text-pink-950",
-      badge: "bg-pink-400"
-    },
-    {
-      bg: "bg-green-100",
-      border: "border-green-600",
-      text: "text-green-950",
-      badge: "bg-green-400"
-    }
+        bg: "bg-baby-blue-300",
+        border: "bg-baby-blue-300",
+        text: "text-black",
+        badge: "bg-dusk-blue-400"
+      },
+      {
+        bg: "bg-baby-blue-300",
+        border: "bg-baby-blue-300",
+        text: "text-black",
+        badge: "bg-dusk-blue-400"
+      },
+      {
+        bg: "bg-baby-blue-300",
+        border: "bg-baby-blue-300",
+        text: "text-black",
+        badge: "bg-dusk-blue-400"
+      },
+      {
+        bg: "bg-baby-blue-300",
+        border: "bg-baby-blue-300",
+        text: "text-black",
+        badge: "bg-dusk-blue-400"
+      },
+      {
+        bg: "bg-baby-blue-300",
+        border: "bg-baby-blue-300",
+        text: "text-black",
+        badge: "bg-dusk-blue-400"
+      }
 ];
 
 export default function WorkWithMe() {

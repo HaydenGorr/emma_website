@@ -149,9 +149,9 @@ return (
 
             {/** Social links */}
             <animated.div className={`flex w-fit justify-center space-x-4 self-center lg:self-start font-bold`} style={{ ...ButtonsSprings }}>
-                <Chips name="email" type="email" link={contact_email} bg_colour="bg-matisse-600" text_colour="text-matisse-100"/>
-                <Chips name="instagram" type="link" link={insta_link} bg_colour="bg-hibiscus-700" text_colour="text-hibiscus-100"/>
-                <Chips name="download CV" type="link" link={emma_cv_link} bg_colour="bg-magic-mint-200" text_colour="text-magic-mint-50"/>
+                <Chips name="email" type="email" link={contact_email} bg_colour="bg-dusk-blue-400" text_colour="text-matisse-100"/>
+                <Chips name="instagram" type="link" link={insta_link} bg_colour="bg-mellow-yellow-500" text_colour="text-hibiscus-100"/>
+                <Chips name="download CV" type="link" link={emma_cv_link} bg_colour="bg-baby-blue-300" text_colour="text-magic-mint-50"/>
             </animated.div>
 
             </div>}
@@ -162,9 +162,9 @@ return (
         <div className='right-side flex items-center justify-center order-1 lg:order-3'>
 
             <div className='z-40 absolute flex rotate-45 space-x-10'>
-                <AnimatedBar animate={animate1} colour={'bg-matisse-600'} large_bars={isSmallScreen}/>
-                <AnimatedBar animate={animate2} colour={'bg-hibiscus-700'} large_bars={isSmallScreen}/>
-                <AnimatedBar animate={animate3} colour={'bg-magic-mint-200'} large_bars={isSmallScreen}/>
+                <AnimatedBar animate={animate1} colour={'bg-dusk-blue-400'} large_bars={isSmallScreen}/>
+                <AnimatedBar animate={animate2} colour={'bg-mellow-yellow-500'} large_bars={isSmallScreen}/>
+                <AnimatedBar animate={animate3} colour={'bg-baby-blue-300'} large_bars={isSmallScreen}/>
             </div>
 
             {image_src && <animated.div className={`z-40`} style={{ ...profil_picSprings }}>

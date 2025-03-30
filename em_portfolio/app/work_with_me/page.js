@@ -77,11 +77,11 @@ export default function WorkWithMe() {
             <div className="max-w-prose w-full self-center space-y-4 prose pb-24 z-40">
 
                 {/** EMMA'S SECTION */}
-                <animated.div className="bg-perfume-300 p-4 rounded-lg text-perfume-800 font-bold border-2 border-perfume-400 mx-4"
+                <animated.div className="bg-baby-blue-300 p-4 rounded-lg text-dusk-blue-400 font-bold border-2 border-dusk-blue-400 mx-4"
                 style={{...e_section}}>
                     <div className="flex items-center justify-between">
                         {emma_header}
-                        <button className="font-medium text-xs bg-perfume-400 py-1 px-2 rounded-full flex items-center" onClick={()=> {set_openContactForm(!openContactForm)}}>
+                        <button className="font-medium text-xs bg-dusk-blue-400 text-white py-1 px-2 rounded-full flex items-center" onClick={()=> {set_openContactForm(!openContactForm)}}>
                             {"quick contact"}
                             <Image alt={"cursor image"} src={"/icons/cursor.png"} width={20} height={20} className="object-cover m-0 ml-1"/>
                         </button>
@@ -110,7 +110,7 @@ export default function WorkWithMe() {
 
 
                 {/** HAYDEN'S SECTION */}
-                <animated.div className="bg-pancho-200 p-4 rounded-lg text-pancho-600 font-bold border-2 border-pancho-300 mx-4 flex justify-between items-center"
+                <animated.div className="bg-dusk-blue-400 p-4 rounded-lg text-white font-bold border-2 border-baby-blue-300 mx-4 flex justify-between items-center"
                 style={h_section}>
                     {hayden_header}
                     {/* <button className="font-medium text-xs bg-pancho-300 py-1 px-2 rounded-full flex items-center">
@@ -123,7 +123,7 @@ export default function WorkWithMe() {
                 {hayden_links.map((chip, index) => {
                     return (
                         <div className="mx-4" key={index}>
-                            <Chips {...chip} bg_colour={"bg-pancho-100"} text_colour={"text-pancho-500"} />
+                            <Chips {...chip} bg_colour={"bg-dusk-blue-400"} text_colour={"text-baby-blue-300"} />
                         </div>
                     )
                 })}

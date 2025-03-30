@@ -40,7 +40,7 @@ export default function MediumFilter({
 
     return (
         
-        <animated.div className={`flex ${bg_clour} border-2 ${border_colour} rounded-lg overflow-x-scroll hide-scroll h-16 w-full`} style={{...springs}}>
+        <animated.div className={`flex ${bg_clour} border-2 ${border_colour} rounded-lg overflow-x-scroll hide-scroll h-16 w-full text-white`} style={{...springs}}>
             <div className={`cursor-pointer flex justify-center items-center z-40 w-full`}>
 
                 {<div className={'flex w-full justify-around space-x-4 overflow-x-scroll hide-scroll relative h-full items-center p-4'} >

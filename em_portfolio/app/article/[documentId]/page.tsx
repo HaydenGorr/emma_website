@@ -75,11 +75,11 @@ type PageProps = {
             </div>
             <Markdown className="prose prose-stone px-4 w-full max-w-prose" remarkPlugins={[remarkGfm]}>{text}</Markdown>
 
-            <p className="mt-16 mb-2 px-4 py-2 rounded-lg bg-hibiscus-400 text-white font-semibold">{`Written by ${written_by}`}</p>
+            <p className="mt-16 mb-2 px-4 py-2 rounded-lg bg-carpet-beige-400 text-white font-semibold">{`Written by ${written_by}`}</p>
 
             <div className="flex space-x-4 mt-4 mx-4">
-              <p className="mb-8 px-4 py-2 rounded-lg bg-hibiscus-400 text-white font-semibold">{`published ${formatDateTime(createdOn)}`}</p>
-              {beenUpdatedAfterPublish && <p className="mb-8 px-4 py-2 rounded-lg bg-hibiscus-400 text-white font-semibold">{`last updated ${formatDateTime(updatedAt)}`}</p>}
+              <p className="mb-8 px-4 py-2 rounded-lg bg-carpet-beige-400 text-white font-semibold">{`published ${formatDateTime(createdOn)}`}</p>
+              {beenUpdatedAfterPublish && <p className="mb-8 px-4 py-2 rounded-lg bg-carpet-beige-400 text-white font-semibold">{`last updated ${formatDateTime(updatedAt)}`}</p>}
 
             </div>
             

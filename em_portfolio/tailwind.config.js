@@ -115,6 +115,21 @@ module.exports = {
           '900': '#194841',
           '950': '#082b27',
         },
+        'dusk-blue':{
+          "400": '#476C9B'
+        },
+        'mud-brown': {
+          '400': '#4C2E05'
+        },
+        'baby-blue':{
+          '300': '#ACEDFF'
+        },
+        'carpet-beige':{
+          '400': '#9A8873'
+        },
+        'mellow-yellow':{
+          '500': '#E3D87E'
+        }
       },
       fontFamily: {
         'main': ['Carrois Gothic SC', 'sans-serif'],

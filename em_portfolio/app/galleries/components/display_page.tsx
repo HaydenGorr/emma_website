@@ -157,11 +157,11 @@ return (
 				<MediumFilter 
 					chips={standard_gallery_sort_chips}
 					adjust_filter={(data: string) => {adjust_filter( data )}}
-					border_colour={"border-perfume-400"}
+					border_colour={"bg-dusk-blue-400"}
 					selected_item={selected_sort_chip}
-					bg_clour={"bg-perfume-300"}
-					unselected={"bg-perfume-200"}
-					selected={"bg-perfume-400"}/>
+					bg_clour={"bg-baby-blue-300"}
+					unselected={"bg-dusk-blue-400"}
+					selected={"bg-dusk-blue-400"}/>
 			</animated.div>		
 		</div>}
 
