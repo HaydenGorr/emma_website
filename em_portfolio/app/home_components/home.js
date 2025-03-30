@@ -150,7 +150,7 @@ return (
             {/** Social links */}
             <animated.div className={`flex w-fit justify-center space-x-4 self-center lg:self-start font-bold`} style={{ ...ButtonsSprings }}>
                 <Chips name="email" type="email" link={contact_email} bg_colour="bg-dusk-blue-400" text_colour="text-matisse-100"/>
-                <Chips name="instagram" type="link" link={insta_link} bg_colour="bg-mellow-yellow-500" text_colour="text-hibiscus-100"/>
+                {/* <Chips name="instagram" type="link" link={insta_link} bg_colour="bg-mellow-yellow-500" text_colour="text-hibiscus-100"/> */}
                 <Chips name="download CV" type="link" link={emma_cv_link} bg_colour="bg-baby-blue-300" text_colour="text-magic-mint-50"/>
             </animated.div>
 
