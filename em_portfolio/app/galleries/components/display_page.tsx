@@ -111,8 +111,8 @@ const get_page_title = ()=>{
 	switch(gallery_type){
 		case (gallery_type_enum.doll):
 			return "Doll"
-		case (gallery_type_enum.makeup):
-			return "Makeup"
+		case (gallery_type_enum.graphic_design_and_packaging):
+			return "Graphic Design and Packaging"
 		case (gallery_type_enum.standard):
 			return ""
 		default:
@@ -128,8 +128,8 @@ const get_filters_for_gallery_type = (): string =>{
 	switch(gallery_type){
 		case (gallery_type_enum.doll):
 			return "doll"
-		case (gallery_type_enum.makeup):
-			return "makeup"
+		case (gallery_type_enum.graphic_design_and_packaging):
+			return "graphic_design_and_packaging"
 		case (gallery_type_enum.standard):
 			return sort_chip_for_searching.current
 		default:

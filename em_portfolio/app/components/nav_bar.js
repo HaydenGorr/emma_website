@@ -31,7 +31,7 @@ export default function NavBar() {
     const pages = [{path: '/', name: 'Home'},
         {path: '/articles', name: 'Articles'},
         //{path: '/stop_motion_animation', name: 'Stop Motion Animation'},
-        {path: `/galleries/${gallery_type_enum.makeup}`, name: 'Makeup'},
+        {path: `/galleries/${gallery_type_enum.graphic_design_and_packaging}`, name: 'Graphic Design and Packaging'},
         {path: `/galleries/${gallery_type_enum.doll}`, name: 'Dolls'},
         {path: `/galleries/${gallery_type_enum.standard}`, name: 'Gallery'},
         //{path: '/animation_reel', name: 'Animation Reel'},

@@ -1,6 +1,6 @@
 export enum gallery_type_enum {
     doll="doll",
-    makeup="makeup",
+    graphic_design_and_packaging="graphic_design_and_packaging",
     standard="standard",
 }
 

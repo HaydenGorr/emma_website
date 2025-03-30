@@ -78,7 +78,7 @@ export const get_images = async (gallery_type: gallery_type_enum, level:number|s
 	var normalised_filter = []
 
 	if (gallery_type == gallery_type_enum.doll) normalised_filter = ["doll"]
-	else if (gallery_type == gallery_type_enum.makeup) normalised_filter = ["makeup"]
+	else if (gallery_type == gallery_type_enum.graphic_design_and_packaging) normalised_filter = [gallery_type_enum.graphic_design_and_packaging]
 	else if (gallery_type == gallery_type_enum.standard) {
 		if (filter_type == "") {
 			normalised_filter = all_standard_types.map((val)=>{return val})
