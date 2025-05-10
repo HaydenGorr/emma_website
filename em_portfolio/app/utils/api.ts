@@ -71,7 +71,6 @@ export const get_articles_meta = async (level=1, callback) => {
             }
         });
         const data = await response.json();
-        console.log("articles", data)
         callback(data.data)
     } catch (error) {
         console.error('Error:', error);
@@ -150,8 +149,6 @@ export const get_youtube_data_promise = async (playlist_ID:string) => {
 };
 
 export const get_portfolio_images_promise = async (level:string|number, filter_type: string[], get_pinned:Boolean, should_fetch_null_images:Boolean) => {
-
-    console.log("get_portfolio_images_promise", filter_type)
     
     const url = build_image_getter_url(level, filter_type, get_pinned, should_fetch_null_images)
 

@@ -63,17 +63,18 @@ export default function WorkWithMe() {
   
         get_articles_meta(1, (data) => {
 
-            console.log(data)
-
-            const res = data.map((val: article)=>{
+            const res = data.map((val: article, index)=>{
                 try {
 
-                    const images = val.images.map((val)=>{
+                    const images = []
+                    
+                    if (val.images) val.images.map((val)=>{
                         const image_obj = {
                                 Image:val
                         }
 
-                        return getDisplayImageUrl(image_obj)
+                        const url = getDisplayImageUrl(image_obj)
+                        images.push(url)
                     })
 
                     const newObj:article = {

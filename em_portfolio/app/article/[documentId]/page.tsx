@@ -28,10 +28,7 @@ type PageProps = {
     const [finished_loading, set_finished_loading] = useState<boolean>(false)
 
     useEffect(() => {
-        console.log("iukmhjm", documentId)
         get_full_article(documentId, (data) => {
-          console.log(data)
-
           set_title(data.data.title)
           set_text(data.data.text)
           set_written_by(data.data.written_by)
@@ -43,14 +40,15 @@ type PageProps = {
           set_beenUpdatedAfterPublish(!areDatesEqualIgnoringSeconds(update_date, create_date))
 
           // Set images
-          const image_urls = data.data.images.map((val)=>{
+          const image_urls = []
+          
+          if (data.data.images) data.data.images.map((val)=>{
             const image_obj = {
               Image:val
             }
             return getDisplayImageUrl(image_obj)
           })
 
-          console.log(image_urls)
           set_images(image_urls)
           set_finished_loading(true)
 
